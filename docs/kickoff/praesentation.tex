@@ -3,11 +3,12 @@
 \usepackage{lmodern}
 \usepackage{german}
 \usetheme{Berkeley}
-\title[Kick-Off Semesterarbeit]{Implementation einer Win/Win Strategie}
+\title[Kick-Off Semesterarbeit]{Implementation einer Win/Win Strategie für das TSP}
 \author{Andreas Brönnimann}
 \institute{Hochschule für Technik Zürich}
 \date{\today}
 
+\setbeamerfont{footnote}{size=\tiny}
 \setbeamertemplate{footline}[frame number]
 \setbeamertemplate{navigation symbols}{}
 
@@ -24,24 +25,58 @@
 
 	\section{Ausgangslage}
 	\begin{frame}
+        \frametitle{Ausgangslage}
 		\begin{itemize}
-			\item metrisches Travelling Sales Man Problem ($\Delta$TSP)
+			\item Travelling Sales Man Problem	
+				\begin{itemize}
+					\item metrisches TSP ($\Delta$TSP)
+					\item Dreiecksungleichung erfüllt
+				\end{itemize}
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=2cm]{gfx/triangle_inequality}
+				\end{figure}
 			\item Win/Win Strategie
-			\item Christofides- und den Hoogeveen-Algorithmus
+				\begin{itemize}
+					\item metrisches Travelling Sales Man Problem ($\Delta$TSP)
+					\item metrisches Hamiltonian Path Problem ($\Delta$HPP)
+				\end{itemize}
+			\item Christofides-Algorithmus ($\Delta$TSP)
+			\item Hoogeveen-Algorithmus ($\Delta$HPP)
 		\end{itemize}
+
     \end{frame}
 
 	\section{Ziele}
 	\begin{frame}
+        \frametitle{Ziele}
 		\begin{itemize}
 			\item Vorstellung des TSP
 			\item Vorstellung der Win/Win Strategie
 			\item Implementation der Win/Win Strategie\footnote{gemäss Paper "`Structural Properties of Hard Metric TSP Inputs"'}
+			\item Vergleich berechneter Resultate mit den theoretischen Erwartungen
 		\end{itemize}
+	\end{frame}
+
+	\begin{frame}
+        \frametitle{Ziele}
+		\begin{scriptsize}
+		\textbf{Input:} A complete graph $G = (V,E)$, a metric cost function $c: E \rightarrow \mathbb{Q}^+$, and two vertices $s$ and $t$.
+
+		\begin{itemize}
+			\item[1.] Compute a minimum spanning tree $T$ in $G$.
+			\item[2.] Compute a minimum perfect matching\footnote{für das perfect matching wird eine bestehende Implementation verwendet} $M_C$ on the odd vertices of $T$ in $G$.
+			\item[3.] Compute a minimum perfect matching $M_P$ on the odd vertices of the multigraph $T$ + \{$s$, $t$\} in $G$.
+			\item[4.] Compute an Eulerian tour Eul$_C$ in the multigraph T $\cup$ $M_C$ and an Eulerian path Eul$_P$ in the multigraph T $\cup$ $M_P$.
+			\item[5.] Shorten Eul$_C$ and Eul$_P$ to a Hamiltonian tour $H_C$ and a Hamiltonian path $H_P$ , respectively.  
+		\end{itemize}
+	\textbf{Output:} $H_C$ and $H_P$.
+	\end{scriptsize}
     \end{frame}
 
 	\section{Aufgabenstellung}
 	\begin{frame}
+        \frametitle{Aufgabenstellung}
 		\begin{itemize}
 			\item Vorstellung TSP und Win/Win Strategie
 			\item Implementation Algorithmus \footnote{gemäss Paper "`Structural Properties of Hard Metric TSP Inputs"'}
@@ -52,6 +87,7 @@
 
 	\section{erwartete Resultate}
 	\begin{frame}
+        \frametitle{erwartete Resultate}
 		\begin{itemize}
 			\item Implementation des Algorithmus
 			\item Überblick über die Problemstellung
