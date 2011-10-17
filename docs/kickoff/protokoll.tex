@@ -1,0 +1,73 @@
+%        File: protokoll.tex
+%     Created: Thu Oct 13 10:00 AM 2011 C
+% Last Change: Thu Oct 13 10:00 AM 2011 C
+%
+
+\documentclass[a4paper]{article}
+
+% german dictionary
+\usepackage[ngerman]{babel}
+
+% enconding
+\usepackage[utf8]{inputenc}
+
+% graphics
+\usepackage{graphicx}
+
+% handle positions
+\usepackage{float}
+
+% set borders
+\usepackage{a4wide}
+
+% use URLs
+\usepackage{url}
+
+% use tables over multiple pages
+\usepackage{longtable}
+
+% span a cell over multiple rows
+\usepackage{multirow}
+
+% expand table formatting
+\usepackage{array}
+
+% header and footer
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+
+\fancyhead[L]{Kick-Off Semesterarbeit}
+\fancyhead[R]{Beschlussprotokoll}
+
+\fancyfoot[L]{Andreas Brönnimann}
+\fancyfoot[R]{12.10.2011}
+\renewcommand{\footrulewidth}{0.5pt}
+
+\begin{document}
+\begin{longtable}{p{7cm} p{7cm}}
+ \hline
+ \multirow{2}{*}{\textbf{Teilnehmer}}  & Dr. Hans-Joachim Böckenhauer \\
+         								& Andreas Brönnimann\\
+ \hline
+	\textbf{Ort} & Zürich, ETH CAB F11\\
+ \hline
+	\textbf{Datum} & Mittwoch, 12.10.2011\\
+\hline
+\end{longtable}
+
+\textbf{Beschlüsse}
+\begin{itemize}
+	\item Keine Anpassungen an der Ausgangslage notwendig
+	\item Keine Anpassungen an den Zielen notwendig
+	\item Keine Anpassungen an der Aufgabenstellung notwendig
+	\item keine Anpassungen an den erwarteten Resultaten notwendig
+\end{itemize}
+
+\textbf{Termine}
+\begin{itemize}
+	\item 14.11.2011 - Besprechung Stand der Arbeit
+	\item 16.01.2011 - Design-Review
+	\item weitere Termine nach Absprache
+\end{itemize}
+\end{document}
