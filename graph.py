@@ -11,8 +11,10 @@ class Graph:
         @type:  is_undirected: boolean
         @param: is_undirected: Defines if the graph is undirected or not
         """
-        self.graph_nodes = dict() # dictionary to store the nodes
+        self._graph_nodes = dict() # dictionary to store the nodes
         self._is_undirected = is_undirected
+        self._edge_count = 0
+        self._odd_node_count = 0
 
     def add_node(self, node):
         """ 
@@ -21,8 +23,8 @@ class Graph:
         @type  node: node
         @param node: Node
         """
-        if(not node in self.graph_nodes):
-            self.graph_nodes[node] = {} # dictionary to store the nodes neighbours
+        if(not node in self._graph_nodes):
+            self._graph_nodes[node] = {} # dictionary to store the nodes neighbours
         else:
             #TODO: Define AdditionError
             raise AdditionError("This node is already in the graph")
@@ -34,16 +36,20 @@ class Graph:
         @type   edge: edge
         @param  node1: Edge to add, both nodes of the edge have to be in the graph
         """
-        node1 = edge.node_1
-        node2 = edge.node_2 
+        node_1 = edge.node_1
+        node_2 = edge.node_2 
         weight = edge.weight
 
-        if(node1 in self.graph_nodes and node2 in self.graph_nodes):
+        if(node_1 in self._graph_nodes and node_2 in self._graph_nodes):
             if(self.is_undirected):
-                self.graph_nodes[node1][node2] = edge
-                self.graph_nodes[node2][node1] = edge
+                self._graph_nodes[node_1][node_2] = edge
+                self._graph_nodes[node_2][node_1] = edge
+                #self._graph_nodes[node_2][node_1] = Edge(node_2, node_1, weight)
+                self._edge_count += 2
             else:
-                self.graph_nodes[node1][node2] = edge
+                self._graph_nodes[node_1][node_2] = edge
+                self._edge_count += 1
+
         else:
             #TODO: Define AdditionError
             raise AdditionError("One or both nodes not in the graph")
@@ -56,12 +62,13 @@ class Graph:
         @param  node1: Edge to remove
         """
         if self.is_undirected :
-            del(self.graph_nodes[edge.node_1][edge.node_2])
-            del(self.graph_nodes[edge.node_2][edge.node_1])
+            del(self._graph_nodes[edge.node_1][edge.node_2])
+            del(self._graph_nodes[edge.node_2][edge.node_1])
         else:
-            del(self.graph_nodes[edge.node_1][edge.node_2])
+            del(self._graph_nodes[edge.node_1][edge.node_2])
 
         del(edge)
+        self._edge_count -= 1
 
     def neighbour_nodes(self, node):
         """
@@ -73,7 +80,7 @@ class Graph:
         @rtype: dict
         @return: A dict of all nodes that are connected to the node.
         """
-        return self.graph_nodes[node]
+        return self._graph_nodes[node]
 
     def neighbour_edges(self, node):
         """
@@ -85,7 +92,7 @@ class Graph:
         @rtype: list
         @return: A list of all edges that are connected to the node.
         """
-        return list(self.graph_nodes[node].copy().values())
+        return list(self._graph_nodes[node].copy().values())
 
     def contains_node(self, node):
         """ 
@@ -94,7 +101,7 @@ class Graph:
         @rtype:  boolean
         @return: true, if the node is in the graph, otherwise false
         """
-        return node in  self.graph_nodes
+        return node in  self._graph_nodes
 
     def edge_by_nodes(self, node_1, node_2):
         '''
@@ -109,7 +116,27 @@ class Graph:
         @return: Edge between the given nodes
         '''
 
-        return self.graph_nodes[node_1][node_2]
+        return self._graph_nodes[node_1][node_2]
+
+    @property
+    def odd_nodes(self):
+        '''
+        Returns a list of all odd nodes in the graph.
+
+        @rtype: list
+        @return: List of all odd nodes in the graph.
+        '''
+        odd_nodes = list() # list to store odd nodes
+
+        for node in self._graph_nodes.keys():
+            if len(self._graph_nodes[node]) % 2 == 1:
+                # set an odd_node_nr for every odd node, it is needed to
+                # calculate the perfect matching
+                node.odd_node_nr = self._odd_node_count
+                self._odd_node_count += 1
+                odd_nodes.append(node)
+
+        return odd_nodes
 
     @property
     def nodes(self):
@@ -119,7 +146,7 @@ class Graph:
         @rtype:  list
         @return: List of all nodes in the graph.
         """
-        return list(self.graph_nodes.copy().keys())
+        return list(self._graph_nodes.copy().keys())
 
     @property
     def edges(self):
@@ -129,13 +156,14 @@ class Graph:
         @rtype:  list
         @return: List of all edges in the graph.
         """
-        self.graph_edges = list() # list to store edges
+        graph_edges = list() # list to store edges
 
-        for node in self.graph_nodes.keys():
-            self.graph_edges = self.graph_edges + list(self.graph_nodes[node].copy().values())
+        for node in self._graph_nodes.keys():
+            graph_edges = graph_edges + list(self._graph_nodes[node].copy().values())
 
-        return self.graph_edges
+        return graph_edges
 
+    #TODO: rename to node_count?
     @property
     def size(self):
         """ 
@@ -144,7 +172,7 @@ class Graph:
         @rtype:  int
         @return: Number of nodes
         """
-        return len(self.graph_nodes)
+        return len(self._graph_nodes)
 
     @property
     def is_undirected(self):
@@ -155,3 +183,35 @@ class Graph:
         @return: True or False
         """
         return self._is_undirected
+
+    @ property
+    def edge_count(self):
+        '''
+        Return the number of edges in the graph.
+
+        @rtype: int
+        @return: number of edges
+        return self._edge_count
+        '''
+        return self._edge_count
+
+    #TODO: is there a better way to copy the graph?
+    @property
+    def copy(self):
+        ''' 
+        Copy the whole graph, it contains the same edges and nodes as the
+        original, but everything else is a copy and not a reference.
+
+        @rtype: graph
+        @return: An copy of the graph
+        '''
+
+        graph = Graph(self.is_undirected)
+        for node in self._graph_nodes.keys():
+            graph.add_node(node)
+
+        for node_1 in self._graph_nodes.keys():
+            for node_2 in self._graph_nodes[node_1]:
+                graph.add_edge(self._graph_nodes[node_1][node_2])
+
+        return graph

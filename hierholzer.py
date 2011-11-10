@@ -3,6 +3,7 @@ import random
 from node import Node
 from edge import Edge
 from graph import Graph
+from euler_to_hamilton import Euler_to_Hamilton
 
 def merge_cycles(euler, euler_sub):
     '''
@@ -134,6 +135,7 @@ while euler_graph.size < graph_size:
         if not euler_graph.contains_node(next_node):
             euler_graph.add_node(next_node)
 
+        current_node.visits += 1
         euler_graph.add_edge(current_edge)
 
         # start agein with the next_node as current_node
@@ -158,7 +160,11 @@ while euler_graph.size < graph_size:
                 condition = True
                 break
 
+# shorten eulerian cycle to hamilton cycle
+euler_to_hamilton = Euler_to_Hamilton()
+euler_to_hamilton.shorten(euler_graph)
+
 print('========== Debug ========')
 print('Real euler')
 for node in euler:
-    print(node.y)
+    print('Node {0} visited {1}'.format(node.y, node.visits))
