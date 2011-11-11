@@ -87,11 +87,24 @@ class Graph:
             edge_list = self._graph_nodes[edge.node_1][edge.node_2]
             edge_list.remove(edge)
 
+            # if there are no more edges in the list, delete the neighbour
+            if not self._graph_nodes[edge.node_1][edge.node_2]:
+                del(self._graph_nodes[edge.node_1][edge.node_2])
+
             edge_list = self._graph_nodes[edge.node_2][edge.node_1]
             edge_list.remove(edge)
+
+            # if there are no more edges in the list, delete the neighbour
+            if not self._graph_nodes[edge.node_2][edge.node_1]:
+                del(self._graph_nodes[edge.node_2][edge.node_1])
         else:
             edge_list = self._graph_nodes[edge.node_1][edge.node_2]
             edge_list.remove(edge)
+
+            # if there are no more edges in the list, delete the neighbour
+            if not self._graph_nodes[edge.node_1][edge.node_2]:
+                del(self._graph_nodes[edge.node_1][edge.node_2])
+
 
         del(edge)
         self._edge_count -= 1
