@@ -3,5 +3,8 @@ syntax: regexp
 
 (^|/)\.
 __pycache__
+.png
 .pyc
+.txt
 data
+mpm

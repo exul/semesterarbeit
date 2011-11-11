@@ -10,7 +10,7 @@ class Euler_Tour:
 
     def calculate(self):
         euler = list()
-        euler_graph = Graph()
+        self._euler_graph = Graph()
 
         # save start node, so we can check if we did a cycle
         # we just take the first node in the graph, it doesn't matter
@@ -26,7 +26,7 @@ class Euler_Tour:
         # TODO: list only for debugging
         euler_ori = list()
 
-        while euler_graph.size < graph_size:
+        while self._euler_graph.size < graph_size:
             # list to store nodes for each cycle
             euler_sub = list() 
             # list to store a copy of the original euler list, needed to merge euler
@@ -43,18 +43,18 @@ class Euler_Tour:
                 # if there is more than one edge, just take the first one
                 edge_list = self.graph.edge_by_nodes(current_node, next_node)
                 current_edge = edge_list[0]
-                # delete the edge from the graph, we don't want to the the same edge twice
+                # delete the edge from the graph, we don't want to take the the same edge twice
                 self.graph.remove_edge(current_edge)
 
                 # add nodes and edges to the graph that represents the euler cycle
-                if not euler_graph.contains_node(current_node):
-                    euler_graph.add_node(current_node)
+                if not self._euler_graph.contains_node(current_node):
+                    self._euler_graph.add_node(current_node)
 
-                if not euler_graph.contains_node(next_node):
-                    euler_graph.add_node(next_node)
+                if not self._euler_graph.contains_node(next_node):
+                    self._euler_graph.add_node(next_node)
 
                 current_node.visits += 1
-                euler_graph.add_edge(current_edge)
+                self._euler_graph.add_edge(current_edge)
 
                 # start agein with the next_node as current_node
                 current_node = next_node
@@ -82,9 +82,6 @@ class Euler_Tour:
         print('Real euler')
         for node in euler:
             print('Node {0} visited {1}'.format(node.label, node.visits))
-
-        # set reference of the euler_graph to graph, so we can work on with it
-        graph = euler_graph
 
         # return a list of nodes in the order of the euler tour
         return euler
@@ -124,3 +121,65 @@ class Euler_Tour:
 
         return euler
 
+    def shorten(self, graph_original, graph_eulerian, euler_nodes):
+        first = True
+        shorten = False
+        # use i instead of index, because the same node can be in then list
+        # more than once
+        i = 0 
+
+        print('=== Debug eulerian graph ===')
+        for edge in graph_eulerian.edges:
+            print('Edge from {0} to {1}'\
+                    .format(edge.node_1.label, edge.node_2.label))
+        print('=== End Debug eulerian graph ===')
+
+        for node in euler_nodes:
+            # get previous node
+            if i == 0 and node.visits > 1:
+                # the previous node of the first node is the second last node,
+                # because the last node is the same as the first node
+                previous_node = euler_nodes[len(euler_nodes)-2]
+                shorten = True
+            elif node.visits> 1:
+                previous_node = euler_nodes[i-1]
+                shorten = True
+
+            if shorten:
+                # get next node
+                next_node = euler_nodes[i+1]
+
+                # lookup the new edge in the original graph that contains all
+                # connections
+                new_edge = graph_original.edge_by_nodes(previous_node, \
+                        next_node)[0]
+                # lookup the previous and the next edge in the eulerian graph
+                # that contains all edges that are in the eulerian tour
+                previous_edge = graph_eulerian.edge_by_nodes(previous_node, \
+                        node)[0]
+                next_edge = graph_eulerian.edge_by_nodes(node, next_node)[0]
+
+                # delete previous and next edge in the eulerian graph
+                graph_eulerian.remove_edge(previous_edge)
+                graph_eulerian.remove_edge(next_edge)
+
+                # the current node is now visited even less
+                node.visits -= 1
+
+                # delete node from the list, because now we walk directly from
+                # the previous node to the next node
+                del euler_nodes[i]
+
+                # add the new edge to the eulerian graph, it covers the
+                # connection that previous_edge and next_edge connected befor
+                graph_eulerian.add_edge(new_edge)
+
+
+            # count and reset shorten
+            i += 1
+            shorten = False
+        return euler_nodes
+
+    @ property
+    def euler_graph(self):
+        return self._euler_graph
