@@ -25,9 +25,12 @@ class Writer:
         
         # write and edge on every line
         # ID node_1 node_2 weight
+        #TODO: Use a more generic solution, do not just print odd_node_nr
         for node in graph.nodes:
             for neighbour in graph.neighbour_nodes(node):
-                print('{0} {1} {2}' \
-                        .format(node.odd_node_nr, neighbour.odd_node_nr,
-                            graph.edge_by_nodes(node, neighbour).weight), \
-                                    file=f)
+                edge_list = graph.edge_by_nodes(node, neighbour)
+                for edge in edge_list:
+                    print('{0} {1} {2}' \
+                            .format(node.odd_node_nr, neighbour.odd_node_nr,
+                                edge.weight), \
+                                        file=f)

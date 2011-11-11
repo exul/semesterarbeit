@@ -24,7 +24,7 @@ class Graph:
         @param node: Node
         """
         if(not node in self._graph_nodes):
-            self._graph_nodes[node] = {} # dictionary to store the nodes neighbours
+            self._graph_nodes[node] = dict() # dictionary to store the nodes neighbours
         else:
             #TODO: Define AdditionError
             raise AdditionError("This node is already in the graph")
@@ -41,15 +41,37 @@ class Graph:
         weight = edge.weight
 
         if(node_1 in self._graph_nodes and node_2 in self._graph_nodes):
+            #TODO: Use a List of Edges, because we need to add more then one
+            #Edge between two nodes
             if(self.is_undirected):
-                self._graph_nodes[node_1][node_2] = edge
-                self._graph_nodes[node_2][node_1] = edge
-                #self._graph_nodes[node_2][node_1] = Edge(node_2, node_1, weight)
+                if node_2 in self._graph_nodes[node_1]:
+                    edge_list = self._graph_nodes[node_1][node_2]
+                    edge_list.append(edge)
+                else:
+                    # TODO: this could be done in one line
+                    edge_list = list()
+                    edge_list.append(edge)
+                    self._graph_nodes[node_1][node_2] = edge_list
+
+                if node_1 in self._graph_nodes[node_2]:
+                    edge_list = self._graph_nodes[node_2][node_1]
+                    edge_list.append(edge)
+                else:
+                    edge_list = list()
+                    edge_list.append(edge)
+                    self._graph_nodes[node_2][node_1] = edge_list
+
                 self._edge_count += 2
             else:
-                self._graph_nodes[node_1][node_2] = edge
-                self._edge_count += 1
+                if node_2 in self._graph_nodes[node_1]:
+                    edge_list = self._graph_nodes[node_1][node_2]
+                    edge_list.append(edge)
+                else:
+                    edge_list = list()
+                    edge_list.append(edge)
+                    self._graph_nodes[node_1][node_2] = edge_list
 
+                self._edge_count += 1
         else:
             #TODO: Define AdditionError
             raise AdditionError("One or both nodes not in the graph")
@@ -62,10 +84,14 @@ class Graph:
         @param  node1: Edge to remove
         """
         if self.is_undirected :
-            del(self._graph_nodes[edge.node_1][edge.node_2])
-            del(self._graph_nodes[edge.node_2][edge.node_1])
+            edge_list = self._graph_nodes[edge.node_1][edge.node_2]
+            edge_list.remove(edge)
+
+            edge_list = self._graph_nodes[edge.node_2][edge.node_1]
+            edge_list.remove(edge)
         else:
-            del(self._graph_nodes[edge.node_1][edge.node_2])
+            edge_list = self._graph_nodes[edge.node_1][edge.node_2]
+            edge_list.remove(edge)
 
         del(edge)
         self._edge_count -= 1
@@ -92,8 +118,14 @@ class Graph:
         @rtype: list
         @return: A list of all edges that are connected to the node.
         """
-        return list(self._graph_nodes[node].copy().values())
+        edge_lists = list(self._graph_nodes[node].copy().values())
+        edges = list()
+        for edge_list in edge_lists:
+            for edge in edge_list:
+                edges.append(edge)
 
+        return edges
+       
     def contains_node(self, node):
         """ 
         Checks, if a given node is in the graph or not.
@@ -105,15 +137,15 @@ class Graph:
 
     def edge_by_nodes(self, node_1, node_2):
         '''
-        Return the between two nodes
+        Return a list of edges between two nodes
 
         @type: node_1:node
         @param: Node on one end of the edge
         @type: node_2:node
         @param: Node on the other end of the edge
 
-        @rtype: edge
-        @return: Edge between the given nodes
+        @rtype: list
+        @return: List of edges between the given nodes
         '''
 
         return self._graph_nodes[node_1][node_2]
@@ -158,8 +190,13 @@ class Graph:
         """
         graph_edges = list() # list to store edges
 
+        #TODO: find a better way to do that, three for loops are ugly
         for node in self._graph_nodes.keys():
-            graph_edges = graph_edges + list(self._graph_nodes[node].copy().values())
+            edge_lists = list(self._graph_nodes[node].copy().values())
+            edges = list()
+            for edge_list in edge_lists:
+                for edge in edge_list:
+                    graph_edges.append(edge)
 
         return graph_edges
 
@@ -210,8 +247,10 @@ class Graph:
         for node in self._graph_nodes.keys():
             graph.add_node(node)
 
+        #TODO: Find a better way to do that, three for loops are ugly
         for node_1 in self._graph_nodes.keys():
             for node_2 in self._graph_nodes[node_1]:
-                graph.add_edge(self._graph_nodes[node_1][node_2])
+                for edge in self._graph_nodes[node_1][node_2]:
+                    graph.add_edge(edge)
 
         return graph

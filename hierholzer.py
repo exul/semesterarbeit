@@ -124,7 +124,9 @@ while euler_graph.size < graph_size:
         neighbours = my_graph.neighbour_nodes(current_node)
         next_node = random.choice(list(neighbours.copy().keys()))
         # get the edge between the current node an our new node
-        current_edge = my_graph.edge_by_nodes(current_node, next_node)
+        # if there is more than one edge, just take the first one
+        edge_list = my_graph.edge_by_nodes(current_node, next_node)
+        current_edge = edge_list[0]
         # delete the edge from the graph, we don't want to the the same edge twice
         my_graph.remove_edge(current_edge)
 
