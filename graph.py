@@ -277,26 +277,3 @@ class Graph:
         return self._edge_count
         '''
         return self._edge_count
-
-    #TODO: is there a better way to copy the graph?
-    @property
-    def copy(self):
-        ''' 
-        Copy the whole graph, it contains the same edges and nodes as the
-        original, but everything else is a copy and not a reference.
-
-        @rtype: graph
-        @return: An copy of the graph
-        '''
-
-        graph = Graph(self.is_undirected)
-        for node in self._graph_nodes.keys():
-            graph.add_node(node)
-
-        #TODO: Find a better way to do that, three for loops are ugly
-        for node_1 in self._graph_nodes.keys():
-            for node_2 in self._graph_nodes[node_1]:
-                for edge in self._graph_nodes[node_1][node_2]:
-                    graph.add_edge(edge)
-
-        return graph
