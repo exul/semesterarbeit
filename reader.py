@@ -79,6 +79,7 @@ class Reader:
                 temp_edge = edge_list[0]
                 weight = temp_edge.weight
                 temp_edge = Edge(node_1, node_2, weight)
+                temp_edge.is_matched = True
                 print('From {0} to {1} with weight {2}'. \
                         format(temp_edge.node_1.label, temp_edge.node_2.label, \
                             temp_edge.weight))

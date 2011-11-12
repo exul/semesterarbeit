@@ -57,7 +57,13 @@ class Minimum_Spanning_Tree:
 
         # take the first node as start node (it doesn't matter which one)
         #start_node = self.graph.nodes[0]
-        start_node = random.choice(self.graph.nodes)
+        #TODO: Always start at node 1, because there meight be mulitple MSTs
+        #that lead to different solutions in the end, this is hard vor debugging
+        for node in self.graph.nodes:
+            if node.label == '1':
+                start_node = node
+                break
+        #start_node = random.choice(self.graph.nodes)
 
         # add first node to mst
         mst.add_node(start_node)

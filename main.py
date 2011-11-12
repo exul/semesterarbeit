@@ -12,6 +12,7 @@ writer = Writer()
 #graph_original = reader.graph_euler_2d('data/graph.tsp')
 #graph_original = reader.graph_euler_2d('data/eil51.tsp')
 graph_original = reader.graph_euler_2d('data/eil101.tsp')
+#graph_original = reader.graph_euler_2d('data/graph_zz.tsp')
 #Copy graph, because we need one, that doesn't change during the whole
 # TODO: is there a better solution (delete edges only logically)
 graph_copy = graph_original.copy
@@ -25,13 +26,19 @@ for edge in graph_original.edges:
     total_cost += edge.weight
 print('Total cost for this Graph is: {0}'.format(total_cost))
 
-cost = 0
+cost_mst= 0
 for edge in graph_mst.edges:
-    cost += edge.weight
-print('Cost for this MST is: {0}'.format(cost))
+    cost_mst += edge.weight
+print('Cost for this MST is: {0}'.format(cost_mst))
 
 #TODO: just for debugging
-writer.write_blossom_iv(graph_mst,'/tmp/graph_mst')
+writer.write_blossom_iv(graph_mst,'graph_mst.txt')
+
+# TODO: try to write a file that can be used to plot the mst
+f_mst = open('mst_nodes.txt','w')
+for edge in graph_mst.edges:
+    print('{0} {1}'.format(edge.node_1.x, edge.node_1.y), file=f_mst)
+    print('{0} {1}'.format(edge.node_2.x, edge.node_2.y), file=f_mst)
 
 graph_odd_nodes = Graph(False)
 odd_nodes = graph_mst.odd_nodes
@@ -57,6 +64,13 @@ os.system('mpm/blossom5 -e mpm/graph.tsp -w mpm/mpm.tsp')
 
 graph_eulerian = reader.edges_blossom_iv('mpm/mpm.tsp', graph_odd_nodes.nodes, \
         graph_original, graph_mst)
+
+# TODO: try to write a file that can be used to plot the mst
+f_match = open('matching_nodes.txt','w')
+for edge in graph_eulerian.edges:
+    if edge.is_matched:
+        print('{0} {1}'.format(edge.node_1.x, edge.node_1.y), file=f_match)
+        print('{0} {1}'.format(edge.node_2.x, edge.node_2.y), file=f_match)
 
 print('=== Debug FIRST eulerian graph in main ===')
 edges = set()
@@ -91,3 +105,7 @@ print('Debug - export to draw picture')
 f = open('result.txt', 'w')
 for node in euler_nodes:
     print('{0} {1}'.format(node.x, node.y), file=f)
+    if len(graph_eulerian.neighbour_nodes(node)) != 2:
+        print('Node {0} failed'.format(node.label))
+
+print('Cost for this MST is: {0}'.format(cost_mst))

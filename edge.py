@@ -16,6 +16,7 @@ class Edge:
         self.node_1 = node_1
         self.node_2 = node_2
         self.weight = weight
+        self.is_matched = False
 
     def get_id(self):
         return id(self)
