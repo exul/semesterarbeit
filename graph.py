@@ -11,7 +11,8 @@ class Graph:
         @type:  is_undirected: boolean
         @param: is_undirected: Defines if the graph is undirected or not
         """
-        self._graph_nodes = dict() # dictionary to store the nodes
+        self._distance_lookup = dict() # store distances between nodes
+        self._graph_nodes = dict() # store the nodes
         self._is_undirected = is_undirected
         self._edge_count = 0
         self._odd_node_count = 0
@@ -24,7 +25,8 @@ class Graph:
         @param node: Node
         """
         if(not node in self._graph_nodes):
-            self._graph_nodes[node] = dict() # dictionary to store the nodes neighbours
+            self._distance_lookup[node] = dict() # add node to lookup
+            self._graph_nodes[node] = dict() # add node to the neighbours
         else:
             #TODO: Define AdditionError
             raise AdditionError("This node is already in the graph")
@@ -45,18 +47,32 @@ class Graph:
             #Edge between two nodes
             if(self.is_undirected):
                 if node_2 in self._graph_nodes[node_1]:
+                    edge_list_distance_lookup = self._distance_lookup[node_1][node_2]
+                    edge_list_distance_lookup.append(edge)
+
                     edge_list = self._graph_nodes[node_1][node_2]
                     edge_list.append(edge)
                 else:
                     # TODO: this could be done in one line
+                    edge_list_distance_lookup = list()
+                    edge_list_distance_lookup.append(edge)
+                    self._distance_lookup[node_1][node_2] = edge_list_distance_lookup
+
                     edge_list = list()
                     edge_list.append(edge)
                     self._graph_nodes[node_1][node_2] = edge_list
 
                 if node_1 in self._graph_nodes[node_2]:
+                    edge_list_distance_lookup = self._distance_lookup[node_2][node_1]
+                    edge_list_distance_lookup.append(edge)
+
                     edge_list = self._graph_nodes[node_2][node_1]
                     edge_list.append(edge)
                 else:
+                    edge_list_distance_lookup = list()
+                    edge_list_distance_lookup.append(edge)
+                    self._distance_lookup[node_2][node_1] = edge_list_distance_lookup
+
                     edge_list = list()
                     edge_list.append(edge)
                     self._graph_nodes[node_2][node_1] = edge_list
@@ -64,9 +80,16 @@ class Graph:
                 self._edge_count += 2
             else:
                 if node_2 in self._graph_nodes[node_1]:
+                    edge_list_distance_lookup = self._distance_lookup[node_1][node_2]
+                    edge_list_distance_lookup.append(edge)
+
                     edge_list = self._graph_nodes[node_1][node_2]
                     edge_list.append(edge)
                 else:
+                    edge_list_distance_lookup = list()
+                    edge_list_distance_lookup.append(edge)
+                    self._distance_lookup[node_1][node_2] = edge_list_distance_lookup
+
                     edge_list = list()
                     edge_list.append(edge)
                     self._graph_nodes[node_1][node_2] = edge_list
@@ -212,6 +235,16 @@ class Graph:
                     graph_edges.append(edge)
 
         return graph_edges
+
+    @property
+    def lookup_distance(node_1, node_2):
+        '''
+        Return all destances between two nodes.
+
+        @rtype: list
+        @return: List of distances beteeen two nodes.
+        '''
+        return self._distance_lookup[node_1][node_2]
 
     #TODO: rename to node_count?
     @property
