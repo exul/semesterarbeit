@@ -2,7 +2,7 @@ from graph import Graph
 
 class Writer:
     '''
-    Write a graph into file.
+    Write a graph or a list of nodes into a file.
     '''
     def write_blossom_iv(self, graph, file_location):
         '''
@@ -12,11 +12,7 @@ class Writer:
         @param: graph: graph that should be written to file
 
         @type: file_location: string
-        @param: string that contains the file location
-
-        @rtype: boolean
-        @return: True, if the file was written successfully and False if
-        someting went wrong
+        @param: location to save the file
         '''
         f = open(file_location, 'w')
         
@@ -34,3 +30,21 @@ class Writer:
                             .format(node.odd_node_nr, neighbour.odd_node_nr,
                                 edge.weight), \
                                         file=f)
+        f.close()
+
+    def write_nodes(self, nodes, file_location):
+        '''
+        Writes a list of nodes into a file with their x and y coordinates
+
+        @type nodes: list
+        @param: nodes: a list of nodes.
+
+        @type file_location: string
+        @param: location to save the file
+        '''
+        f = open(file_location, 'w')
+
+        for node in nodes:
+            print('{0} {1} {2}'.format(node.label, node.x, node.y), file=f)
+
+        f.close()
