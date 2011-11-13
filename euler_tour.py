@@ -118,3 +118,27 @@ class Euler_Tour:
             euler += euler_sub
 
         return euler
+
+    def shorten(self, nodes):
+        ''' Shortens an eulerian tour, so that every node is visited only once.
+
+        @type: nodes: list
+        @param nodes: List of nodes in order of the eulerian tour.
+
+        @rtype: list
+        @return: List of nodes in order of the eulerian tour (but every node is
+        visited only once).
+        '''
+        
+        # use i instead of the list index, because the same node can be in the
+        # list more than once
+        i = 0
+
+        for node in nodes:
+            if node.visits > 1:
+                del(nodes[i])
+                node.visits -= 1
+
+            i += 1
+
+        return nodes
