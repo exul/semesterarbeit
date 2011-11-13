@@ -128,17 +128,12 @@ class Euler_Tour:
         @return: List of nodes in order of the eulerian tour (but every node is
         visited only once).
         '''
-        
-        # use i instead of the list index, because the same node can be in the
-        # list more than once
-        i = 0
-
+        nodes_shortened = []
         for node in nodes:
-            # delete all nodes that are listed more than once, except the first
-            # and the last node
-            if nodes.count(node) > 1 and i != 0 and i != len(nodes)-1:
-                del(nodes[i])
-        
-            i += 1
+            if node not in nodes_shortened:
+                nodes_shortened.append(node)
 
-        return nodes
+        # add the first element at the end, because we want to do a tour
+        nodes_shortened.append(nodes_shortened[0])
+
+        return nodes_shortened
