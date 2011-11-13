@@ -5,7 +5,6 @@ class Node:
         self.x = float(x)
         self.y = float(y)
         self.label = label
-        self.visits = 0
 
     def get_id(self):
         return id(self)

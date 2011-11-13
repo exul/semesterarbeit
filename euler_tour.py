@@ -56,7 +56,6 @@ class Euler_Tour:
                 if not euler_graph.contains_node(next_node):
                     euler_graph.add_node(next_node)
 
-                current_node.visits += 1
                 euler_graph.add_edge(current_edge)
 
                 # start agein with the next_node as current_node
@@ -64,7 +63,7 @@ class Euler_Tour:
                 # check if we hit the start_node
                 condition = (current_node != start_node)
 
-            # edge the last node
+            # edge to the last node
             euler_sub.append(current_node)
             # merge current cycle with the already computed one
             euler = self.merge_cycles(euler, euler_sub, current_node) 
@@ -135,10 +134,11 @@ class Euler_Tour:
         i = 0
 
         for node in nodes:
-            if node.visits > 1:
+            # delete all nodes that are listed more than once, except the first
+            # and the last node
+            if nodes.count(node) > 1 and i != 0 and i != len(nodes)-1:
                 del(nodes[i])
-                node.visits -= 1
-
+        
             i += 1
 
         return nodes
