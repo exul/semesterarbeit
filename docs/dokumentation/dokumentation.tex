@@ -1,0 +1,95 @@
+%        Fil: scheduling.tex
+%     Created: Mon Apr 11 06:00 PM 2011 C
+% Last Change: Mon Apr 11 06:00 PM 2011 C
+%
+\documentclass[a4paper]{article}
+
+% german dictionary
+\usepackage[ngerman]{babel}
+
+% enconding
+\usepackage[utf8]{inputenc}
+
+% graphics
+\usepackage{graphicx}
+
+% handle positions
+\usepackage{float}
+
+% set borders
+\usepackage{a4wide}
+
+% use URLs
+\usepackage{url}
+
+% expand table formatting
+\usepackage{array}
+
+% header and footer
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+
+\fancyhead[L]{Implementation einer Win/Win Strategie für das TSP}
+\fancyhead[R]{Semesterarbeit}
+
+\fancyfoot[L]{Andreas Brönnimann}
+\fancyfoot[C]{\thepage}
+\fancyfoot[R]{\today}
+\renewcommand{\footrulewidth}{0.5pt}
+
+% cover
+\title {Semesterarbeit\\
+Implementation einer Win/Win Strategie für das TSP\\}
+\author {Andreas Brönnimann\\
+Hochschule für Technik Zürich\\
+Dozent: Dr. Hans-Joachim Böckenhauer}
+\date {\today}
+
+\begin{document}
+
+% show all references, even the uncited ones
+\nocite{*}
+
+% show cover
+\maketitle
+\setcounter{page}{0}
+\thispagestyle{empty}
+\newpage
+
+\tableofcontents
+\newpage
+\section{Einleitung}
+\newpage
+\section{Traveling Salesman Problem}
+\newpage
+\section{Win/Win Strategie}
+\subsection{Grundidee}
+\subsection{Anwendung für das Traveling Salesman Problem}
+\newpage
+\section{Algorithmen}
+\subsection{Minimaler Spannbaum - Algorithmus von Prim}
+\subsection{Minimales Perfektes Matching - Blossom V}
+\subsection{Eulerkreis - Hierholzer}
+\subsection{Kürzung Eulerkreis/Eulerpfad zu Hamiltonkreis/Hamiltonpfad}
+\newpage
+\section{Implementation}
+\subsection{Datenstrukturen}
+\subsubsection{Graph}
+\subsubsection{Knoten}
+\subsubsection{Kante}
+\subsection{Minimaler Spannbaum}
+\subsubsection{Eulerkreis}
+
+\newpage
+
+\section{Berechnungen}
+\subsection{TSPLIB}
+\subsection{Zufällige Graphen}
+
+\newpage
+
+% bibliography
+\bibliographystyle{plain}
+\bibliography{bibliographie}
+\end{document}
