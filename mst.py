@@ -16,10 +16,17 @@ class Minimum_Spanning_Tree:
         @return: the minimum spanning tree
         '''
         # create emty graph to store the mst
-        mst = Graph()
+        mst = Graph(graph.distance_lookup)
 
         # take the first node as start node (it doesn't matter which one)
-        start_node = random.choice(graph.nodes)
+        # TODO: always use the same startnode, otherwise there could be 
+        # multiple MSTs that give different results in the end. needed?
+        # The label shouldn't be used to find the correct node.
+        for node in graph.nodes:
+            if node.label == '1':
+                start_node = node
+                break
+        #start_node = random.choice(graph.nodes)
 
         # add first node to mst
         mst.add_node(start_node)
@@ -62,5 +69,5 @@ class Minimum_Spanning_Tree:
 
                 # add edge to mst
                 mst.add_edge(next_edge)
-
+        
         return mst
