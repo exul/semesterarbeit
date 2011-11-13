@@ -33,7 +33,11 @@ class Matcher:
         pm_to_solve = temp_path + 'graph.pm'
         pm_result = temp_path + 'matching.pm'
 
-        for node in graph.nodes:
+        # always use the same order to write the nodes into the file, otherwise
+        # there will be different results
+        nodes = sorted(graph.nodes, key=lambda node: node.label)
+
+        for node in nodes:
             if len(graph.neighbour_nodes(node)) % 2 == 1:
                    odd_nodes[odd_node_nr] = node
                    odd_node_nr += 1
