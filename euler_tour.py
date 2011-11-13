@@ -5,26 +5,29 @@ from edge import Edge
 from graph import Graph
 
 class Euler_Tour:
-    def __init__(self, graph):
-        self.graph = graph
+    ''' Algorithms to calculate euler tour  '''
 
-    def calculate(self):
+    def calculate(self, graph):
+        '''
+        Calculate the euler tour in a given graph
+
+        @rtype: list
+        @return: A list of nodes in order of the eulerian tour.
+        '''
+
         euler = list()
         euler_graph = Graph()
 
         # save start node, so we can check if we did a cycle
         # we just take the first node in the graph, it doesn't matter
-        start_node = self.graph.nodes[0]
+        start_node = graph.nodes[0]
         # for the first walk our start_node is the current_node
         current_node = start_node
         # we want wo walk at least once
         condition = True
 
         # get size of the current graph
-        graph_size = self.graph.size
-
-        # TODO: list only for debugging
-        euler_ori = list()
+        graph_size = graph.size
 
         while euler_graph.size < graph_size:
             # list to store nodes for each cycle
@@ -37,14 +40,14 @@ class Euler_Tour:
                 # add the current node to the euler tour
                 euler_sub.append(current_node)
                 # take an arbitrary neighbour
-                neighbours = self.graph.neighbour_nodes(current_node)
+                neighbours = graph.neighbour_nodes(current_node)
                 next_node = random.choice(list(neighbours.copy().keys()))
                 # get the edge between the current node an our new node
                 # if there is more than one edge, just take the first one
-                edge_list = self.graph.edge_by_nodes(current_node, next_node)
+                edge_list = graph.edge_by_nodes(current_node, next_node)
                 current_edge = edge_list[0]
                 # delete the edge from the graph, we don't want to the the same edge twice
-                self.graph.remove_edge(current_edge)
+                graph.remove_edge(current_edge)
 
                 # add nodes and edges to the graph that represents the euler cycle
                 if not euler_graph.contains_node(current_node):
@@ -70,21 +73,13 @@ class Euler_Tour:
                 #TODO: Find better solution to get the next_node, best would be a list
                 #with nodes that are candiates (nodes that are in the last cycle and
                 #have at least 1 neighbour)
-                if self.graph.contains_node(node):
-                    neighbours = self.graph.neighbour_nodes(node)
+                if graph.contains_node(node):
+                    neighbours = graph.neighbour_nodes(node)
                     if len(neighbours) > 0:
                         start_node = node
                         current_node = start_node
                         condition = True
                         break
-
-        print('========== Debug ========')
-        print('Real euler')
-        for node in euler:
-            print('Node {0} visited {1}'.format(node.label, node.visits))
-
-        # set reference of the euler_graph to graph, so we can work on with it
-        graph = euler_graph
 
         # return a list of nodes in the order of the euler tour
         return euler
@@ -123,4 +118,3 @@ class Euler_Tour:
             euler += euler_sub
 
         return euler
-
