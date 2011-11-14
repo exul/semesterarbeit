@@ -36,6 +36,7 @@ class Minimum_Spanning_Tree:
         # get size of the current graph
         graph_size = graph.size
 
+        i = 0
         # lookup antoher edge as long as the two graphs are the same size
         while mst.size < graph_size:
             # sort edges according to their weight
@@ -69,5 +70,7 @@ class Minimum_Spanning_Tree:
 
                 # add edge to mst
                 mst.add_edge(next_edge)
+                print('Added one edge {0}'.format(i))
+                i += 1
         
         return mst

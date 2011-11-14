@@ -97,6 +97,11 @@ class Euler_Tour:
         @rtype: list
         @return: A list containing all nodes.
         '''
+
+        # if euler list is empty, merging euler_sub into euler = euler_sub
+        if len(euler) == 0:
+            return euler_sub
+
         # copy content of euler list to euler_tmp
         euler_tmp = list()
         euler_tmp += euler
@@ -105,16 +110,13 @@ class Euler_Tour:
         # only append list once
         found = False
 
-        if len(euler_tmp) > 0:
-            for node in euler_tmp:
-                if node == current_node and found == False:
-                    for node_sub in euler_sub:
-                        euler.append(node_sub)
-                    found = True
-                else:
-                    euler.append(node)
-        else:
-            euler += euler_sub
+        for node in euler_tmp:
+            if node == current_node and found == False:
+                for node_sub in euler_sub:
+                    euler.append(node_sub)
+                found = True
+            else:
+                euler.append(node)
 
         return euler
 
