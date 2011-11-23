@@ -35,7 +35,7 @@ class Matcher:
 
         # always use the same order to write the nodes into the file, otherwise
         # there will be different results
-        nodes = sorted(graph.nodes, key=lambda node: node.label)
+        nodes = sorted(graph.nodes, key=lambda node: node.nr)
 
         for node in nodes:
             if len(graph.neighbour_nodes(node)) % 2 == 1:

@@ -25,8 +25,8 @@ class Reader:
 
         # read id, x-coordinate and y-coordinate
         for line in f:
-            node_id, node_x, node_y = line.split()
-            temp_node = Node(node_x, node_y, node_id)
+            node_nr, node_x, node_y = line.split()
+            temp_node = Node(node_nr, node_x, node_y)
             nodes.append(temp_node)
 
         # calculate distance and add nodes and edges to the graph

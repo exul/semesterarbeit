@@ -1,7 +1,8 @@
 class Node:
     ''' Represents a node in a graph '''
 
-    def __init__(self, x, y, label=''):
+    def __init__(self, nr, x, y, label=''):
+        self.nr = int(nr)
         self.x = float(x)
         self.y = float(y)
         self.label = label

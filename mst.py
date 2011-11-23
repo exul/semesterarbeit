@@ -25,9 +25,8 @@ class Minimum_Spanning_Tree:
         # take the first node as start node (it doesn't matter which one)
         # TODO: always use the same startnode, otherwise there could be 
         # multiple MSTs that give different results in the end. needed?
-        # The label shouldn't be used to find the correct node.
         for node in graph.nodes:
-            if node.label == '1':
+            if node.nr == 1:
                 start_node = node
                 break
         #start_node = random.choice(graph.nodes)
