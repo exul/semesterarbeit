@@ -10,12 +10,12 @@ class Edge:
         @type  node2: node
         @param node2: Node on the other end of the edge
 
-        @type   weight: number
+        @type   weight: int
         @param  weight: Edge weight
         """ 
         self.node_1 = node_1
         self.node_2 = node_2
-        self.weight = float(weight)
+        self.weight = int(round(weight, 0))
 
     def get_id(self):
         return id(self)
