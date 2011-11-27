@@ -53,7 +53,7 @@ class Writer:
         '''
         Write a graph to a file, edges are represented in a matrix
 
-        @type graph: gra
+        @type graph: graph
         @param: graph: graph that should be written to file
 
         @type: file_location: string
@@ -62,13 +62,39 @@ class Writer:
 
         f = open(file_location, 'w')
 
-        #TODO: Write matrix, the nodes have to be sorted
-        for node in graph.nodes:
-            for neighbour in graph.neighbour_nodes(node):
-                edge_list = graph.edge_by_nodes(node, neighbour)
-                #for edge in edge_list:
-                    #print('{0} {1} {2}' \
-                            #.format(node.odd_node_nr, neighbour.odd_node_nr,
-                                #edge.weight), \
-                                        #file=f)
+        # sort nodes by number, because they have to be in order when we write
+        # the matrix
+        nodes = sorted(graph.nodes, key=lambda node: node.nr)
 
+        # create header
+        dimension = len(nodes)
+
+        print('NAME: cities {0}'.format(dimension),file=f)
+        print('TYPE: TSP', file=f)
+        print('COMMENT: Semesterarbeit', file=f)
+        print('DIMENSION: {0}'.format(dimension), file=f)
+        print('EDGE_WEIGHT_TYPE: EXPLICIT', file=f)
+        print('EDGE_WEIGHT_FORMAT: UPPER_ROW', file=f)
+        print('EDGE_WEIGHT_SECTION', file=f)
+
+        # write all distances between a node an all its neighbours on one line
+        for idx, node in enumerate(nodes):
+            neighbour_nodes = sorted(graph.neighbour_nodes(node), key=lambda \
+                    node: node.nr)
+            weight_list = list()
+
+            for idx_inner, neighbour in enumerate(neighbour_nodes):
+                # we only write the upper triangular matrix, not the full
+                # matrix, so we break, when we reach the diagonal element
+                if dimension-idx == idx_inner:
+                    break;
+
+                edge_list = graph.edge_by_nodes(node, neighbour)
+                weight = edge_list[0].weight
+
+                weight_list.append('{0}'.format(weight))
+
+            # write line to file
+            print(*weight_list, sep = ' ', end = '\n', file=f)
+
+        f.close()
