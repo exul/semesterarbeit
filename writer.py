@@ -84,15 +84,11 @@ class Writer:
             weight_list = list()
 
             for idx_inner, neighbour in enumerate(neighbour_nodes):
-                # we only write the upper triangular matrix, not the full
-                # matrix, so we break, when we reach the diagonal element
-                if dimension-idx == idx_inner:
-                    break;
-
                 edge_list = graph.edge_by_nodes(node, neighbour)
                 weight = edge_list[0].weight
 
-                weight_list.append('{0}'.format(weight))
+                if node.nr < neighbour.nr:
+                    weight_list.append('{0}'.format(weight))
 
             # write line to file
             print(*weight_list, sep = ' ', end = '\n', file=f)
