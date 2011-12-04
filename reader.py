@@ -10,7 +10,7 @@ class Reader:
     the file.
     '''
 
-    def euler_2d(self, file_location, node_s_nr = None, node_t_nr = None):
+    def euler_2d(self, file_location, node_s_nr = -1, node_t_nr = -1):
         '''
         Read a file that contains nodes and theire x and y coordinats.
         Create a complete undirected graph.
