@@ -5,22 +5,27 @@ from edge import Edge
 class Matcher:
     ''' Do a matching on edges in a graph '''
 
-    def calculate(self, graph, temp_path='/tmp/', blossom_path='mpm/blossom5'):
+    def calculate(self, graph, temp_path='/tmp/', blossom_path='mpm/blossom5',
+            add_s_t = False):
         '''
         Calculate the minimum perfect matching on the odd nodes of the given
         graph and add the new edges to the graph.
 
-        @type: graph: graph
-        @param: Graph that contains the odd nodes to calculate the perfect
+        @type   graph: graph
+        @param  graph: Graph that contains the odd nodes to calculate the perfect
         machting
 
-        @type: temp_path: string
-        @param: path to store the temp-file for calculating the perfect
+        @type   temp_path: string
+        @param  temp_path: path to store the temp-file for calculating the perfect
         matching (with trailing slash, e.g. /tmp/)
 
-        @type: blossom_path: string
-        @param: path where the blossom executable is stored, it does the
+        @type   blossom_path: string
+        @param  blossom_path: path where the blossom executable is stored, it does the
         perfect matching
+
+        @type   add_s_t: boolean
+        @param  add_s_t: Indicate if node s and t should be added to the perfect
+        matching
 
         @rtype: graph
         @return: the graph including the new edges calculated by perfect
@@ -42,6 +47,12 @@ class Matcher:
                    odd_nodes[odd_node_nr] = node
                    odd_node_nr += 1
 
+        # add node s and t if the variable add_s_t is true
+        if add_s_t:
+            odd_nodes[odd_node_nr] = graph.node_s
+            odd_node_nr += 1
+            odd_nodes[odd_node_nr] = graph.node_t
+            
         # sort dictionary by keys
         odd_nodes = OrderedDict(sorted(odd_nodes.items(), key=lambda t: t[0]))
 

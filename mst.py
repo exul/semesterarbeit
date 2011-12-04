@@ -10,11 +10,11 @@ class Minimum_Spanning_Tree:
         '''
         Calculate the minimum spanning tree of the given graph. 
 
-        @type: graph: graph
-        @param: graph: Graph of which the minimum spanning tree is calculated.
+        @type   graph: graph
+        @param  graph: Graph of which the minimum spanning tree is calculated.
 
-        @rtype: graph
-        @return: the minimum spanning tree
+        @rtype  graph
+        @return the minimum spanning tree
         '''
         # create emty graph to store the mst
         mst = Graph(graph.distance_lookup)

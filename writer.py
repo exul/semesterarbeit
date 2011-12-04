@@ -8,11 +8,11 @@ class Writer:
         #'''
         #Write a graph to a file, use the blossom IV format
 
-        #@type: graph: graph
-        #@param: graph: graph that should be written to file
+        #@type  graph: graph
+        #@param graph: graph that should be written to file
 
-        #@type: file_location: string
-        #@param: location to save the file
+        #@type  file_location: string
+        #@param     location to save the file
         #'''
         #f = open(file_location, 'w')
         
@@ -36,11 +36,11 @@ class Writer:
         '''
         Writes a list of nodes into a file with their x and y coordinates
 
-        @type nodes: list
-        @param: nodes: a list of nodes.
+        @type   nodes: list
+        @param  nodes: a list of nodes.
 
-        @type file_location: string
-        @param file_location: location to save the file
+        @type   file_location: string
+        @param  file_location: location to save the file
         '''
         f = open(file_location, 'w')
 
@@ -53,11 +53,11 @@ class Writer:
         '''
         Write a graph to a file, edges are represented in a matrix
 
-        @type graph: graph
-        @param: graph: graph that should be written to file
+        @type   graph: graph
+        @param  graph: graph that should be written to file
 
-        @type: file_location: string
-        @param: location to save the file
+        @type   file_location: string
+        @param  location to save the file
         '''
 
         f = open(file_location, 'w')

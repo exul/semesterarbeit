@@ -17,14 +17,14 @@ class Reader:
         File format:
         ID_Node X_Position Y_Position
 
-        @type file_location: string
-        @param file_location: location to save the file
+        @type   file_location: string
+        @param  file_location: location to save the file
 
-        @type node_s_nr: int
-        @param node_s_nr: Number to identify node s
+        @type   node_s_nr: int
+        @param  node_s_nr: Number to identify node s
 
-        @type node_t_nr: int
-        @param node_t_nr: Number to identify node t
+        @type   node_t_nr: int
+        @param  node_t_nr: Number to identify node t
         '''
         graph = Graph()
 

@@ -19,11 +19,11 @@ class PQueue:
         Add an item with a given priority to the priority queue. It item can be
         in the queue only once.
 
-        @type priority: number
-        @param priority: Priority of the item.
+        @type   priority: number
+        @param  priority: Priority of the item.
 
-        @type item: item
-        @param item: Item that should be added to the priority queue.
+        @type   item: item
+        @param  item: Item that should be added to the priority queue.
         '''
         if not item in self._item_finder:
             if count is None:

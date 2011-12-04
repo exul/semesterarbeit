@@ -87,12 +87,12 @@ class Euler_Tour:
         '''
         Merge two eulerian cycles.
 
-        @type:  euler:list
-        @param: List that contains the eulerian path.
-        @type:  euler_sub:list
-        @param: List that should be merged into eulerian path.
-        @type:  current_node: node
-        @param: Node at which the two lists should be murged
+        @type   euler: list
+        @param  euler: List that contains the eulerian path.
+        @type   euler_sub: list
+        @param  euler_sub: List that should be merged into eulerian path.
+        @type   current_node: node
+        @param  current_node: Node at which the two lists should be murged
 
         @rtype: list
         @return: A list containing all nodes.
@@ -123,8 +123,8 @@ class Euler_Tour:
     def shorten(self, nodes):
         ''' Shortens an eulerian tour, so that every node is visited only once.
 
-        @type: nodes: list
-        @param nodes: List of nodes in order of the eulerian tour.
+        @type   nodes: list
+        @param  nodes: List of nodes in order of the eulerian tour.
 
         @rtype: list
         @return: List of nodes in order of the eulerian tour (but every node is

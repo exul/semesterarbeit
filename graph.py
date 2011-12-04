@@ -36,7 +36,7 @@ class Graph:
         Add edge to the graph.
         
         @type   edge: edge
-        @param  node1: Edge to add, both nodes of the edge have to be in the graph
+        @param  edge: Edge to add, both nodes of the edge have to be in the graph
         """
         node_1 = edge.node_1
         node_2 = edge.node_2 
@@ -99,7 +99,7 @@ class Graph:
         Remove an edge.
 
         @type   edge: edge
-        @param  node1: Edge to remove
+        @param  edge: Edge to remove
         """
         edge_list = self._graph_nodes[edge.node_1][edge.node_2]
         edge_list.remove(edge)
@@ -122,8 +122,8 @@ class Graph:
         """
         Return all nodes that are connected to the given node.
 
-        @type: node:node
-        @param: Node
+        @type   node: node
+        @param  node: Node
 
         @rtype: dict
         @return: A dict of all nodes that are connected to the node.
@@ -134,8 +134,8 @@ class Graph:
         """
         Return all edges that are connected to the given node.
 
-        @type: node:node
-        @param: Node
+        @type   node: node
+        @param  node: Node
 
         @rtype: list
         @return: A list of all edges that are connected to the node.
@@ -161,10 +161,10 @@ class Graph:
         '''
         Return a list of edges between two nodes
 
-        @type: node_1:node
-        @param: Node on one end of the edge
-        @type: node_2:node
-        @param: Node on the other end of the edge
+        @type   node_1: node
+        @param  node_1: Node on one end of the edge
+        @type   node_2: node
+        @param  node_2: Node on the other end of the edge
 
         @rtype: list
         @return: List of edges between the given nodes
