@@ -2,7 +2,7 @@ from reader import Reader
 from writer import Writer
 from mst import Minimum_Spanning_Tree
 from matcher import Matcher
-from euler_tour import Euler_Tour
+from euler import Euler
 
 import os
 
@@ -21,16 +21,18 @@ writer = Writer()
 #graph = reader.euler_2d('data/in/bayg29.tsp')
 #graph = reader.euler_2d('data/in/float.tsp')
 #graph = reader.euler_2d('data/in/int.tsp')
-graph = reader.euler_2d('data/in/graph.tsp', 6, 5)
+graph_tsp = reader.euler_2d('data/in/graph.tsp')
+graph_hpp = reader.euler_2d('data/in/graph.tsp', 6, 5)
 
 print('Graph is created')
 
 # TODO: write graph as matrix, not needed for the algortihm
-writer.write_matrix(graph, 'data/out/graph_matrix.tsp')
+writer.write_matrix(graph_tsp, 'data/out/graph_matrix.tsp')
 
 # calculate the minimum spanning tree
 mst = Minimum_Spanning_Tree()
-graph = mst.calculate(graph)
+graph_tsp = mst.calculate(graph_tsp)
+graph_hpp = mst.calculate(graph_hpp)
 
 print('MST calculated')
 
@@ -39,18 +41,23 @@ print('MST calculated')
 matcher = Matcher()
 
 # do a minimum perfect matching on the MST
-graph_tsp = matcher.calculate(graph)
+graph_tsp = matcher.calculate(graph_tsp)
 
 # do a minimum perfect matching on the MST + {s, t}
+graph_hpp = matcher.calculate(graph_hpp)
 
 print('Perfect Matching calculated')
 
-euler_tour = Euler_Tour()
-euler_nodes_tsp = euler_tour.calculate(graph_tsp)
+euler = Euler()
+
+# calculate euler tour
+euler_nodes_tsp = euler.calculate(graph_tsp)
+
+# TODO: calculate euler path
 
 print('Euler Tour calculated')
 
-nodes_tsp = euler_tour.shorten(euler_nodes_tsp)
+nodes_tsp = euler.shorten(euler_nodes_tsp)
 
 print('Euler Tour shortened')
 

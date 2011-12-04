@@ -4,7 +4,7 @@ from node import Node
 from edge import Edge
 from graph import Graph
 
-class Euler_Tour:
+class Euler:
     ''' Algorithms to calculate euler tour  '''
 
     def calculate(self, graph):
