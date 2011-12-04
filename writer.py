@@ -40,7 +40,7 @@ class Writer:
         @param: nodes: a list of nodes.
 
         @type file_location: string
-        @param: location to save the file
+        @param file_location: location to save the file
         '''
         f = open(file_location, 'w')
 

@@ -10,12 +10,21 @@ class Reader:
     the file.
     '''
 
-    def euler_2d(self, file_location):
+    def euler_2d(self, file_location, node_s_nr = None, node_t_nr = None):
         '''
         Read a file that contains nodes and theire x and y coordinats.
         Create a complete undirected graph.
         File format:
         ID_Node X_Position Y_Position
+
+        @type file_location: string
+        @param file_location: location to save the file
+
+        @type node_s_nr: int
+        @param node_s_nr: Number to identify node s
+
+        @type node_t_nr: int
+        @param node_t_nr: Number to identify node t
         '''
         graph = Graph()
 
@@ -25,9 +34,21 @@ class Reader:
 
         # read id, x-coordinate and y-coordinate
         for line in f:
+            #TODO: Check if node_nr is an integer and the numbering is from 
+            #1 to n
             node_nr, node_x, node_y = line.split()
             temp_node = Node(node_nr, node_x, node_y)
             nodes.append(temp_node)
+
+            # set node s
+            #TODO: Check if node_s_nr is an integer
+            if temp_node.nr == int(node_s_nr):
+                graph.node_s = temp_node
+
+            # set node t
+            #TODO: Check if node_t_nr is an integer
+            if temp_node.nr == int(node_t_nr):
+                graph.node_t = temp_node
 
         # calculate distance and add nodes and edges to the graph
         for node_1 in nodes:

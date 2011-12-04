@@ -4,7 +4,7 @@ from edge import Edge
 class Graph:
     ''' Represents an undirected graph '''
 
-    def __init__(self, distance_lookup=dict()):
+    def __init__(self, distance_lookup=dict(), node_s = None, node_t = None):
         """
         Initialize a graph.
         """
@@ -12,6 +12,8 @@ class Graph:
         self._distance_lookup = distance_lookup # store distances between nodes
         self._graph_nodes = dict() # store the nodes
         self._edge_count = 0
+        self.node_s = node_s # represent start node in a hamiltonian path
+        self.node_t = node_t # represent end node in a hamiltonian path
 
     def add_node(self, node):
         """ 
