@@ -17,7 +17,7 @@ class Minimum_Spanning_Tree:
         @return the minimum spanning tree
         '''
         # create emty graph to store the mst
-        mst = Graph(graph.distance_lookup)
+        mst = Graph(graph.distance_lookup, graph.node_s, graph.node_t)
 
         # create priority queue
         neighbour_edges = PQueue()
