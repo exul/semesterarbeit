@@ -1,8 +1,10 @@
+from edge import Edge
 from reader import Reader
 from writer import Writer
 from mst import Minimum_Spanning_Tree
 from matcher import Matcher
 from euler import Euler
+from plot import Plot # TODO: this import takes a lot of time
 
 import os
 
@@ -43,6 +45,14 @@ matcher = Matcher()
 # do a minimum perfect matching on the MST
 graph_tsp = matcher.calculate(graph_tsp)
 
+# add {s, t} to the MST
+node_s = graph_hpp.node_s
+node_t = graph_hpp.node_t
+weight = graph_hpp.lookup_distance(node_s, node_t)[0]
+
+edge_st = Edge(node_s, node_t, weight)
+graph_hpp.add_edge(edge_st)
+
 # do a minimum perfect matching on the MST + {s, t}
 graph_hpp = matcher.calculate(graph_hpp)
 
@@ -53,7 +63,13 @@ euler = Euler()
 # calculate euler tour
 euler_nodes_tsp = euler.calculate(graph_tsp)
 
-# TODO: calculate euler path
+#TODO: Debug, output graph, why does it take that much time?
+#writer.write_nodes(graph_hpp.nodes, '/tmp/graph_hpp')
+plt = Plot()
+plt.plot_graph(graph_hpp)
+
+# TODO: calculate euler path => correct?
+euler_nodes_hpp = euler.calculate(graph_hpp)
 
 print('Euler Tour calculated')
 
