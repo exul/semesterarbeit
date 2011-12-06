@@ -151,11 +151,34 @@ class Graph:
     def contains_node(self, node):
         """ 
         Checks, if a given node is in the graph or not.
+
+        @type   node: node
+        @param  node: Node
         
         @rtype:  boolean
         @return: true, if the node is in the graph, otherwise false
         """
         return node in  self._graph_nodes
+
+    #TODO: Does it work?
+    def contains_edge(self, node_1, node_2):
+        '''
+        Checks, if a given edge (represented by node_1 and node_2 is 
+        in the graph or not.
+        We use nodes, becaues we may node hav the edge itself, if we have it,
+        we can just take it's to nodes.
+
+        @type   node_1: node
+        @param  node_1: Node on one side of the edge
+
+        @type   node_2: node
+        @param  node_2: Node on the other side of the edge
+
+        @rtype: boolean
+        @return: true, if the edge is in the graph, otherwise false
+        '''
+
+        return node_2 in self._graph_nodes[node_1]
 
     def edge_by_nodes(self, node_1, node_2):
         '''
