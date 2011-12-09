@@ -5,15 +5,24 @@ from edge import Edge
 from graph import Graph
 
 class Euler:
-    ''' Algorithms to calculate euler tour  '''
+    ''' Algorithms to calculate euler tour/path  '''
 
-    def calculate(self, graph):
+    def calculate(self, graph, tour=True):
         '''
         Calculate the euler tour in a given graph
 
+        @type   graph: graph
+        @param  graph: Graph to calculate eulerian tour/path.
+
+        @type   tour: boolean
+        @param  tour: If True, an eulerian tour is calculated, if false an
+        eulerian path is calculated.
+
         @rtype: list
-        @return: A list of nodes in order of the eulerian tour.
+        @return: A list of nodes in order of the eulerian tour/path.
         '''
+
+        #TODO: Implement euler path 
 
         euler = list()
         euler_graph = Graph()

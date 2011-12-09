@@ -13,8 +13,8 @@ writer = Writer()
 
 # read graph data/in from file
 #graph = reader.euler_2d('data/in/eil101.tsp')
-graph_tsp = reader.euler_2d('data/in/eil51.tsp')
-graph_hpp = reader.euler_2d('data/in/eil51.tsp', 39, 41)
+#graph_tsp = reader.euler_2d('data/in/eil51.tsp')
+#graph_hpp = reader.euler_2d('data/in/eil51.tsp', 39, 41)
 #graph = reader.euler_2d('data/in/a280.tsp')
 #graph = reader.euler_2d('data/in/ch130.tsp')
 #graph = reader.euler_2d('data/in/fl1400.tsp')
@@ -24,8 +24,8 @@ graph_hpp = reader.euler_2d('data/in/eil51.tsp', 39, 41)
 #graph = reader.euler_2d('data/in/bayg29.tsp')
 #graph = reader.euler_2d('data/in/float.tsp')
 #graph = reader.euler_2d('data/in/int.tsp')
-#graph_tsp = reader.euler_2d('data/in/graph.tsp')
-#graph_hpp = reader.euler_2d('data/in/graph.tsp', 6, 7)
+graph_tsp = reader.euler_2d('data/in/graph.tsp')
+graph_hpp = reader.euler_2d('data/in/graph.tsp', 5, 6)
 
 print('Graph is created')
 

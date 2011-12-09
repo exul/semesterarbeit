@@ -34,9 +34,16 @@ class Reader:
 
         # read id, x-coordinate and y-coordinate
         for line in f:
-            #TODO: Check if node_nr is an integer and the numbering is from 
-            #1 to n
-            node_nr, node_x, node_y = line.split()
+            line_data = line.split()
+
+            # skip header information
+            if line_data[0].isdigit():
+                #TODO: Check if node_nr is an integer and the numbering is from 
+                #1 to n
+                node_nr, node_x, node_y = line_data
+            else:
+                continue
+
             temp_node = Node(node_nr, node_x, node_y)
             nodes.append(temp_node)
 
