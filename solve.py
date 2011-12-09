@@ -13,7 +13,8 @@ writer = Writer()
 
 # read graph data/in from file
 #graph = reader.euler_2d('data/in/eil101.tsp')
-#graph = reader.euler_2d('data/in/eil51.tsp')
+graph_tsp = reader.euler_2d('data/in/eil51.tsp')
+graph_hpp = reader.euler_2d('data/in/eil51.tsp', 39, 41)
 #graph = reader.euler_2d('data/in/a280.tsp')
 #graph = reader.euler_2d('data/in/ch130.tsp')
 #graph = reader.euler_2d('data/in/fl1400.tsp')
@@ -23,8 +24,8 @@ writer = Writer()
 #graph = reader.euler_2d('data/in/bayg29.tsp')
 #graph = reader.euler_2d('data/in/float.tsp')
 #graph = reader.euler_2d('data/in/int.tsp')
-graph_tsp = reader.euler_2d('data/in/graph.tsp')
-graph_hpp = reader.euler_2d('data/in/graph.tsp', 6, 7)
+#graph_tsp = reader.euler_2d('data/in/graph.tsp')
+#graph_hpp = reader.euler_2d('data/in/graph.tsp', 6, 7)
 
 print('Graph is created')
 
@@ -85,19 +86,33 @@ plt.plot_nodes(euler_nodes_hpp, 'Euler nodes')
 print('Euler Tour calculated')
 
 nodes_tsp = euler.shorten(euler_nodes_tsp)
+
+#TODO: Remove the edge between s and t
 nodes_hpp = euler.shorten(euler_nodes_hpp)
+
+# TODO: only to create graphics, not needed for the algorithm
+plt.plot_nodes(nodes_hpp, 'HPP Tour')
 
 print('Euler Tour shortened')
 
 writer.write_nodes(nodes_tsp, 'data/out/tour_winwin.tsp')
 writer.write_nodes(nodes_hpp, 'data/out/tour_winwin.hpp')
 
+# calculate TSP costs
 cost_tsp = 0
 for i in range(len(nodes_tsp)):
     if i > 0:
         cost_tsp += graph_tsp.lookup_distance(nodes_tsp[i-1], nodes_tsp[i])[0]
 
-print('This tour costs {0}, je visited {1} nodes.'.format(cost_tsp, i))
+print('TSP: This tour costs {0}, je visited {1} nodes.'.format(cost_tsp, i))
+
+# calculate HPP costs
+cost_hpp = 0
+for i in range(len(nodes_hpp)):
+    if i > 0:
+        cost_hpp += graph_hpp.lookup_distance(nodes_hpp[i-1], nodes_hpp[i])[0]
+
+print('HPP: This tour costs {0}, je visited {1} nodes.'.format(cost_hpp, i))
 
 # TODO: only to create graphics, not needed for the algorithm
 plt.save_file()
