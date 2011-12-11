@@ -2,19 +2,18 @@ from node import Node
 from edge import Edge
 
 class Graph:
-    ''' Represents a graph '''
+    ''' Represents an undirected graph '''
 
-    def __init__(self, is_undirected=True):
+    def __init__(self, distance_lookup=dict(), node_s = None, node_t = None):
         """
         Initialize a graph.
-
-        @type:  is_undirected: boolean
-        @param: is_undirected: Defines if the graph is undirected or not
         """
-        self._graph_nodes = dict() # dictionary to store the nodes
-        self._is_undirected = is_undirected
+        #TODO: create a separate object for distance_lookup?
+        self._distance_lookup = distance_lookup # store distances between nodes
+        self._graph_nodes = dict() # store the nodes
         self._edge_count = 0
-        self._odd_node_count = 0
+        self.node_s = node_s # represent start node in a hamiltonian path
+        self.node_t = node_t # represent end node in a hamiltonian path
 
     def add_node(self, node):
         """ 
@@ -23,88 +22,98 @@ class Graph:
         @type  node: node
         @param node: Node
         """
-        if(not node in self._graph_nodes):
-            self._graph_nodes[node] = dict() # dictionary to store the nodes neighbours
+        if not node in self._graph_nodes:
+            self._graph_nodes[node] = dict() # add node to the neighbours
         else:
             #TODO: Define AdditionError
             raise AdditionError("This node is already in the graph")
+
+        if not node in self._distance_lookup:
+            self._distance_lookup[node] = dict() # add node to lookup
 
     def add_edge(self, edge):
         """ 
         Add edge to the graph.
         
         @type   edge: edge
-        @param  node1: Edge to add, both nodes of the edge have to be in the graph
+        @param  edge: Edge to add, both nodes of the edge have to be in the graph
         """
         node_1 = edge.node_1
         node_2 = edge.node_2 
         weight = edge.weight
 
-        if(node_1 in self._graph_nodes and node_2 in self._graph_nodes):
+        # add edge to the graph
+        if node_1 in self._graph_nodes and node_2 in self._graph_nodes:
             #TODO: Use a List of Edges, because we need to add more then one
             #Edge between two nodes
-            if(self.is_undirected):
-                if node_2 in self._graph_nodes[node_1]:
-                    edge_list = self._graph_nodes[node_1][node_2]
-                    edge_list.append(edge)
-                else:
-                    # TODO: this could be done in one line
-                    edge_list = list()
-                    edge_list.append(edge)
-                    self._graph_nodes[node_1][node_2] = edge_list
-
-                if node_1 in self._graph_nodes[node_2]:
-                    edge_list = self._graph_nodes[node_2][node_1]
-                    edge_list.append(edge)
-                else:
-                    edge_list = list()
-                    edge_list.append(edge)
-                    self._graph_nodes[node_2][node_1] = edge_list
-
-                self._edge_count += 2
+            # add edge in one direction
+            if node_2 in self._graph_nodes[node_1]:
+                edge_list = self._graph_nodes[node_1][node_2]
+                edge_list.append(edge)
             else:
-                if node_2 in self._graph_nodes[node_1]:
-                    edge_list = self._graph_nodes[node_1][node_2]
-                    edge_list.append(edge)
-                else:
-                    edge_list = list()
-                    edge_list.append(edge)
-                    self._graph_nodes[node_1][node_2] = edge_list
+                # TODO: this could be done in one line
+                edge_list = list()
+                edge_list.append(edge)
+                self._graph_nodes[node_1][node_2] = edge_list
 
-                self._edge_count += 1
+            # add edge in other direction
+            if node_1 in self._graph_nodes[node_2]:
+                edge_list = self._graph_nodes[node_2][node_1]
+                edge_list.append(edge)
+            else:
+                edge_list = list()
+                edge_list.append(edge)
+                self._graph_nodes[node_2][node_1] = edge_list
+
+            self._edge_count += 2
         else:
             #TODO: Define AdditionError
             raise AdditionError("One or both nodes not in the graph")
     
+        # add weight to lookup dictionary, if it isn't already there
+        # add weight in one direction
+        if node_2 in self._distance_lookup[node_1]:
+            if not edge.weight in self._distance_lookup[node_1][node_2]:
+                edge_list_distance_lookup = \
+                    self._distance_lookup[node_1][node_2]
+                edge_list_distance_lookup.append(edge.weight)
+        else:
+            edge_list_distance_lookup = list()
+            edge_list_distance_lookup.append(edge.weight)
+            self._distance_lookup[node_1][node_2] = edge_list_distance_lookup
+
+        # add weight in other direction
+        if node_1 in self._distance_lookup[node_2]:
+            if not edge.weight in self._distance_lookup[node_2][node_1]:
+                edge_list_distance_lookup = \
+                    self._distance_lookup[node_2][node_1]
+                edge_list_distance_lookup.append(edge.weight)
+        else:
+            edge_list_distance_lookup = list()
+            edge_list_distance_lookup.append(edge.weight)
+            self._distance_lookup[node_2][node_1] = edge_list_distance_lookup
+
+
     def remove_edge(self, edge):
         """
         Remove an edge.
 
         @type   edge: edge
-        @param  node1: Edge to remove
+        @param  edge: Edge to remove
         """
-        if self.is_undirected :
-            edge_list = self._graph_nodes[edge.node_1][edge.node_2]
-            edge_list.remove(edge)
+        edge_list = self._graph_nodes[edge.node_1][edge.node_2]
+        edge_list.remove(edge)
 
-            # if there are no more edges in the list, delete the neighbour
-            if not self._graph_nodes[edge.node_1][edge.node_2]:
-                del(self._graph_nodes[edge.node_1][edge.node_2])
+        # if there are no more edges in the list, delete the neighbour
+        if not self._graph_nodes[edge.node_1][edge.node_2]:
+            del(self._graph_nodes[edge.node_1][edge.node_2])
 
-            edge_list = self._graph_nodes[edge.node_2][edge.node_1]
-            edge_list.remove(edge)
+        edge_list = self._graph_nodes[edge.node_2][edge.node_1]
+        edge_list.remove(edge)
 
-            # if there are no more edges in the list, delete the neighbour
-            if not self._graph_nodes[edge.node_2][edge.node_1]:
-                del(self._graph_nodes[edge.node_2][edge.node_1])
-        else:
-            edge_list = self._graph_nodes[edge.node_1][edge.node_2]
-            edge_list.remove(edge)
-
-            # if there are no more edges in the list, delete the neighbour
-            if not self._graph_nodes[edge.node_1][edge.node_2]:
-                del(self._graph_nodes[edge.node_1][edge.node_2])
-
+        # if there are no more edges in the list, delete the neighbour
+        if not self._graph_nodes[edge.node_2][edge.node_1]:
+            del(self._graph_nodes[edge.node_2][edge.node_1])
 
         del(edge)
         self._edge_count -= 1
@@ -113,8 +122,8 @@ class Graph:
         """
         Return all nodes that are connected to the given node.
 
-        @type: node:node
-        @param: Node
+        @type   node: node
+        @param  node: Node
 
         @rtype: dict
         @return: A dict of all nodes that are connected to the node.
@@ -125,8 +134,8 @@ class Graph:
         """
         Return all edges that are connected to the given node.
 
-        @type: node:node
-        @param: Node
+        @type   node: node
+        @param  node: Node
 
         @rtype: list
         @return: A list of all edges that are connected to the node.
@@ -142,20 +151,43 @@ class Graph:
     def contains_node(self, node):
         """ 
         Checks, if a given node is in the graph or not.
+
+        @type   node: node
+        @param  node: Node
         
         @rtype:  boolean
         @return: true, if the node is in the graph, otherwise false
         """
         return node in  self._graph_nodes
 
+    #TODO: Does it work?
+    def contains_edge(self, node_1, node_2):
+        '''
+        Checks, if a given edge (represented by node_1 and node_2 is 
+        in the graph or not.
+        We use nodes, becaues we may node hav the edge itself, if we have it,
+        we can just take it's to nodes.
+
+        @type   node_1: node
+        @param  node_1: Node on one side of the edge
+
+        @type   node_2: node
+        @param  node_2: Node on the other side of the edge
+
+        @rtype: boolean
+        @return: true, if the edge is in the graph, otherwise false
+        '''
+
+        return node_2 in self._graph_nodes[node_1]
+
     def edge_by_nodes(self, node_1, node_2):
         '''
         Return a list of edges between two nodes
 
-        @type: node_1:node
-        @param: Node on one end of the edge
-        @type: node_2:node
-        @param: Node on the other end of the edge
+        @type   node_1: node
+        @param  node_1: Node on one end of the edge
+        @type   node_2: node
+        @param  node_2: Node on the other end of the edge
 
         @rtype: list
         @return: List of edges between the given nodes
@@ -163,25 +195,21 @@ class Graph:
 
         return self._graph_nodes[node_1][node_2]
 
-    @property
-    def odd_nodes(self):
+    def lookup_distance(self, node_1, node_2):
         '''
-        Returns a list of all odd nodes in the graph.
+        Return all destances between two nodes.
 
         @rtype: list
-        @return: List of all odd nodes in the graph.
+        @return: List of distances beteeen two nodes.
         '''
-        odd_nodes = list() # list to store odd nodes
-
-        for node in self._graph_nodes.keys():
-            if len(self._graph_nodes[node]) % 2 == 1:
-                # set an odd_node_nr for every odd node, it is needed to
-                # calculate the perfect matching
-                node.odd_node_nr = self._odd_node_count
-                self._odd_node_count += 1
-                odd_nodes.append(node)
-
-        return odd_nodes
+        #TODO: Define NodeNotFoundError
+        if node_1 in self._distance_lookup:
+            if node_2 in self._distance_lookup[node_1]:
+                return self._distance_lookup[node_1][node_2]
+            else:
+                raise NodeNotFoundError('Node 2 has no connection to node 1')
+        else:
+            raise NodeNotFoundError('Node 1 is not in the graph')
 
     @property
     def nodes(self):
@@ -245,25 +273,12 @@ class Graph:
         '''
         return self._edge_count
 
-    #TODO: is there a better way to copy the graph?
-    @property
-    def copy(self):
-        ''' 
-        Copy the whole graph, it contains the same edges and nodes as the
-        original, but everything else is a copy and not a reference.
-
-        @rtype: graph
-        @return: An copy of the graph
+    @ property
+    def distance_lookup(self):
         '''
+        Return the distance lookup directory.
 
-        graph = Graph(self.is_undirected)
-        for node in self._graph_nodes.keys():
-            graph.add_node(node)
-
-        #TODO: Find a better way to do that, three for loops are ugly
-        for node_1 in self._graph_nodes.keys():
-            for node_2 in self._graph_nodes[node_1]:
-                for edge in self._graph_nodes[node_1][node_2]:
-                    graph.add_edge(edge)
-
-        return graph
+        @rtype: dictionary
+        @return: Dictionary that contains all distances of the graph.
+        '''
+        return self._distance_lookup
