@@ -47,6 +47,10 @@ class Matcher:
                    odd_nodes[odd_node_nr] = node
                    odd_node_nr += 1
 
+        # if all nodes are even, we don't have to do a perfect matching
+        if len(odd_nodes) == 0:
+            return graph
+
         # add node s and t if the variable add_s_t is true
         if add_s_t:
             odd_nodes[odd_node_nr] = graph.node_s

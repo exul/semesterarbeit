@@ -3,6 +3,7 @@ syntax: regexp
 
 (^|/)\.
 __pycache__
+.orig
 .png
 .pyc
 .txt
