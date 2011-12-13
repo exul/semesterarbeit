@@ -15,19 +15,10 @@ writer = Writer()
 #graph = reader.euler_2d('data/in/eil101.tsp')
 #graph_tsp = reader.euler_2d('data/in/eil51.tsp')
 #graph_hpp = reader.euler_2d('data/in/eil51.tsp', 39, 41)
-#graph = reader.euler_2d('data/in/a280.tsp')
-#graph = reader.euler_2d('data/in/ch130.tsp')
-#graph = reader.euler_2d('data/in/fl1400.tsp')
-#graph = reader.euler_2d('data/in/kroA100.tsp')
-#graph = reader.euler_2d('data/in/ulysses22.tsp')
-#graph = reader.euler_2d('data/in/bier127.tsp')
-#graph = reader.euler_2d('data/in/bayg29.tsp')
-#graph = reader.euler_2d('data/in/float.tsp')
-#graph = reader.euler_2d('data/in/int.tsp')
 #graph_tsp = reader.euler_2d('data/in/graph.tsp')
 #graph_hpp = reader.euler_2d('data/in/graph.tsp', 5, 6)
-graph_tsp = reader.euler_2d('data/in/graph_zz.tsp')
-graph_hpp = reader.euler_2d('data/in/graph_zz.tsp', 1, 9)
+graph_tsp = reader.euler_2d('data/in/graph_zz.tsp') # opt 288
+graph_hpp = reader.euler_2d('data/in/graph_zz.tsp', 1, 15) # opt 196
 
 print('Graph is created')
 
