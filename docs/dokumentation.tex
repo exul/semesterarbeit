@@ -1,6 +1,6 @@
-%        Fil: scheduling.tex
-%     Created: Mon Apr 11 06:00 PM 2011 C
-% Last Change: Mon Apr 11 06:00 PM 2011 C
+%        Fil: dokumentation.tex
+%     Created: Mon Nov 13 22:45 PM 2011 C
+% Last Change: Mon Nov 13 22:45 PM 2011 C
 %
 \documentclass[a4paper]{article}
 
@@ -63,7 +63,7 @@ Dozent: Dr. Hans-Joachim Böckenhauer}
 \subsection{Ziel und Vorgehensweise}
 Ziel dieser Arbeit ist es, die Win/Win Strategie des Papers "`Structural properties of hard metric TSP inputs"'\cite{moemke11} zu Implementieren. Anschliessend wird die Implementation zur Berechnung verschiedener Problemstellungen verwendet. Das Ergebnis wird mit den theoretisch erwarteten Resultaten verglichen und ausgewertet.
 
-Um ein Verständnis für die Implementation zu entwickeln, werden das Traveling Salesman Problem, die Grundlagen von Win/Win Strategien und die verwendeten Algorithmen vorgestellt. Danach werden die wichtigsten Teile der Implementation erklärt, bevor dann die Ergebnisse ausgewertet werden. 
+Um ein Verständnis für die Implementation zu entwickeln, werden das Traveling Salesman Problem (TSP), die Grundlagen von Win/Win Strategien und die verwendeten Algorithmen vorgestellt. Danach werden die wichtigsten Teile der Implementation erklärt, bevor dann die Ergebnisse ausgewertet werden. 
 
 \subsection{Abgrenzung}
 \subsection{Motivation}
@@ -71,11 +71,24 @@ Mich fasziniert, dass die Problembeschreibung sehr einfach ist, die Lösung jedo
 Ausserdem lassen sich viele Überlegungen mit Papier und Stift aufzeichnen, ohne das ein Computer benötigt wird. 
 
 \newpage
-\section{Traveling Salesman Problem}
+\section{Traveling Salesman Problem (TSP)}
 \subsection{Problembeschreibung}
 \subsection{Geschichte}
 %TODO: Erste Erwähnung: Leonard Euler, Knights Tour
-Die Herkunft der Bezeichnung "`Traveling Salesman Problem"' ist nicht genau bekannt.\footnote{vgl. \cite{applegate06} Seite 1} 
+Der Urheber der Bezeichnung "`Traveling Salesman Problem"' ist nicht genau bekannt. Es ist jedoch klar, dass damit das Auffinden der kürzesten Rundreise eines Handelsreisenden gemeint ist.\footnote{vgl. \cite{applegate06} Seite 1-3} 1983 publizierte Heiner Müller-Merbach in seinem Paper\cite{mueller83} einen Ausschnitt aus dem Buch "`Der Handlungsreisende – wie er sein soll und was er zu thun hat, um Aufträge zu erhalten und eines glücklichen Erfolgs in seinen Geschäften gewiß zu sein – von einem alten Commis-Voyageur"' in dem die Wichtigkeit einer guten Route beschrieben:  
+\begin{quotation}
+Die Geschäfte führen Handlungsreisende bald hier, bald dort hin, und es lassen sich nicht füglich Reiserouten angeben, die für alle vorkommende Fälle passend sind: aber es kann durch eine zweckmäßige Wahl und Eintheilung der Tour, manchmal so viel Zeit gewonnen werden, dass wir es nicht glauben umgehen zu dürfen, auch hierüber einige Vorschriften zu geben. Ein Jeder möge so viel davon benutzen, als es seinem Zwecke für dienlich hält: so viel glauben wir aber davon versichern zu dürfen, daß es nicht wohl thunlich sein wird, die Touren durch Deutschland in Absicht der Entfernungen und, worauf der Reisende hauptsächlich zu sehen hat, des Hin- und Herreisens, mit mehr Oekonomie einzurichten. Die Hauptsache besteht immer darin: so viele Orte wie möglich mitzunehmen, ohne den nämlichen Ort zweimal berühren zu müssen.
+\end{quotation}
+
+Auch wenn das Problem in diesem Buch nicht mathematisch analysiert wird, beschreibt der Text das Traveling Salesman Problem. 
+
+Eine der ersten mathematischen Analysen des Problem stammen aus dem Jahr 1757 vom berühmten Schweizer Mathematiker Leonard Euler. Er veröffentlichte ein Paper, in dem er eine Lösung zur "`Knights Tour"' vorstellte. Beim "`Knights Tour"' soll auf einem Schachbrett mit dem Springer eine Folge von Sprüngen gefunden werden, so dass jedes Feld genau einmal besucht wird und der Springer am Ende wieder auf seinem Startfeld steht.
+
+Dieses Problem kann als TSP formuliert werden. Die Wegkosten zu den mittels einem Springer erreichbaren Felder sind 0, die Kosten zu den nicht erreichbaren Felder sind 0.\footnote{vgl. \cite{applegate06} Seite 8-10}
+
+\medskip
+
+Als Geburtsstunde des Traveling Salesman Problems gelten jedoch die 1930er Jahre, damals startete die Erforschung des Problems an der Princeton Universität.
 
 \subsection{NP-Schwere}
 \subsection{Modellierung}
