@@ -13,12 +13,12 @@ writer = Writer()
 
 # read graph data/in from file
 #graph = reader.euler_2d('data/in/eil101.tsp')
-#graph_tsp = reader.euler_2d('data/in/eil51.tsp')
-#graph_hpp = reader.euler_2d('data/in/eil51.tsp', 39, 41)
+graph_tsp = reader.euler_2d('data/in/eil51.tsp') # opt 426
+graph_hpp = reader.euler_2d('data/in/eil51.tsp', 43, 45) # opt 418
 #graph_tsp = reader.euler_2d('data/in/graph.tsp')
 #graph_hpp = reader.euler_2d('data/in/graph.tsp', 5, 6)
-graph_tsp = reader.euler_2d('data/in/graph_zz.tsp') # opt 288
-graph_hpp = reader.euler_2d('data/in/graph_zz.tsp', 1, 15) # opt 196
+#graph_tsp = reader.euler_2d('data/in/graph_zz.tsp') # opt 288
+#graph_hpp = reader.euler_2d('data/in/graph_zz.tsp', 1, 15) # opt 196
 
 print('Graph is created')
 
@@ -95,7 +95,7 @@ for i in range(len(nodes_tsp)):
     if i > 0:
         cost_tsp += graph_tsp.lookup_distance(nodes_tsp[i-1], nodes_tsp[i])[0]
 
-print('TSP: This tour costs {0}, je visited {1} nodes.'.format(cost_tsp, i))
+print('TSP: This tour costs {0}, we visited {1} nodes.'.format(cost_tsp, i))
 
 # calculate HPP costs
 cost_hpp = 0
@@ -103,7 +103,7 @@ for i in range(len(nodes_hpp)):
     if i > 0:
         cost_hpp += graph_hpp.lookup_distance(nodes_hpp[i-1], nodes_hpp[i])[0]
 
-print('HPP: This tour costs {0}, je visited {1} nodes.'.format(cost_hpp, i+1))
+print('HPP: This tour costs {0}, we visited {1} nodes.'.format(cost_hpp, i+1))
 
 # TODO: only to create graphics, not needed for the algorithm
 plt.save_file()

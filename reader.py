@@ -76,4 +76,6 @@ class Reader:
                     #       node_2 node_1 with weight 5 is added too
                     break
 
+        f.close()
+
         return graph
