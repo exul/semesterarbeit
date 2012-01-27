@@ -252,16 +252,6 @@ class Graph:
         """
         return len(self._graph_nodes)
 
-    @property
-    def is_undirected(self):
-        """ 
-        Returns if a graph is undirected (True) or not (False).
-        
-        @rtype: boolean
-        @return: True or False
-        """
-        return self._is_undirected
-
     @ property
     def edge_count(self):
         '''
