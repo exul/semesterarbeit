@@ -14,7 +14,7 @@ writer = Writer()
 # read graph data/in from file
 #graph = reader.euler_2d('data/in/eil101.tsp')
 graph_tsp = reader.euler_2d('data/in/eil51.tsp') # opt 426
-graph_hpp = reader.euler_2d('data/in/eil51.tsp', 43, 45) # opt 418
+graph_hpp = reader.euler_2d('data/in/eil51.tsp', 40, 36) # opt 403
 #graph_tsp = reader.euler_2d('data/in/graph.tsp')
 #graph_hpp = reader.euler_2d('data/in/graph.tsp', 5, 6)
 #graph_tsp = reader.euler_2d('data/in/graph_zz.tsp') # opt 288
