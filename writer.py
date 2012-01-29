@@ -68,7 +68,7 @@ class Writer:
                 .format(edge.node_1.nr, edge.node_2.nr, edge.weight), file=f)
 
 
-    def write_matrix(self, graph, file_location):
+    def write_matrix(self, graph, file_location, dummy_city=False):
         '''
         Write a graph to a file, edges are represented in a matrix
 
@@ -88,6 +88,9 @@ class Writer:
         # create header
         dimension = len(nodes)
 
+        if dummy_city:
+            dimension += 1
+
         print('NAME: cities {0}'.format(dimension),file=f)
         print('TYPE: TSP', file=f)
         print('COMMENT: Semesterarbeit', file=f)
@@ -95,6 +98,13 @@ class Writer:
         print('EDGE_WEIGHT_TYPE: EXPLICIT', file=f)
         print('EDGE_WEIGHT_FORMAT: UPPER_ROW', file=f)
         print('EDGE_WEIGHT_SECTION', file=f)
+
+        # write dummy city if needed (to calculate hpp instead of tsp)
+        # TODO: Not really nice
+        if dummy_city:
+            for i in range(dimension-1):
+                print('0',end=" ",file=f)
+            print('',file=f)
 
         # write all distances between a node an all its neighbours on one line
         for idx, node in enumerate(nodes):
