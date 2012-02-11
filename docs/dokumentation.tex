@@ -16,6 +16,9 @@
 % handle positions
 \usepackage{float}
 
+% additional math stuff
+\usepackage{amsmath,amssymb,environ,esdiff,mathtools}
+
 % set borders
 \usepackage{a4wide}
 
@@ -24,6 +27,9 @@
 
 % expand table formatting
 \usepackage{array}
+
+% describe algorithms
+\usepackage{algorithm}
 
 % header and footer
 \usepackage{fancyhdr}
@@ -74,7 +80,6 @@ Ausserdem lassen sich viele Überlegungen mit Papier und Stift aufzeichnen, ohne
 \section{Traveling Salesman Problem (TSP)}
 \subsection{Problembeschreibung}
 \subsection{Geschichte}
-%TODO: Erste Erwähnung: Leonard Euler, Knights Tour
 Der Urheber der Bezeichnung "`Traveling Salesman Problem"' ist nicht genau bekannt. Es ist jedoch klar, dass damit das Auffinden der kürzesten Rundreise eines Handelsreisenden gemeint ist.\footnote{vgl. \cite{applegate06} Seite 1-3} 1983 publizierte Heiner Müller-Merbach in seinem Paper\cite{mueller83} einen Ausschnitt aus dem Buch "`Der Handlungsreisende – wie er sein soll und was er zu thun hat, um Aufträge zu erhalten und eines glücklichen Erfolgs in seinen Geschäften gewiß zu sein – von einem alten Commis-Voyageur"' in dem die Wichtigkeit einer guten Route beschrieben:  
 \begin{quotation}
 Die Geschäfte führen Handlungsreisende bald hier, bald dort hin, und es lassen sich nicht füglich Reiserouten angeben, die für alle vorkommende Fälle passend sind: aber es kann durch eine zweckmäßige Wahl und Eintheilung der Tour, manchmal so viel Zeit gewonnen werden, dass wir es nicht glauben umgehen zu dürfen, auch hierüber einige Vorschriften zu geben. Ein Jeder möge so viel davon benutzen, als es seinem Zwecke für dienlich hält: so viel glauben wir aber davon versichern zu dürfen, daß es nicht wohl thunlich sein wird, die Touren durch Deutschland in Absicht der Entfernungen und, worauf der Reisende hauptsächlich zu sehen hat, des Hin- und Herreisens, mit mehr Oekonomie einzurichten. Die Hauptsache besteht immer darin: so viele Orte wie möglich mitzunehmen, ohne den nämlichen Ort zweimal berühren zu müssen.
@@ -82,29 +87,55 @@ Die Geschäfte führen Handlungsreisende bald hier, bald dort hin, und es lassen
 
 Auch wenn das Problem in diesem Buch nicht mathematisch analysiert wird, beschreibt der Text das Traveling Salesman Problem. 
 
-Eine der ersten mathematischen Analysen des Problem stammen aus dem Jahr 1757 vom berühmten Schweizer Mathematiker Leonard Euler. Er veröffentlichte ein Paper, in dem er eine Lösung zur "`Knights Tour"' vorstellte. Beim "`Knights Tour"' soll auf einem Schachbrett mit dem Springer eine Folge von Sprüngen gefunden werden, so dass jedes Feld genau einmal besucht wird und der Springer am Ende wieder auf seinem Startfeld steht.
+Eine der ersten mathematischen Analysen des Problem stammen aus dem Jahr 1757 vom berühmten Schweizer Mathematiker Leonard Euler. Er veröffentlichte ein Paper, in dem er eine Lösung zur "`Knights Tour"' vorstellte. Bei der "`Knights Tour"' soll auf einem Schachbrett mit dem Springer eine Folge von Sprüngen gefunden werden, so dass jedes Feld genau einmal besucht wird und der Springer am Ende wieder auf seinem Startfeld steht.
 
 Dieses Problem kann als TSP formuliert werden. Die Wegkosten zu den mittels einem Springer erreichbaren Felder sind 0, die Kosten zu den nicht erreichbaren Felder sind 0.\footnote{vgl. \cite{applegate06} Seite 8-10}
 
 \medskip
 
-Als Geburtsstunde des Traveling Salesman Problems gelten jedoch die 1930er Jahre, damals startete die Erforschung des Problems an der Princeton Universität.
+Einer der bedeutensten frühen Forscher auf dem Gebiet, Merril Flood, sagte in einem Interview, dass der Begriff "`Traveling Salesman Problem"' in den 1930er Jahren als Synonym für das "`48 States Problem"' von Hassler Whitney an der Princeton Universität verwendet wurde. Wer genau die Bezeichnung eingeführt habe, wisse er jedoch nicht.\cite{interview_merrill_flood84}
+
+Abschliessend ist somit nicht auszumachen, wann genau die Forschung auf dem Gebiet des Traveling Salesman Problems begonnen hat.
 
 \subsection{NP-Schwere}
 \subsection{Modellierung}
 \subsection{Lösungsverfahren}
+\subsubsection{Exakte Lösungsverfahren}
+\subsubsection{Heuristische Lösungsverfahren}
 \newpage
 \section{Win/Win Strategie}
 \subsection{Grundidee}
 \subsection{Anwendung für das Traveling Salesman Problem}
 \newpage
 \section{Algorithmen}
+Der verwendete Algorithmus berechnet sowohl den Hamiltonpfad, wie auch den Hamiltonkreis. Die Berechnung basiert auf dem Paper "`Structural Properties of Hard Metric TSP Inputs"'\cite{moemke11} (dieser wurde bereits im Paper "`Improved Approximations for TSP with Simple Precedence Constraints"'\cite{boeckenhauer10} vorgestellt).
+
+Der Algorithmus finktioniert wie folgt:
+\begin{algorithm}
+    \caption{Hamiltonpfad und -kreis \cite{moemke11}}
+\textbf{Eingabe:} Ein kompletter Graph $G = (V,E)$, eine metrische Kostenfunktion $c: E \rightarrow \mathbb{Q}^+$ und zwei Knoten $s$ und $t$.
+    \begin{itemize}
+        \item[1.] Minimalen Spannbaum $T$ von $G$ berechnen.
+        \item[2.] Minimales Perfect Matching $M_C$ der ungeraden Knoten des minimalen Spannbaumes $T$ von $G$ berechnen.
+        \item[3.] Minimales Perfect Matching $M_P$ der ungeraden Knoten des Multigraphen $T$ + \{$s$, $t$\} von $G$ berechnen.
+        \item[4.] Die Eulertour Eul$_C$ des Multigraphen T $\cup$ $M_C$ und den Eulerpfad Eul$_P$ des Multigraphen T $\cup$ $M_P$ berechnen.
+        \item[5.] Eul$_C$ zu einer Hamiltontour $H_C$ und Eul$_P$ zu einem Hamiltonpfad $H_P$ kürzen.
+    \end{itemize}
+\textbf{Ausgabe:} $H_C$ and $H_P$.
+
+\end{algorithm}
+
+Die zur berechnung verwendeten Schritte werden hier einzeln beschrieben.
+
 \subsection{Minimaler Spannbaum - Algorithmus von Prim}
+
+
 \subsection{Minimales Perfektes Matching - Blossom V}
 \subsection{Eulerkreis - Hierholzer}
 \subsection{Kürzung Eulerkreis/Eulerpfad zu Hamiltonkreis/Hamiltonpfad}
 \newpage
 \section{Implementation}
+%TODO: Einleitung: Verwendete Programmiersprache, Unittesting, etc.
 \subsection{Datenstrukturen}
 \subsubsection{Graph}
 \subsubsection{Knoten}
