@@ -47,9 +47,9 @@
     \begin{frame}
         \frametitle{Beispiel}
 	    \begin{itemize}
-                \item TSP: Weg 15\% schlechter als das Optimum
-                \item HPP: Weg 14\% schlechter als das Optimum
-                \item Kaum unterschiede zwischen TSP und HPP
+                \item TSP: 15.7\% schlechter als das Optimum
+                \item HPP: 14.8\% schlechter als das Optimum
+                \item Kaum Unterschiede zwischen TSP und HPP
             \end{itemize}
     \end{frame}
 
@@ -64,8 +64,8 @@
     \begin{frame}
         \frametitle{Beispiel}
 	    \begin{itemize}
-                \item TSP: Weg 6\% schlechter als das Optimum
-                \item HPP: Weg 1\% schlechter als das Optimum
+                \item TSP: 44.8\% schlechter als das Optimum
+                \item HPP: Optimum
                 \item HPP ist TSP überlegen
             \end{itemize}
     \end{frame}
@@ -75,7 +75,7 @@
         \frametitle{Vorgehen}
 	    \begin{itemize}
                 \item Berechnung exakte Lösung mit Concorde für TSP
-                \item Einfügen einer Dummy-City (Distanz 0 zu allen Städten)
+                \item Einfügen einer Dummy-Stadt (Distanz 0 zu allen Städten)
                 \item Berechnung exakte Lösung mit Concorde für HPP
                 \item Beginn und Ende der Route werden als s und t verwendet
                 \item Berechnung der Lösung mittels eigener Implementation
@@ -84,12 +84,21 @@
 
     \section{Weitere Planung}
     \begin{frame}
-        \frametitle{Geplante Auswertungen}
+        \frametitle{Weitere Planung}
 	    \begin{itemize}
                 \item Beschreibung Win/Win
                 \item Dokumentation Algorithmen
-                \item Benchmarks TSPLIB
-                \item Benchmarks generierte Probleme
+                \item Weitere Berechnungen TSPLIB
+                \item Weitere Berechnungen generierte Probleme
+            \end{itemize}
+    \end{frame}
+
+    \section{Schwierige Punkte}
+    \begin{frame}
+        \frametitle{Schwierige Punkte}
+	    \begin{itemize}
+                \item Keine Benchmarks zu HPP
+                \item TSPLIB nur bis 3D
             \end{itemize}
     \end{frame}
 

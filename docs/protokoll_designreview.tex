@@ -1,0 +1,72 @@
+%        File: protokoll.tex
+%     Created: Thu Oct 13 10:00 AM 2011 C
+% Last Change: Thu Oct 13 10:00 AM 2011 C
+%
+
+\documentclass[a4paper]{article}
+
+% german dictionary
+\usepackage[ngerman]{babel}
+
+% enconding
+\usepackage[utf8]{inputenc}
+
+% graphics
+\usepackage{graphicx}
+
+% handle positions
+\usepackage{float}
+
+% set borders
+\usepackage{a4wide}
+
+% use URLs
+\usepackage{url}
+
+% use tables over multiple pages
+\usepackage{longtable}
+
+% span a cell over multiple rows
+\usepackage{multirow}
+
+% expand table formatting
+\usepackage{array}
+
+% header and footer
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+
+\fancyhead[L]{Design-Review Semesterarbeit}
+\fancyhead[R]{Beschlussprotokoll}
+
+\fancyfoot[L]{Andreas Brönnimann}
+\fancyfoot[R]{30.01.2012}
+\renewcommand{\footrulewidth}{0.5pt}
+
+\begin{document}
+\begin{longtable}{p{7cm} p{7cm}}
+ \hline
+ \multirow{2}{*}{\textbf{Teilnehmer}}  & Dr. Hans-Joachim Böckenhauer\\
+         								& Andreas Brönnimann\\
+ \hline
+	\textbf{Ort} & Zürich, ETH CAB F11\\
+ \hline
+	\textbf{Datum} & Montag, 30.01.2012\\
+\hline
+\end{longtable}
+
+\textbf{Beschlüsse}
+\begin{itemize}
+	\item Aufgabenstellung muss nicht angepasst werden
+        \item Für Problemstellungen mit Dimensionen \textgreater 3D können nur selbst erstellte Instanzen verwendet werden
+\end{itemize}
+
+\textbf{Weitere Planung}
+\begin{itemize}
+	\item Beschreibung der Win/Win Strategie
+        \item Algorithmen dokumentieren
+        \item Weitere TSPLIB-Probleme berechnen
+        \item Weitere generierte Probleme berechnen
+\end{itemize}
+\end{document}
