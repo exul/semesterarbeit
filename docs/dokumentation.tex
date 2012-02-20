@@ -69,7 +69,7 @@ Dozent: Dr. Hans-Joachim Böckenhauer}
 \subsection{Ziel und Vorgehensweise}
 Ziel dieser Arbeit ist es, die Win/Win Strategie des Papers "`Structural properties of hard metric TSP inputs"'\cite{moemke11} zu Implementieren. Anschliessend wird die Implementation zur Berechnung verschiedener Problemstellungen verwendet. Das Ergebnis wird mit den theoretisch erwarteten Resultaten verglichen und ausgewertet.
 
-Um ein Verständnis für die Implementation zu entwickeln, werden das Traveling Salesman Problem (TSP), die Grundlagen von Win/Win Strategien und die verwendeten Algorithmen vorgestellt. Danach werden die wichtigsten Teile der Implementation erklärt, bevor dann die Ergebnisse ausgewertet werden. 
+Um ein Verständnis für die Implementation zu entwickeln, werden das Traveling Salesman Problem (TSP oder übersetzt: das Problem des Handlungsreisenden), die Grundlagen von Win/Win Strategien und die verwendeten Algorithmen vorgestellt. Danach werden die wichtigsten Teile der Implementation erklärt, bevor dann die Ergebnisse ausgewertet werden. 
 
 \subsection{Abgrenzung}
 \subsection{Motivation}
@@ -97,10 +97,10 @@ Einer der bedeutensten frühen Forscher auf dem Gebiet, Merril Flood, sagte in e
 
 Abschliessend ist somit nicht auszumachen, wann genau die Forschung auf dem Gebiet des Traveling Salesman Problems begonnen hat.
 
-\subsection{$\mathcal{NP}$-Vollständigkeit}
+\subsection{NP-Vollständigkeit}
 Das Traveling Salesman Problem ist eines der bekanntesten NP\footnote{Nondeterministic Polynomial-Time}-Vollständigen Probleme. 
 
-Es wird auch in der Liste von Karps 21 $\mathcal{NP}$-Vollständigen Problemen aufgeführt. Die 1972 veröffentlichte List\cite{karp72} enthält sowohl das gerichtete, wie auch das ungerichtete Hamiltonkreisproblem (das TSP ist ein Spezialfall des Hamiltonkreisproblem). 
+Es wird auch in der Liste von Karps 21 NP-Vollständigen Problemen aufgeführt. Die 1972 veröffentlichte List\cite{karp72} enthält sowohl das gerichtete, wie auch das ungerichtete Hamiltonkreisproblem (das TSP ist ein Spezialfall des Hamiltonkreisproblem). 
 
 \medskip
 
@@ -109,16 +109,20 @@ In Hopcrofts "`Einführung in die Automatentheorie, formale Sprachen und Komplex
 Sei $L$ eine Sprache (eine Problem) in $\mathcal{NP}$. Wir sagen $L$ ist NP-vollständig, wenn folgende Aussagen über $L$ wahr sind:
 \begin{itemize}
     \item L ist in $\mathcal{NP}$ enthalten.
-    \item Für jede Sprache L' in $\mathcal{NP}$ existiert eine polynomiale Reduktion von L' auf L.
+    \item Für jede Sprache $L'$ in $\mathcal{NP}$ existiert eine polynomiale Reduktion von $L'$ auf $L$.
 \end{itemize}
 
-\subsubsection{Komplexitätsklasse NP}
-
-
-\subsubsection{NP-schwierig}
+%TODO: Genauere Beschreibung, warum TSP NP-Vollständig
+%Oder anders ausgedrückt: Wenn wir von einem Problem $L$ wissen, dass es in $\mathcal{NP}$ ist und wir unser Problem $P$ mit polynomialen Zeitaufwand auf das Problem $L$ abbilden können, dann ist $P$ NP-vollständig.
 
 \subsection{Modellierung}
+Das Problem des Handlungsreisenden wird für diese Arbeit (wie in vielen anderen Beispielen) als Graph modelliert. Dabei repräsentieren die Knoten die Städte und die Kanten die Kosten um von einer Stadt zur nächsten zu gelangen. Dabei sind die Kosten um von $A$ nach $B$ zu gelangen äquivalten zu den Kosten von $B$ nach $A$, es handelt sich also um einen ungerichteten Graphen.
+
+Da alle Möglichen Routen berücksichtigt werden müssen, wird ein Vollständiger Graph verwendet, d.h. jeder Knoten ist mit jedem Knoten verbunden.
+
 \subsection{Lösungsverfahren}
+Neben dem hier vorgestellten Algorithmus existieren viele weitere Lösungsverfahren. Zum Vergleich sollen einige dieser Verfahren kurz vorgestellt werden.
+
 \subsubsection{Exakte Lösungsverfahren}
 \subsubsection{Heuristische Lösungsverfahren}
 \newpage
@@ -160,6 +164,7 @@ Die zur berechnung verwendeten Schritte werden hier einzeln beschrieben.
 \subsubsection{Knoten}
 \subsubsection{Kante}
 %TODO: Gewichte sind immer int Werte, verweis auf TSPLIB Doku
+\subsubsection{Unittests}
 \subsection{Minimaler Spannbaum}
 \subsubsection{Eulerkreis}
 
