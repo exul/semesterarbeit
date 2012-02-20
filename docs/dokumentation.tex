@@ -97,12 +97,20 @@ Einer der bedeutensten frühen Forscher auf dem Gebiet, Merril Flood, sagte in e
 
 Abschliessend ist somit nicht auszumachen, wann genau die Forschung auf dem Gebiet des Traveling Salesman Problems begonnen hat.
 
-\subsection{NP-Vollständigkeit}
+\subsection{$\mathcal{NP}$-Vollständigkeit}
 Das Traveling Salesman Problem ist eines der bekanntesten NP\footnote{Nondeterministic Polynomial-Time}-Vollständigen Probleme. 
 
-Es wird auch in der Liste von Karps 21 NP-Vollständigen Problemen aufgeführt. Die 1972 veröffentlichte List\cite{karp72} enthält sowohl das gerichtete, wie auch das ungerichtete Hamiltonkreisproblem (das TSP ist ein Spezialfall des Hamiltonkreisproblem). 
+Es wird auch in der Liste von Karps 21 $\mathcal{NP}$-Vollständigen Problemen aufgeführt. Die 1972 veröffentlichte List\cite{karp72} enthält sowohl das gerichtete, wie auch das ungerichtete Hamiltonkreisproblem (das TSP ist ein Spezialfall des Hamiltonkreisproblem). 
 
-NP-Vollständig bedeutet, dass das Problem zur Komplexitätsklasse NP gehört und dass das Problem NP-schwierig ist.\cite{stanford_npc}
+\medskip
+
+In Hopcrofts "`Einführung in die Automatentheorie, formale Sprachen und Komplexitätstheorie"' findet sich folgende Definition:\footnote{\cite{hopcroft02} Seite 432}
+
+Sei $L$ eine Sprache (eine Problem) in $\mathcal{NP}$. Wir sagen $L$ ist NP-vollständig, wenn folgende Aussagen über $L$ wahr sind:
+\begin{itemize}
+    \item L ist in $\mathcal{NP}$ enthalten.
+    \item Für jede Sprache L' in $\mathcal{NP}$ existiert eine polynomiale Reduktion von L' auf L.
+\end{itemize}
 
 \subsubsection{Komplexitätsklasse NP}
 
