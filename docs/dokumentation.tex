@@ -30,6 +30,7 @@
 
 % describe algorithms
 \usepackage{algorithm}
+\usepackage{algorithmic}
 
 % header and footer
 \usepackage{fancyhdr}
@@ -69,12 +70,24 @@ Dozent: Dr. Hans-Joachim Böckenhauer}
 \subsection{Ziel und Vorgehensweise}
 Ziel dieser Arbeit ist es, die Win/Win Strategie des Papers "`Structural properties of hard metric TSP inputs"'\cite{moemke11} zu Implementieren. Anschliessend wird die Implementation zur Berechnung verschiedener Problemstellungen verwendet. Das Ergebnis wird mit den theoretisch erwarteten Resultaten verglichen und ausgewertet.
 
-Um ein Verständnis für die Implementation zu entwickeln, werden das Traveling Salesman Problem (TSP oder übersetzt: das Problem des Handlungsreisenden), die Grundlagen von Win/Win Strategien und die verwendeten Algorithmen vorgestellt. Danach werden die wichtigsten Teile der Implementation erklärt, bevor dann die Ergebnisse ausgewertet werden. 
+Um ein Verständnis für die Implementation zu entwickeln, werden das Traveling Salesman Problem (TSP oder übersetzt: das Problem des Handlungsreisenden), die Grundlagen von Win/Win Strategien und die verwendeten Algorithmen vorgestellt. 
+
+Danach werden die wichtigsten Teile der Implementation erklärt, bevor dann die Ergebnisse ausgewertet werden. 
 
 \subsection{Abgrenzung}
+Diese Arbeit beschränkt sich auf die Implementation der Win/Win Strategie und die Auswertung der Ergebnisse. Neue Algorithmen zu finden ist nicht Teil dieser Arbeit.
+
 \subsection{Motivation}
 Mich fasziniert, dass die Problembeschreibung sehr einfach ist, die Lösung jedoch äusserst schwierig.
 Ausserdem lassen sich viele Überlegungen mit Papier und Stift aufzeichnen, ohne das ein Computer benötigt wird. 
+Abbildung \ref{img:simple_tsp} zeigt ein einfaches 6 Städte TSP, eine Mögliche Route ist dabei blau markiert. Offensichtlich ist es nicht die optimale Route. Das Bild zeigt jedoch, wie einfach man das Problem für kleine Instanzen analysieren kann, selbst ohne einen Rechner zu benutzen.
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=9cm]{gfx/simple_tsp}
+        \caption{einfaches 6 Städte TSP}
+        \label{img:simple_tsp}
+\end{figure}
 
 \newpage
 \section{Traveling Salesman Problem (TSP)}
@@ -124,34 +137,101 @@ Da alle Möglichen Routen berücksichtigt werden müssen, wird ein Vollständige
 Neben dem hier vorgestellten Algorithmus existieren viele weitere Lösungsverfahren. Zum Vergleich sollen einige dieser Verfahren kurz vorgestellt werden.
 
 \subsubsection{Exakte Lösungsverfahren}
+\begin{flushleft}
+\textbf{Brute Force}
+
+Bei dieser Methode werden alle möglichen Kombinationen berechnet, bei jeder Berechnung wird verglichen, ob die Lösung besser ist, als die bisher berechneten Lösungen. Offensichtlich ist dieses Vorgehen äusserst ineffizient. Für 20 Städte müssen 2'432'902'008'176'640'000 (20!) Permutationen berechnete werden, dies entspricht $\approx$ $10^{18}$, also $\approx2.5$ Trillionen Möglichkeiten. Das Lösungsverfahren hat somit eine Laufzeit von $\mathcal O(n!)$.
+%TODO: Genauere Ausführung: symmetrisch, asymmetrisch
+
+\end{flushleft}
+
+\medskip
+
+\begin{flushleft}
+\textbf{Branch-and-Cut}
+
+\end{flushleft}
+
+\medskip
+
+\begin{flushleft}
+\textbf{Held-Karp Algorithmus}
+\end{flushleft}
+
 \subsubsection{Heuristische Lösungsverfahren}
+\begin{flushleft}
+\textbf{Nearest-Neighbor-Heuristik}
+
+\end{flushleft}
+
+\medskip
+
+\begin{flushleft}
+\textbf{Ant Colony Optimization}
+
+\end{flushleft}
+
+\medskip
+
+\begin{flushleft}
+\textbf{MST-Heuristik}
+
+\end{flushleft}
 \newpage
 \section{Win/Win Strategie}
 \subsection{Grundidee}
 \subsection{Anwendung für das Traveling Salesman Problem}
 \newpage
 \section{Algorithmen}
-Der verwendete Algorithmus berechnet sowohl den Hamiltonpfad, wie auch den Hamiltonkreis. Die Berechnung basiert auf dem Paper "`Structural Properties of Hard Metric TSP Inputs"'\cite{moemke11} (dieser wurde bereits im Paper "`Improved Approximations for TSP with Simple Precedence Constraints"'\cite{boeckenhauer10} vorgestellt).
+Der verwendete Algorithmus berechnet sowohl den Hamiltonpfad, wie auch den Hamiltonkreis. Die Berechnung basiert auf dem Paper "`Structural Properties of Hard Metric TSP Inputs"'\cite{moemke11} (der Algorithmus wurde bereits im Paper "`Improved Approximations for TSP with Simple Precedence Constraints"'\cite{boeckenhauer10} vorgestellt).
 
-Der Algorithmus finktioniert wie folgt:
+Der Algorithmus funktioniert wie folgt:
 \begin{algorithm}
     \caption{Hamiltonpfad und -kreis \cite{moemke11}}
-\textbf{Eingabe:} Ein kompletter Graph $G = (V,E)$, eine metrische Kostenfunktion $c: E \rightarrow \mathbb{Q}^+$ und zwei Knoten $s$ und $t$.
-    \begin{itemize}
-        \item[1.] Minimalen Spannbaum $T$ von $G$ berechnen.
-        \item[2.] Minimales Perfect Matching $M_C$ der ungeraden Knoten des minimalen Spannbaumes $T$ von $G$ berechnen.
-        \item[3.] Minimales Perfect Matching $M_P$ der ungeraden Knoten des Multigraphen $T$ + \{$s$, $t$\} von $G$ berechnen.
-        \item[4.] Die Eulertour Eul$_C$ des Multigraphen T $\cup$ $M_C$ und den Eulerpfad Eul$_P$ des Multigraphen T $\cup$ $M_P$ berechnen.
-        \item[5.] Eul$_C$ zu einer Hamiltontour $H_C$ und Eul$_P$ zu einem Hamiltonpfad $H_P$ kürzen.
-    \end{itemize}
+\textbf{Eingabe:} Ein vollständiger Graph $G = (V,E)$, eine metrische Kostenfunktion $c: E \rightarrow \mathbb{Q}^+$ und zwei Knoten $s$ und $t$.
+    \begin{enumerate}
+        \item Minimalen Spannbaum $T$ von $G$ berechnen.
+        \item Minimales Perfect Matching $M_C$ der ungeraden Knoten des minimalen Spannbaumes $T$ von $G$ berechnen.
+        \item Minimales Perfect Matching $M_P$ der ungeraden Knoten des Multigraphen $T$ + \{$s$, $t$\} von $G$ berechnen.
+        \item Die Eulertour Eul$_C$ des Multigraphen T $\cup$ $M_C$ und den Eulerpfad Eul$_P$ des Multigraphen T $\cup$ $M_P$ berechnen.
+        \item Eul$_C$ zu einer Hamiltontour $H_C$ und Eul$_P$ zu einem Hamiltonpfad $H_P$ kürzen.
+    \end{enumerate}
 \textbf{Ausgabe:} $H_C$ and $H_P$.
 
 \end{algorithm}
 
 Die zur berechnung verwendeten Schritte werden hier einzeln beschrieben.
 
-\subsection{Minimaler Spannbaum - Algorithmus von Prim}
+\subsection{Eingabe}
+Für die Berechnung wird ein vollständiger Graph erstellt, d.h. jeder Knoten des Graphen ist mit jedem anderen Knoten verbunden.
 
+Damit der Hamiltonpfad berechnet werden kann, wird ein Startpunkt $s$ und ein Endpunkt $t$ benötigt.
+
+\subsection{Minimaler Spannbaum - Algorithmus von Prim}
+Auf dem als Eingabe erstellten vollständigen Graphen wird nun ein minimaler Spannbaum (MST) berechnet. Zur Berechnung des MST wird der Algorithmus von Prim genutzt.
+
+Um den minimalen Spannbaum zu finden werden folgende Schritte abgearbeitet\footnote{vgl. \cite{cormen07} Seiten 574-577}:
+
+%TODO: Wie soll der Algorithmus beschrieben werden?
+\begin{algorithm}
+\renewcommand{\algorithmicrequire}{\textbf{Eingabe:}}
+\renewcommand{\algorithmicensure}{\textbf{Ausgabe:}}
+\caption{minimaler Spannbaum}
+\begin{algorithmic} 
+\REQUIRE Ein vollständiger Graph $G$
+\ENSURE minimaler Spannbaum $M$
+    \STATE Wähle einen zufälligen Startknoten $S$ aus $G$
+    \STATE Suche die Kante $K_1$ mit dem minimalen Gewicht, die mit $S$ verbunden ist (falls mehrere mit $S$ verbindene Kanten das minimale Gewicht aufweisen, wähle zufällig eine aus)
+    \STATE Füge $K_1$ zum minimalen Spannbaum $M$ hinzu
+    \STATE Entferne die Kante $K_1$ aus $G$
+
+    \WHILE{$E(G) \ge 0 $}
+        \STATE Suche die Kante $K_n$ mit dem minimalen Gewicht, die mit $M$ verbunden ist (falls mehrere mit $M$ verbindene Kanten das minimale Gewicht aufweisen, wähle zufällig eine aus)
+        \STATE Füge $K_n$ zum minimalen Spannbaum $M$ hinzu
+        \STATE Entferne die Kante $K_n$ aus $G$
+    \ENDWHILE
+\end{algorithmic}
+\end{algorithm}
 
 \subsection{Minimales Perfektes Matching - Blossom V}
 \subsection{Eulerkreis - Hierholzer}
