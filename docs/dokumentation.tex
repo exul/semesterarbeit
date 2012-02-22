@@ -213,13 +213,12 @@ Auf dem als Eingabe erstellten vollständigen Graphen wird nun ein minimaler Spa
 Um den minimalen Spannbaum zu finden werden folgende Schritte abgearbeitet\footnote{vgl. \cite{cormen07} Seiten 574-577}:
 
 %TODO: Wie soll der Algorithmus beschrieben werden?
-\begin{algorithm}
+\begin{algorithm}[H]
 \renewcommand{\algorithmicrequire}{\textbf{Eingabe:}}
 \renewcommand{\algorithmicensure}{\textbf{Ausgabe:}}
 \caption{minimaler Spannbaum}
-\begin{algorithmic} 
+\begin{algorithmic}[1]
 \REQUIRE Ein vollständiger Graph $G$
-\ENSURE minimaler Spannbaum $M$
     \STATE Wähle einen zufälligen Startknoten $S$ aus $G$
     \STATE Suche die Kante $K_1$ mit dem minimalen Gewicht, die mit $S$ verbunden ist (falls mehrere mit $S$ verbindene Kanten das minimale Gewicht aufweisen, wähle zufällig eine aus)
     \STATE Füge $K_1$ zum minimalen Spannbaum $M$ hinzu
@@ -230,10 +229,16 @@ Um den minimalen Spannbaum zu finden werden folgende Schritte abgearbeitet\footn
         \STATE Füge $K_n$ zum minimalen Spannbaum $M$ hinzu
         \STATE Entferne die Kante $K_n$ aus $G$
     \ENDWHILE
+\ENSURE minimaler Spannbaum $M$
 \end{algorithmic}
 \end{algorithm}
 
 \subsection{Minimales Perfektes Matching - Blossom V}
+%TODO: Genauer beschreiben
+Das minimale Perfekt Matching wird mittels Blossom V Algorithmus berechnet. Der Blossom V Algortihmus ist eine Weiterentwicklung des bekannten Blossom Algorithmus, der 1965 Edmonds vorgestellt wurde.
+Für diesen Algorithmus wird eine bestehende Implementation verwendet. 
+
+
 \subsection{Eulerkreis - Hierholzer}
 \subsection{Kürzung Eulerkreis/Eulerpfad zu Hamiltonkreis/Hamiltonpfad}
 \newpage
