@@ -183,6 +183,7 @@ Bei dieser Methode werden alle möglichen Kombinationen berechnet, bei jeder Ber
 \subsection{Anwendung für das Traveling Salesman Problem}
 \newpage
 \section{Algorithmen}
+%TODO: Notation bei der beschreibung der Algorithmen vereinheitlichen
 Der verwendete Algorithmus berechnet sowohl den Hamiltonpfad, wie auch den Hamiltonkreis. Die Berechnung basiert auf dem Paper "`Structural Properties of Hard Metric TSP Inputs"'\cite{moemke11} (der Algorithmus wurde bereits im Paper "`Improved Approximations for TSP with Simple Precedence Constraints"'\cite{boeckenhauer10} vorgestellt).
 
 Der Algorithmus funktioniert wie folgt:
@@ -214,32 +215,62 @@ Um den minimalen Spannbaum zu finden werden folgende Schritte abgearbeitet\footn
 
 %TODO: Wie soll der Algorithmus beschrieben werden?
 \begin{algorithm}[H]
-\renewcommand{\algorithmicrequire}{\textbf{Eingabe:}}
-\renewcommand{\algorithmicensure}{\textbf{Ausgabe:}}
-\caption{minimaler Spannbaum}
-\begin{algorithmic}[1]
-\REQUIRE Ein vollständiger Graph $G$
-    \STATE Wähle einen zufälligen Startknoten $S$ aus $G$
-    \STATE Suche die Kante $K_1$ mit dem minimalen Gewicht, die mit $S$ verbunden ist (falls mehrere mit $S$ verbindene Kanten das minimale Gewicht aufweisen, wähle zufällig eine aus)
-    \STATE Füge $K_1$ zum minimalen Spannbaum $M$ hinzu
-    \STATE Entferne die Kante $K_1$ aus $G$
+    \renewcommand{\algorithmicrequire}{\textbf{Eingabe:}}
+    \renewcommand{\algorithmicensure}{\textbf{Ausgabe:}}
+    \caption{minimaler Spannbaum}
 
-    \WHILE{$E(G) \ge 0 $}
-        \STATE Suche die Kante $K_n$ mit dem minimalen Gewicht, die mit $M$ verbunden ist (falls mehrere mit $M$ verbindene Kanten das minimale Gewicht aufweisen, wähle zufällig eine aus)
-        \STATE Füge $K_n$ zum minimalen Spannbaum $M$ hinzu
-        \STATE Entferne die Kante $K_n$ aus $G$
-    \ENDWHILE
-\ENSURE minimaler Spannbaum $M$
-\end{algorithmic}
+    \begin{algorithmic}[1]
+    \REQUIRE Ein vollständiger Graph $G$
+        \STATE Wähle einen zufälligen Startknoten $v_0$ aus $G$
+        \STATE Suche die Kante $e_0$ mit dem minimalen Gewicht, die mit $v_0$ verbunden ist (falls mehrere mit $v_0$ verbindene Kanten das minimale Gewicht aufweisen, wähle zufällig eine aus)
+        \STATE Füge $e_0$ zum minimalen Spannbaum $M$ hinzu
+        \STATE Entferne die Kante $e_0$ aus $G$
+
+        \WHILE{$E(G) \ge 0$}
+            \STATE Suche die Kante $e_n$ mit dem minimalen Gewicht, die mit $M$ verbunden ist (falls mehrere mit $M$ verbindene Kanten das minimale Gewicht aufweisen, wähle zufällig eine aus)
+            \STATE Füge $e_n$ zum minimalen Spannbaum $M$ hinzu
+            \STATE Entferne die Kante $e_n$ aus $G$
+        \ENDWHILE
+    \ENSURE minimaler Spannbaum $M$
+    \end{algorithmic}
 \end{algorithm}
+
+%TODO: Bilder einfügen, um die Vorgehensweise aufzuzeigen?
 
 \subsection{Minimales Perfektes Matching - Blossom V}
 %TODO: Genauer beschreiben
 Das minimale Perfekt Matching wird mittels Blossom V Algorithmus berechnet. Der Blossom V Algortihmus ist eine Weiterentwicklung des bekannten Blossom Algorithmus, der 1965 Edmonds vorgestellt wurde.
 Für diesen Algorithmus wird eine bestehende Implementation verwendet. 
 
-
 \subsection{Eulerkreis - Hierholzer}
+Die Berechnung des Eulerkreises wird mittels Algorithmus von Hierholzer zurück. Dieser wurde 1873 in der postum veröffentlichten Arbeit "`Über die Möglichkeit, einen Linienzug ohne Wiederholung und ohne Unterbrechung zu umfahren"'\cite{hierholzer73} beschrieben.
+
+Der Algorithmus basiert auf der Idee, dass, wenn man in einem eulerschen Graphen einen beliebigen Kreis findet, die verbleibenden Kanten wiederum einen Kreis enthalten. Somit werden die gefundenen Kreise zusammengefügt, bis schlussendlich alle Kanten im Kreis enhalten ist und somit der Eulerkreis gefunden wurde.\footnote{vgl. \cite{krumke05} Seiten 46-48}
+
+%TODO: Ist die beschreibung verständnlich?
+\begin{algorithm}[H]
+    \renewcommand{\algorithmicrequire}{\textbf{Eingabe:}}
+    \renewcommand{\algorithmicensure}{\textbf{Ausgabe:}}
+    \caption{Algorithmus von Hierholzer}
+
+    \begin{algorithmic}[1]
+    \REQUIRE Graph $G$, dessen Knoten alle einen geraden Grad aufweisen
+        \STATE Wähle einen beliebigen Startknoten $v_0$
+        \STATE Erstelle einen Kreis $K$ ausgehend von $v_0$
+        \STATE Entferne alle Kanten von $K$ aus $G$
+        \WHILE{$E(G) \ge 0$}
+            \STATE Suche Knoten $v_n$ dessen Grad $\ge 0$
+            \STATE Erstelle einen Kreis $K_n$ ausgehend von $v_n$
+            \STATE Füge $K_n$ zu $K$ hinzu: Alle Knoten von $K_n$ an Stelle des Startknotens von $K_n$ in der korrekten Reihenfolge in $K$ einfügen
+            \STATE Entferne alle Kanten von $K_n$ aus $G$
+        \ENDWHILE
+    \ENSURE Eulerkreis $K$
+    \end{algorithmic}
+\end{algorithm}
+
+%TODO: Bilder einfügen, um die Vorgehensweise aufzuzeigen?
+
+
 \subsection{Kürzung Eulerkreis/Eulerpfad zu Hamiltonkreis/Hamiltonpfad}
 \newpage
 \section{Implementation}
