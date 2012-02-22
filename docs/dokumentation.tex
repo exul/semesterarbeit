@@ -2,7 +2,7 @@
 %     Created: Mon Nov 13 22:45 PM 2011 C
 % Last Change: Mon Nov 13 22:45 PM 2011 C
 %
-\documentclass[a4paper]{article}
+\documentclass[11pt,a4paper]{article}
 
 % german dictionary
 \usepackage[ngerman]{babel}
@@ -84,7 +84,7 @@ Abbildung \ref{img:simple_tsp} zeigt ein einfaches 6 Städte TSP, eine Mögliche
 
 \begin{figure}[H]
         \centering
-        \includegraphics[width=9cm]{gfx/simple_tsp}
+        \includegraphics[width=8cm]{gfx/simple_tsp}
         \caption{einfaches 6 Städte TSP}
         \label{img:simple_tsp}
 \end{figure}
@@ -109,6 +109,10 @@ Dieses Problem kann als TSP formuliert werden. Die Wegkosten zu den mittels eine
 Einer der bedeutensten frühen Forscher auf dem Gebiet, Merril Flood, sagte in einem Interview, dass der Begriff "`Traveling Salesman Problem"' in den 1930er Jahren als Synonym für das "`48 States Problem"' von Hassler Whitney an der Princeton Universität verwendet wurde. Wer genau die Bezeichnung eingeführt habe, wisse er jedoch nicht.\cite{interview_merrill_flood84}
 
 Abschliessend ist somit nicht auszumachen, wann genau die Forschung auf dem Gebiet des Traveling Salesman Problems begonnen hat.
+
+%TODO: Beschreibung der Forschung 1960-heute
+
+\newpage
 
 \subsection{NP-Vollständigkeit}
 Das Traveling Salesman Problem ist eines der bekanntesten NP\footnote{Nondeterministic Polynomial-Time}-Vollständigen Probleme. 
@@ -184,11 +188,13 @@ Bei dieser Methode werden alle möglichen Kombinationen berechnet, bei jeder Ber
 \newpage
 \section{Algorithmen}
 %TODO: Notation bei der beschreibung der Algorithmen vereinheitlichen
-Der verwendete Algorithmus berechnet sowohl den Hamiltonpfad, wie auch den Hamiltonkreis. Die Berechnung basiert auf dem Paper "`Structural Properties of Hard Metric TSP Inputs"'\cite{moemke11} (der Algorithmus wurde bereits im Paper "`Improved Approximations for TSP with Simple Precedence Constraints"'\cite{boeckenhauer10} vorgestellt).
+Der verwendete Algorithmus berechnet sowohl den Hamiltonpfad, wie auch den Hamiltonkreis für einen gegebenen Graphen $G$. 
 
-Der Algorithmus funktioniert wie folgt:
+Die Berechnung basiert auf dem Paper "`Structural Properties of Hard Metric TSP Inputs"'\cite{moemke11} (der Algorithmus wurde bereits im Paper "`Improved Approximations for TSP with Simple Precedence Constraints"'\cite{boeckenhauer10} vorgestellt):
+
 \begin{algorithm}
     \caption{Hamiltonpfad und -kreis \cite{moemke11}}
+    \label{alg:hp_hc}
 \textbf{Eingabe:} Ein vollständiger Graph $G = (V,E)$, eine metrische Kostenfunktion $c: E \rightarrow \mathbb{Q}^+$ und zwei Knoten $s$ und $t$.
     \begin{enumerate}
         \item Minimalen Spannbaum $T$ von $G$ berechnen.
@@ -201,7 +207,7 @@ Der Algorithmus funktioniert wie folgt:
 
 \end{algorithm}
 
-Die zur berechnung verwendeten Schritte werden hier einzeln beschrieben.
+Nachfolgend werden die einzelnen Schritte des Algorithmus \ref{alg:hp_hc} genauer beschrieben. Dabei wird erläutert, welcher Algortihmus für den jeweiligen Schritt verwendet wird und wie dieser funktioniert.
 
 \subsection{Eingabe}
 Für die Berechnung wird ein vollständiger Graph erstellt, d.h. jeder Knoten des Graphen ist mit jedem anderen Knoten verbunden.
@@ -239,7 +245,7 @@ Um den minimalen Spannbaum zu finden werden folgende Schritte abgearbeitet\footn
 
 \subsection{Minimales Perfektes Matching - Blossom V}
 %TODO: Genauer beschreiben
-Das minimale Perfekt Matching wird mittels Blossom V Algorithmus berechnet. Der Blossom V Algortihmus ist eine Weiterentwicklung des bekannten Blossom Algorithmus, der 1965 Edmonds vorgestellt wurde.
+Das minimale Perfekt Matching wird mittels Blossom V Algorithmus berechnet. Der Blossom V Algortihmus ist eine Weiterentwicklung des bekannten Blossom Algorithmus, der 1965 von Edmonds vorgestellt wurde.
 Für diesen Algorithmus wird eine bestehende Implementation verwendet. 
 
 \subsection{Eulerkreis - Hierholzer}
@@ -271,14 +277,36 @@ Der Algorithmus basiert auf der Idee, dass, wenn man in einem eulerschen Graphen
 %TODO: Bilder einfügen, um die Vorgehensweise aufzuzeigen?
 
 
-\subsection{Kürzung Eulerkreis/Eulerpfad zu Hamiltonkreis/Hamiltonpfad}
+\subsection{Kürzung Eulerkreis/-pfad zu Hamiltonkreis/-pfad}
+Die kürzung des Eulerkreises bzw. des Eulerpfades werden in der Liste der besuchten Knoten alle doppelten Einträge gelöscht.
+
+\begin{algorithm}[H]
+    \renewcommand{\algorithmicrequire}{\textbf{Eingabe:}}
+    \renewcommand{\algorithmicensure}{\textbf{Ausgabe:}}
+    \caption{Kürzung Eulerkreis/-pfad zu Hamiltonkreis/-pfad}
+
+    \begin{algorithmic}[1]
+    \REQUIRE Liste $L$ mit den Knoten des Eulerkreises/-pfades 
+    \FOR{$i = 1 \to len(L)$}
+        \IF{$L[i]$ not in $K$}
+            \STATE Füge $L[i]$ zu $K$ hinzu
+        \ENDIF
+    \ENDFOR
+    \ENSURE Hamiltonkreis/-pfad $H$
+    \end{algorithmic}
+\end{algorithm}
+
 \newpage
 \section{Implementation}
+Der gesamte Algortihmus wurde in Python 3 implementiert. Lediglich der Blossom V Algorithmus, für welchen eine bestehende Implementation verwendet wurde ist in C++ implementiert.
+
+Für die Knoten, Kanten und Graphen werden eigene Objekte erstellt, die nachfolgend genauer beschrieben werden. 
+
 %TODO: Einleitung: Verwendete Programmiersprache, Unittesting, etc.
 \subsection{Datenstrukturen}
-\subsubsection{Graph}
 \subsubsection{Knoten}
 \subsubsection{Kante}
+\subsubsection{Graph}
 %TODO: Gewichte sind immer int Werte, verweis auf TSPLIB Doku
 \subsubsection{Unittests}
 \subsection{Minimaler Spannbaum}
@@ -287,6 +315,29 @@ Der Algorithmus basiert auf der Idee, dass, wenn man in einem eulerschen Graphen
 \newpage
 
 \section{Berechnungen}
+\subsection{Vorgehen}
+
+\subsection{Concorde}
+Zur Berechnung der exakten Lösung wird die Software Concorde verwendet. Concorde wurde von David Applegate, Robert E. Bixby, Vašek Chvátal und William J. Cook, den Autoren des Buches "`Traveling Salesman Problem"'\cite{applegate06}, geschrieben.
+
+Es ist sowohl möglich, die exakte Lösung zu berechnen, wie auch Heuristiken zu verwenden. Für diese Arbeit wurde lediglich die Berechnung der exakten Lösung verwendet.
+
+Neben dem Kommandozeilen-Programm für Linux ist auch ein GUI für Windows verfügbar.\footnote{Download unter http://www.tsp.gatech.edu/concorde/downloads/downloads.htm}
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=11cm]{gfx/concorde_cities}
+        \caption{Concorde stellt eil51 aus der TSPLIB garfisch dar}
+        \label{img:concorde_cities}
+\end{figure}
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=11cm]{gfx/concorde_solution}
+        \caption{Concorde hat die exakte Lösung zu eil51 berechnet}
+        \label{img:concorde_solution}
+\end{figure}
+
 \subsection{TSPLIB}
 \subsection{Zufällige Graphen}
 
