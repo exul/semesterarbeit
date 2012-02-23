@@ -80,12 +80,12 @@ Diese Arbeit beschränkt sich auf die Implementation der Win/Win Strategie und d
 \subsection{Motivation}
 Mich fasziniert, dass die Problembeschreibung sehr einfach ist, die Lösung jedoch äusserst schwierig.
 Ausserdem lassen sich viele Überlegungen mit Papier und Stift aufzeichnen, ohne das ein Computer benötigt wird. 
-Abbildung \ref{img:simple_tsp} zeigt ein einfaches 6 Städte TSP, eine Mögliche Route ist dabei blau markiert. Offensichtlich ist es nicht die optimale Route. Das Bild zeigt jedoch, wie einfach man das Problem für kleine Instanzen analysieren kann, selbst ohne einen Rechner zu benutzen.
+Abbildung \ref{img:simple_tsp} zeigt ein 6 Städte TSP, eine Mögliche Route ist dabei blau markiert. Offensichtlich ist es nicht die optimale Route. Das Bild zeigt jedoch, wie einfach man das Problem für kleine Instanzen analysieren kann, selbst ohne einen Rechner zu benutzen.
 
 \begin{figure}[H]
         \centering
         \includegraphics[width=8cm]{gfx/simple_tsp}
-        \caption{einfaches 6 Städte TSP}
+        \caption{6 Städte TSP}
         \label{img:simple_tsp}
 \end{figure}
 
@@ -94,6 +94,8 @@ Abbildung \ref{img:simple_tsp} zeigt ein einfaches 6 Städte TSP, eine Mögliche
 Dieser Abschnitt gibt einen Überblick zum Traveling Salesman Problem. Als Erstes wird die Problemstellung erklärt und anschliessend der geschichtliche Hintergrund erläutert. Nach einer kurzen Beschreibung zur NP-Vollständigkeit des Problems, wird erklärt, wie das Problem modelliert werden kann. Da es neben dem in dieser Arbeit vorgestellten Algorithmus viele weitere Möglichkeiten gibt, ein TSP zu lösen, werden einige exakte und heuristische Lösungsverfahren kurz beschrieben.
 
 \subsection{Problembeschreibung}
+Die Problemstellung ist simple: Es soll eine Rundreise durch eine Anzahl Städte gefunden werden und zwar so, dass der Handlungsreisende wieder an seinen Ausgangspunkt zurückkehrt und die zurückgelegt Strecke möglichst kurz ist.
+
 \subsection{Geschichte}
 Der Urheber der Bezeichnung "`Traveling Salesman Problem"' ist nicht genau bekannt. Es ist jedoch klar, dass damit das Auffinden der kürzesten Rundreise eines Handelsreisenden gemeint ist.\footnote{vgl. \cite{applegate06} Seite 1-3} 1983 publizierte Heiner Müller-Merbach in seinem Paper\cite{mueller83} einen Ausschnitt aus dem Buch "`Der Handlungsreisende – wie er sein soll und was er zu thun hat, um Aufträge zu erhalten und eines glücklichen Erfolgs in seinen Geschäften gewiß zu sein – von einem alten Commis-Voyageur"' in dem die Wichtigkeit einer guten Route beschrieben:  
 \begin{quotation}
@@ -112,7 +114,40 @@ Einer der bedeutensten frühen Forscher auf dem Gebiet, Merril Flood, sagte in e
 
 Abschliessend ist somit nicht auszumachen, wann genau die Forschung auf dem Gebiet des Traveling Salesman Problems begonnen hat.
 
-%TODO: Beschreibung der Forschung 1960-heute
+\medskip
+
+Ein erster Meilenstein im Bezug auf die Lösung des Traveling Salesman Problems gelang George Dantzig, Ray Fulkerson und Selmer Johnson 1954, als sie ein 49 Städte TSP lösen konnten. Die gelöste Instanz beinhaltet Städte aus allen damaligen Bundesstaaten der USA, plus Washington D.C. Das Problem konnte gelöst werden, in dem die Städte Baltimore, Wilmington, Philadelphia, Newark, New York, Hartford und Providence entfernt wurden. Da die Route des neuen TSP durch die entfernten Städte führte, war die optimale Lösung gefunden.
+
+In den 1960er und 1970er beschäftigten sich immer mehr Wissenschaftler mit dem Problem. Richard M. Karp konnte 1972 die NP-Vollständigkeit des Hamiltonkreisproblems beweisen, was die NP-Vollständigkeit des Traveling Salesman Problems impliziert.
+%TODO: Quelle
+
+1977 wurde ein 120 Städte TSP von Martin Grötschel gelöst. Die Route beinhaltete Städte im damaligen Westdeutschland.
+
+Im Jahre 1987 wurden gleich drei bedeutende Instanzen gelöst: Ein 532 Städte TSP von Padberg und Rinaldi, ein 666 Städte TSP von Grötschel und Holland und das 2392 Städte TSP, wiederum von Padberg and Rinaldi.\footnote{vgl. \cite{applegate06} S. 50-51}
+
+Anfang der 1990er Jahre begannen David Applegate, Robert E. Bixby, Vašek Chvátal und William J. Cook mit der Entwicklung von Concorde. Seit 1992 wurden immer grössere Instanzen mit Hilfe von Concorde gelöst. Die grössten Erfolg von 1992-2006 sind in Tabelle \ref{tab:concorde_history} ersichtlich.\footnote{\cite{applegate06} Seite 53}
+
+        \begin{table}[H]
+                \centering
+                \begin{tabular}{| l | r | l |}
+                    \hline
+                        Jahr    & Anzahl Städte & Bemerkung                 \\ \hline
+                        1992    & 3'038         &                           \\ \hline
+                        1993    & 4'461         &                           \\ \hline
+                        1994    & 7'397         &                           \\ \hline
+                        1998    & 13'509        &                           \\ \hline
+                        2001    & 15'112        &                           \\ \hline
+                        2004    & 24'978        &                           \\ \hline
+                        2004    & 33'810        & Concorde mit Domino Party \\ \hline
+                        2006    & 85'900        & Concorde mit Domino Party \\ \hline
+                \end{tabular}
+                \caption{mit Concorde gelöste TSP Instanzen}
+                \label{tab:concorde_history}
+        \end{table}
+
+Das 2006 gelöst 85'900 Städte Problem ist das grösste bisher gelöste TSP. Zur Berechnung wurde ein Cluster von 64 2.4-GHz AMD Opteron Prozessoren und 192 Xeon Prozessoren benötigt.
+
+Die nächste Herausforderung ist das so genannte "`World TSP"', es beinhaltet 1'904'711 Städte. Die beste bekannte Lösung stammt von Keld Helsgaun. Mit Concorde konnte berechnet werden, dass die Lösung von Helsgaun maximal 0.058\% länger ist, als die optimale Lösung.
 
 \newpage
 
