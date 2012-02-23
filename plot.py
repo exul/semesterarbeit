@@ -35,6 +35,8 @@ class Plot():
         y_scale_lower -= y_factor
 
         plt.axis([x_scale_lower,x_scale_upper,y_scale_lower,y_scale_upper])
+        #plt.axis([x_scale_lower,150,y_scale_lower,150])
+        #plt.axis([x_scale_lower,200,y_scale_lower,200])
 
         self.pdf_file.savefig()
 
@@ -64,6 +66,8 @@ class Plot():
         y_scale_lower -= y_factor
 
         plt.axis([x_scale_lower,x_scale_upper,y_scale_lower,y_scale_upper])
+        #plt.axis([x_scale_lower,150,y_scale_lower,150])
+        #plt.axis([x_scale_lower,200,y_scale_lower,200])
 
         self.pdf_file.savefig()
 

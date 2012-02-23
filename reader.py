@@ -79,3 +79,46 @@ class Reader:
         f.close()
 
         return graph
+
+    def solution(self, file_location, nodes, is_tsp = True):
+        f = open(file_location, 'r')
+        solution_numbers = list()
+        solution_nodes = list()
+
+        first = True
+
+        for line in f:
+            if first:
+                first = False
+            else:
+                line_data = line.split()
+                solution_numbers += line_data
+
+#        if len(solution_numbers) <= len(nodes):
+#            offset = 1
+#            print('Solution is longer, it\' an TSP')
+#        else:
+#            offset = 0
+        if is_tsp:
+            offset = 1
+        else:
+            offset = 0
+
+        print('Solution: {0}'.format(len(solution_numbers)))
+        print('Nodes: {0}'.format(len(nodes)))
+
+        is_first = True
+
+        for solution_number in solution_numbers:
+            for node in nodes:
+                if node.nr == int(solution_number)+offset:
+                    if is_first:
+                        first_node = node
+                        is_first = False
+
+                    solution_nodes.append(node)
+
+        if is_tsp:
+            solution_nodes.append(first_node)
+
+        return solution_nodes

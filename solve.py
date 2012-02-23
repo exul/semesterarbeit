@@ -12,13 +12,24 @@ reader = Reader()
 writer = Writer()
 
 # read graph data/in from file
-#graph = reader.euler_2d('data/in/eil101.tsp')
-graph_tsp = reader.euler_2d('data/in/eil51.tsp') # opt 426
-graph_hpp = reader.euler_2d('data/in/eil51.tsp', 40, 36) # opt 403
+#graph_tsp = reader.euler_2d('data/in/eil101.tsp') # alg 705 / opt 629 = 112%
+#graph_hpp = reader.euler_2d('data/in/eil101.tsp', 38, 64) # alg 698 / opt 613 = 113%
+#graph_tsp = reader.euler_2d('data/in/eil51.tsp') # alg 493 / opt 426 115%
+#graph_hpp = reader.euler_2d('data/in/eil51.tsp', 40, 36) # alg 463 / opt 403 = 114%
 #graph_tsp = reader.euler_2d('data/in/graph.tsp')
 #graph_hpp = reader.euler_2d('data/in/graph.tsp', 5, 6)
-#graph_tsp = reader.euler_2d('data/in/graph_zz.tsp') # opt 288
-#graph_hpp = reader.euler_2d('data/in/graph_zz.tsp', 1, 15) # opt 196
+graph_tsp = reader.euler_2d('data/in/graph_zz.tsp') # alg 11290 / opt 7798
+graph_hpp = reader.euler_2d('data/in/graph_zz.tsp', 1, 39) # alg 7490 / opt 7490
+#graph_tsp = reader.euler_2d('data/in/graph_zz_orig.tsp') # alg 912 / opt 768
+#graph_hpp = reader.euler_2d('data/in/graph_zz_orig.tsp', 1, 39) # opt 532
+#graph_tsp = reader.euler_2d('data/in/graph_zz_short.tsp') # opt 768
+#graph_hpp = reader.euler_2d('data/in/graph_zz_short.tsp', 1, 5) # opt 532
+#graph_tsp = reader.euler_2d('data/in/graph_worst.tsp') # opt 1084
+#graph_hpp = reader.euler_2d('data/in/graph_worst.tsp', 30, 118) # opt 1023
+#graph_tsp = reader.euler_2d('data/in/graph_worst.tsp') # opt 1084
+#graph_hpp = reader.euler_2d('data/in/graph_worst.tsp', 10, 34) # opt 1023
+#graph_tsp = reader.euler_2d('data/in/graph_random.tsp') #  alg 1527 / opt 1439 = 106%
+#graph_hpp = reader.euler_2d('data/in/graph_random.tsp', 39, 1) #  alg 956 / opt 938 = 101%
 
 print('Graph is created')
 
@@ -73,6 +84,7 @@ euler_nodes_hpp = euler.calculate(graph_hpp, False)
 
 # TODO: only to create graphics, not needed for the algorithm
 plt.plot_nodes(euler_nodes_tsp, 'Euler nodes TSP')
+print(euler_nodes_hpp)
 plt.plot_nodes(euler_nodes_hpp, 'Euler nodes HPP')
 
 print('Euler Tour calculated')
@@ -93,6 +105,7 @@ writer.write_nodes(nodes_hpp, 'data/out/tour_winwin.hpp')
 cost_tsp = 0
 for i in range(len(nodes_tsp)):
     if i > 0:
+        print(graph_tsp.lookup_distance(nodes_tsp[i-1], nodes_tsp[i])[0])
         cost_tsp += graph_tsp.lookup_distance(nodes_tsp[i-1], nodes_tsp[i])[0]
 
 print('TSP: This tour costs {0}, we visited {1} nodes.'.format(cost_tsp, i))
@@ -101,9 +114,17 @@ print('TSP: This tour costs {0}, we visited {1} nodes.'.format(cost_tsp, i))
 cost_hpp = 0
 for i in range(len(nodes_hpp)):
     if i > 0:
+        #print(graph_hpp.lookup_distance(nodes_hpp[i-1], nodes_hpp[i])[0])
         cost_hpp += graph_hpp.lookup_distance(nodes_hpp[i-1], nodes_hpp[i])[0]
 
 print('HPP: This tour costs {0}, we visited {1} nodes.'.format(cost_hpp, i+1))
+
+# TODO: only to create graphics, optimal solution
+solution_nodes_tsp = reader.solution('data/out/solution_tsp.tsp', nodes_tsp, True)
+plt.plot_nodes(solution_nodes_tsp, 'Optimal Solution TSP')
+
+solution_nodes_hpp = reader.solution('data/out/solution_hpp.tsp', nodes_tsp, False)
+plt.plot_nodes(solution_nodes_hpp, 'Optimal Solution HPP')
 
 # TODO: only to create graphics, not needed for the algorithm
 plt.save_file()
