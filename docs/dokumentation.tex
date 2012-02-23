@@ -91,6 +91,8 @@ Abbildung \ref{img:simple_tsp} zeigt ein einfaches 6 Städte TSP, eine Mögliche
 
 \newpage
 \section{Traveling Salesman Problem (TSP)}
+Dieser Abschnitt gibt einen Überblick zum Traveling Salesman Problem. Als Erstes wird die Problemstellung erklärt und anschliessend der geschichtliche Hintergrund erläutert. Nach einer kurzen Beschreibung zur NP-Vollständigkeit des Problems, wird erklärt, wie das Problem modelliert werden kann. Da es neben dem in dieser Arbeit vorgestellten Algorithmus viele weitere Möglichkeiten gibt, ein TSP zu lösen, werden einige exakte und heuristische Lösungsverfahren kurz beschrieben.
+
 \subsection{Problembeschreibung}
 \subsection{Geschichte}
 Der Urheber der Bezeichnung "`Traveling Salesman Problem"' ist nicht genau bekannt. Es ist jedoch klar, dass damit das Auffinden der kürzesten Rundreise eines Handelsreisenden gemeint ist.\footnote{vgl. \cite{applegate06} Seite 1-3} 1983 publizierte Heiner Müller-Merbach in seinem Paper\cite{mueller83} einen Ausschnitt aus dem Buch "`Der Handlungsreisende – wie er sein soll und was er zu thun hat, um Aufträge zu erhalten und eines glücklichen Erfolgs in seinen Geschäften gewiß zu sein – von einem alten Commis-Voyageur"' in dem die Wichtigkeit einer guten Route beschrieben:  
@@ -241,12 +243,27 @@ Um den minimalen Spannbaum zu finden werden folgende Schritte abgearbeitet\footn
     \end{algorithmic}
 \end{algorithm}
 
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=11cm]{gfx/eil51_mst}
+        \caption{Minimaler Spannbaum der TSP Instanz eil51 (TSPLIB)}
+        \label{img:eil51_mst}
+\end{figure}
+
+
 %TODO: Bilder einfügen, um die Vorgehensweise aufzuzeigen?
 
 \subsection{Minimales Perfektes Matching - Blossom V}
 %TODO: Genauer beschreiben
 Das minimale Perfekt Matching wird mittels Blossom V Algorithmus berechnet. Der Blossom V Algortihmus ist eine Weiterentwicklung des bekannten Blossom Algorithmus, der 1965 von Edmonds vorgestellt wurde.
 Für diesen Algorithmus wird eine bestehende Implementation verwendet. 
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=11cm]{gfx/eil51_pm}
+        \caption{Minimales Perfect Matching (rot) auf den ungeraden Knoten des MST (schwarz)}
+        \label{img:eil51_pm}
+\end{figure}
 
 \subsection{Eulerkreis - Hierholzer}
 Die Berechnung des Eulerkreises wird mittels Algorithmus von Hierholzer zurück. Dieser wurde 1873 in der postum veröffentlichten Arbeit "`Über die Möglichkeit, einen Linienzug ohne Wiederholung und ohne Unterbrechung zu umfahren"'\cite{hierholzer73} beschrieben.
