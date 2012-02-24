@@ -191,6 +191,14 @@ Bei dieser Methode werden alle möglichen Kombinationen berechnet, bei jeder Ber
 \begin{flushleft}
 \textbf{Branch-and-Cut}
 
+Die Branch-and-Cut Verfahren ist eine Kombination des Schnittebenenverfahrens mit dem Branch-and-Bound Verfahren. 
+Beim Schnittebenenverfahren wird das Problem als lineares Programm formuliert und anschliessend die Lösung der LP-Relaxierung durch hinzufügen weiterer Ungleichungen verbessert.
+Beim Brach-and-Bound Verfahren wird die Lösungsmenge in Teilmengen aufgeteilt, so dass nicht optimale Bereiche der Lösungsmenge nicht berücksichtigt werden. Dies hat den Vorteil, dass nicht alle möglichen Lösungen durchprobiert werden müssen.
+Die beiden Verfahren werden bei Brach-and-Cut kombiniert. \footnote{vgl. \cite{applegate06} Seite 117-124}
+Das Branch-and-Cut Verfahren wird nicht nur beim Problem des Handlungsreisenden angewandt, sondern ist heute Grundlage für viele LP-Solver\footnote{Löser für lineare Programme}.
+%TODO: Brunch und Cut Kombination Genauer beschreiben!!!
+%TODO: Beschreibung OK?
+
 \end{flushleft}
 
 \medskip
@@ -280,7 +288,7 @@ Um den minimalen Spannbaum zu finden werden folgende Schritte abgearbeitet\footn
 
 \begin{figure}[H]
         \centering
-        \includegraphics[width=11cm]{gfx/eil51_mst}
+        \includegraphics[width=14cm]{gfx/eil51_mst}
         \caption{Minimaler Spannbaum der TSP Instanz eil51 (TSPLIB)}
         \label{img:eil51_mst}
 \end{figure}
@@ -295,7 +303,7 @@ Für diesen Algorithmus wird eine bestehende Implementation verwendet.
 
 \begin{figure}[H]
         \centering
-        \includegraphics[width=11cm]{gfx/eil51_pm}
+        \includegraphics[width=14cm]{gfx/eil51_pm}
         \caption{Minimales Perfect Matching (rot) auf den ungeraden Knoten des MST (schwarz)}
         \label{img:eil51_pm}
 \end{figure}
@@ -367,7 +375,26 @@ Für die Knoten, Kanten und Graphen werden eigene Objekte erstellt, die nachfolg
 \newpage
 
 \section{Berechnungen}
+Für die Berechnung werden einerseits Instanzen aus der TSPLIB verwendet, andererseits selbst erstellte Instanzen.
+Zuerst wird das Vorgehen für die Berechnung beschrieben, anschliessend werden die verwendeten Verfahren vorgestellt.
+
+
 \subsection{Vorgehen}
+Um die Lösung der Win/Win Strategie mit der exakten Lösung zu vergleichen wird wie folgt vorgegangen:
+
+\begin{itemize}
+    \item Berechnung der exakten Lösung mit Concorde für das TSP 
+    \item Einfügen einer Dummy-Stadt (Distanz 0 zu allen Städten)
+    \item Berechnung der exakten Lösung mit Concorde für HPP 
+    \item Beginn und Ende der Route werden als $s$ und $t$ verwendet
+    \item Berechnung der Lösung mittels Win/Win Strategie
+    \item Vergleich der Win/Win Lösung mit der exakten Lösung
+\end{itemize}
+
+Die Implementierung des Graphes als "`dictionary"' hat zur Folge, dass die Knoten nicht sortiert sind. Dies bringt einerseits massive Geschwindigkeitsvorteile, andererseits führt es aber dazu, dass bei der Berechnung der selben Instanz leicht unterschiedliche Ergebnise berechnet werden.
+
+Um eine möglichst repräsentative Lösung für den Vergleich zu erhalten, wird pro Instanz der arithmetische Mittelwert aus 1000 Berechnungen verwendet.
+%TODO: Berechnung entsprechend durchführen
 
 \subsection{Concorde}
 Zur Berechnung der exakten Lösung wird die Software Concorde verwendet. Concorde wurde von David Applegate, Robert E. Bixby, Vašek Chvátal und William J. Cook, den Autoren des Buches "`Traveling Salesman Problem"'\cite{applegate06}, geschrieben.
@@ -378,14 +405,14 @@ Neben dem Kommandozeilen-Programm für Linux ist auch ein GUI für Windows verf�
 
 \begin{figure}[H]
         \centering
-        \includegraphics[width=11cm]{gfx/concorde_cities}
+        \includegraphics[width=14cm]{gfx/concorde_cities}
         \caption{Concorde stellt eil51 aus der TSPLIB garfisch dar}
         \label{img:concorde_cities}
 \end{figure}
 
 \begin{figure}[H]
         \centering
-        \includegraphics[width=11cm]{gfx/concorde_solution}
+        \includegraphics[width=14cm]{gfx/concorde_solution}
         \caption{Concorde hat die exakte Lösung zu eil51 berechnet}
         \label{img:concorde_solution}
 \end{figure}
