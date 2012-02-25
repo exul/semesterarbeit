@@ -194,29 +194,26 @@ Bei dieser Methode werden alle möglichen Kombinationen berechnet, bei jeder Ber
 Die Branch-and-Cut Verfahren ist eine Kombination des Schnittebenenverfahrens mit dem Branch-and-Bound Verfahren. 
 Beim Schnittebenenverfahren wird das Problem als lineares Programm formuliert und anschliessend die Lösung der LP-Relaxierung durch hinzufügen weiterer Ungleichungen verbessert.
 Beim Brach-and-Bound Verfahren wird die Lösungsmenge in Teilmengen aufgeteilt, so dass nicht optimale Bereiche der Lösungsmenge nicht berücksichtigt werden. Dies hat den Vorteil, dass nicht alle möglichen Lösungen durchprobiert werden müssen.
-Die beiden Verfahren werden bei Brach-and-Cut kombiniert. \footnote{vgl. \cite{applegate06} Seite 117-124}
-Das Branch-and-Cut Verfahren wird nicht nur beim Problem des Handlungsreisenden angewandt, sondern ist heute Grundlage für viele LP-Solver\footnote{Löser für lineare Programme}.
-%TODO: Brunch und Cut Kombination Genauer beschreiben!!!
+Die beiden Verfahren werden bei Brach-and-Cut kombiniert. Dabei wird erst das Schnittebenenverfahren angewandt und anschliessend das Branch-and-Bound Verfahren.\footnote{vgl. \cite{applegate06} Seite 117-124}
+
+Das Branch-and-Cut Verfahren wird nicht nur beim Problem des Handlungsreisenden angewandt, sondern findet allgemein Anwendung in LP-Solvern\footnote{Löser für lineare Programme}.
 %TODO: Beschreibung OK?
 
-\end{flushleft}
-
-\medskip
-
-\begin{flushleft}
-\textbf{Held-Karp Algorithmus}
 \end{flushleft}
 
 \subsubsection{Heuristische Lösungsverfahren}
 \begin{flushleft}
 \textbf{Nearest-Neighbor-Heuristik}
 
+Die Nearest-Neighbor-Heuristik startet an einem beliebigen Knoten, im nächsten Schritt wird der Nachbarknoten mit den Geringsten Kosten (also der Kante mit dem kleinsten Gewicht) besucht. Von diesem Knoten aus wird wieder der Nachbar gesucht, der mittels der Kante  mit dem geringsten Gewicht verbunden ist. Der Startknoten wird mit der letzten verbleibenden Kante erreicht.\cite{gutin02}
 \end{flushleft}
 
 \medskip
 
 \begin{flushleft}
 \textbf{Ant Colony Optimization}
+
+
 
 \end{flushleft}
 
