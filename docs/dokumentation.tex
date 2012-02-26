@@ -362,12 +362,16 @@ Für die Knoten, Kanten und Graphen werden eigene Objekte erstellt, die nachfolg
 %TODO: Einleitung: Verwendete Programmiersprache, Unittesting, etc.
 \subsection{Datenstrukturen}
 \subsubsection{Knoten}
+
 \subsubsection{Kante}
 \subsubsection{Graph}
 %TODO: Gewichte sind immer int Werte, verweis auf TSPLIB Doku
-\subsubsection{Unittests}
-\subsection{Minimaler Spannbaum}
-\subsubsection{Eulerkreis}
+\subsection{Algorithmen}
+\subsubsection{Minimaler Spannbaum}
+\subsubsection{Perfecht Matching}
+\subsubsection{Eulerkreis/-pfad}
+\subsubsection{Kürzung Eulerkreis/-pfad zu Hamiltonkreis/-pfad}
+\subsection{Unittests}
 
 \newpage
 
@@ -423,7 +427,72 @@ Die Instanzen sind in Files abgelegt. Es werden verschiedene Formate unterstütz
 \subsubsection{Zufällige Instanzen}
 
 \subsection{Auswertung TSPLIB Instanzen}
-\subsection{Auswertung Zufällige Instanzen}
+\subsubsection{eil51}
+
+
+        \begin{table}[H]
+                \centering
+                \begin{tabular}{| l | r |}
+                    \hline
+                        Anzahl Städte               & 51            \\ \hline
+                        Dimensionen                 & 2             \\ \hline
+                        Länge optimale Lösung TSP   & 426           \\ \hline
+                        Länge Win/Win Lösung  TSP   & 483           \\ \hline
+                        Abweichung TSP              & 13.06\%       \\ \hline
+                        $s$ und $t$ für HPP         & 36, 40        \\ \hline
+                        Länge optimale Lösung HPP   & 403           \\ \hline
+                        Länge Win/Win Lösung  HPP   & 459           \\ \hline
+                        Abweichung HPP              & 13.90\%       \\ \hline
+                \end{tabular}
+                \caption{Instanz eil51}
+                \label{tab:instanz_eil51}
+        \end{table}
+
+\subsubsection{Zusammenfassung}
+
+
+\subsection{Auswertung eigener Instanzen}
+\subsubsection{Zick-Zack}
+
+        \begin{table}[H]
+                \centering
+                \begin{tabular}{| l | r |}
+                    \hline
+                        Anzahl Städte               & 39            \\ \hline
+                        Dimensionen                 & 2             \\ \hline
+                        Länge optimale Lösung TSP   & 7'798         \\ \hline
+                        Länge Win/Win Lösung  TSP   & 11'290        \\ \hline
+                        Abweichung TSP              & 44.78\%       \\ \hline
+                        $s$ und $t$ für HPP         & 1, 39         \\ \hline
+                        Länge optimale Lösung HPP   & 7'490         \\ \hline
+                        Länge Win/Win Lösung  HPP   & 7'490         \\ \hline
+                        Abweichung HPP              & 0\%           \\ \hline
+                \end{tabular}
+                \caption{Instanz Zick-Zack}
+                \label{tab:instanz_zick_zack}
+        \end{table}
+
+\subsubsection{Random 3D}
+
+        \begin{table}[H]
+                \centering
+                \begin{tabular}{| l | r |}
+                    \hline
+                        Anzahl Städte               & 30            \\ \hline
+                        Dimensionen                 & 3             \\ \hline
+                        Länge optimale Lösung TSP   & 774           \\ \hline
+                        Länge Win/Win Lösung  TSP   & 815           \\ \hline
+                        Abweichung TSP              & 3.69\%        \\ \hline
+                        $s$ und $t$ für HPP         & 19, 24        \\ \hline
+                        Länge optimale Lösung HPP   & 706           \\ \hline
+                        Länge Win/Win Lösung  HPP   & 749           \\ \hline
+                        Abweichung HPP              & 6.09\%        \\ \hline
+                \end{tabular}
+                \caption{Instanz Random 3D}
+                \label{tab:instanz_random_3d}
+        \end{table}
+
+\subsubsection{Zusammenfassung}
 
 \newpage
 
