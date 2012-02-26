@@ -23,8 +23,8 @@ writer = Writer()
 # read graph data/in from file
 #graph_tsp = reader.euler_2d('data/in/eil101.tsp') # alg 705 / opt 629 = 112%
 #graph_hpp = reader.euler_2d('data/in/eil101.tsp', 38, 64) # alg 698 / opt 613 = 113%
-graph_tsp = reader.euler_2d('data/in/eil51.tsp') # alg 493 / opt 426 115%
-graph_hpp = reader.euler_2d('data/in/eil51.tsp', 40, 36) # alg 463 / opt 403 = 114%
+#graph_tsp = reader.euler_2d('data/in/eil51.tsp') # alg 493 / opt 426 115%
+#graph_hpp = reader.euler_2d('data/in/eil51.tsp', 40, 36) # alg 463 / opt 403 = 114%
 #graph_tsp = reader.euler_2d('data/in/graph.tsp')
 #graph_hpp = reader.euler_2d('data/in/graph.tsp', 5, 6)
 #graph_tsp = reader.euler_2d('data/in/graph_zz.tsp') # alg 11290 / opt 7798
@@ -39,6 +39,8 @@ graph_hpp = reader.euler_2d('data/in/eil51.tsp', 40, 36) # alg 463 / opt 403 = 1
 #graph_hpp = reader.euler_2d('data/in/graph_worst.tsp', 10, 34) # opt 1023
 #graph_tsp = reader.euler_2d('data/in/graph_random.tsp') #  alg 1527 / opt 1439 = 106%
 #graph_hpp = reader.euler_2d('data/in/graph_random.tsp', 39, 1) #  alg 956 / opt 938 = 101%
+graph_tsp = reader.euler_3d('data/in/graph_3d.tsp') # 
+graph_hpp = reader.euler_3d('data/in/graph_3d.tsp', 8, 7) # 
 
 print('Graph is created')
 
