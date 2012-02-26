@@ -10,7 +10,12 @@ from writer import Writer
 from mst import Minimum_Spanning_Tree
 from matcher import Matcher
 from euler import Euler
-from plot import Plot # TODO: this import takes a lot of time
+
+# set if we want to plot the problem instance
+do_plot = False
+
+if do_plot:
+    from plot import Plot # TODO: this import takes a lot of time
 
 reader = Reader()
 writer = Writer()
@@ -37,9 +42,6 @@ graph_hpp = reader.euler_2d('data/in/eil51.tsp', 40, 36) # alg 463 / opt 403 = 1
 
 print('Graph is created')
 
-# TODO: write graph as matrix, not needed for the algortihm
-writer.write_matrix(graph_tsp, 'data/out/graph_matrix.tsp')
-
 # TODO: write graphs to file, not needed for the algortihm
 writer.write_matrix(graph_tsp,'data/out/graph_matrix_tsp.tsp', False) #TSP
 writer.write_matrix(graph_hpp,'data/out/graph_matrix_hpp.tsp', True) #HPP
@@ -54,17 +56,19 @@ os.system('{0} -o {1} {2} | grep Optimal'.format("concorde", \
 # cleanup tem files
 os.system('rm *.mas *.pul *.sav *.sol')
 
-# TODO: only to create graphics, not needed for the algorithm
-plt = Plot()
+if do_plot:
+    # TODO: only to create graphics, not needed for the algorithm
+    plt = Plot()
 
 # calculate the minimum spanning tree
 mst = Minimum_Spanning_Tree()
 graph_tsp = mst.calculate(graph_tsp)
 graph_hpp = mst.calculate(graph_hpp)
 
-# TODO: only to create graphics, not needed for the algorithm
-plt.plot_graph(graph_tsp, '#000000', 'MST TSP')
-plt.plot_graph(graph_hpp, '#000000', 'MST HPP')
+if do_plot:
+    # TODO: only to create graphics, not needed for the algorithm
+    plt.plot_graph(graph_tsp, '#000000', 'MST TSP')
+    plt.plot_graph(graph_hpp, '#000000', 'MST HPP')
 
 print('MST calculated')
 
@@ -75,8 +79,9 @@ matcher = Matcher()
 # do a minimum perfect matching on the MST
 graph_tsp = matcher.calculate(graph_tsp)
 
-#TODO: only to create graphics, not needed for the algorithm
-plt.plot_graph(graph_tsp, '#ff0000', 'TSP with Perfect Matching')
+if do_plot:
+    #TODO: only to create graphics, not needed for the algorithm
+    plt.plot_graph(graph_tsp, '#ff0000', 'TSP with Perfect Matching')
 
 # add {s, t} to the MST
 node_s = graph_hpp.node_s
@@ -87,8 +92,9 @@ if not graph_hpp.contains_edge(node_s, node_t):
     edge_st = Edge(node_s, node_t, weight)
     graph_hpp.add_edge(edge_st)
 
-# TODO: only to create graphics, not needed for the algorithm
-plt.plot_graph(graph_hpp, '#000000', 'MST with s and t')
+if do_plot:
+    # TODO: only to create graphics, not needed for the algorithm
+    plt.plot_graph(graph_hpp, '#000000', 'MST with s and t')
 
 # do a minimum perfect matching on the MST + {s, t}
 graph_hpp = matcher.calculate(graph_hpp)
@@ -103,19 +109,21 @@ euler_nodes_tsp = euler.calculate(graph_tsp)
 # TODO: calculate euler path => correct?
 euler_nodes_hpp = euler.calculate(graph_hpp, False)
 
-# TODO: only to create graphics, not needed for the algorithm
-plt.plot_nodes(euler_nodes_tsp, '#000000', 'Euler nodes TSP')
-#print(euler_nodes_hpp)
-plt.plot_nodes(euler_nodes_hpp, '#000000', 'Euler nodes HPP')
+if do_plot:
+    # TODO: only to create graphics, not needed for the algorithm
+    plt.plot_nodes(euler_nodes_tsp, '#000000', 'Euler nodes TSP')
+    #print(euler_nodes_hpp)
+    plt.plot_nodes(euler_nodes_hpp, '#000000', 'Euler nodes HPP')
 
 print('Euler Tour calculated')
 
 nodes_tsp = euler.shorten_tour(euler_nodes_tsp)
 nodes_hpp = euler.shorten_path(euler_nodes_hpp)
 
-# TODO: only to create graphics, not needed for the algorithm
-plt.plot_nodes(nodes_tsp, '#000000', 'TSP Tour')
-plt.plot_nodes(nodes_hpp, '#000000', 'HPP Tour')
+if do_plot:
+    # TODO: only to create graphics, not needed for the algorithm
+    plt.plot_nodes(nodes_tsp, '#000000', 'TSP Tour')
+    plt.plot_nodes(nodes_hpp, '#000000', 'HPP Tour')
 
 print('Euler Tour shortened')
 
@@ -140,12 +148,13 @@ for i in range(len(nodes_hpp)):
 
 print('HPP: This tour costs {0}, we visited {1} nodes.'.format(cost_hpp, i+1))
 
-# TODO: only to create graphics, optimal solution
-solution_nodes_tsp = reader.solution('data/out/solution_tsp.tsp', nodes_tsp, True)
-plt.plot_nodes(solution_nodes_tsp, '#000000', 'Optimal Solution TSP')
+if do_plot:
+    # TODO: only to create graphics, optimal solution
+    solution_nodes_tsp = reader.solution('data/out/solution_tsp.tsp', nodes_tsp, True)
+    plt.plot_nodes(solution_nodes_tsp, '#000000', 'Optimal Solution TSP')
 
-solution_nodes_hpp = reader.solution('data/out/solution_hpp.tsp', nodes_tsp, False)
-plt.plot_nodes(solution_nodes_hpp, '#000000', 'Optimal Solution HPP')
+    solution_nodes_hpp = reader.solution('data/out/solution_hpp.tsp', nodes_tsp, False)
+    plt.plot_nodes(solution_nodes_hpp, '#000000', 'Optimal Solution HPP')
 
-# TODO: only to create graphics, not needed for the algorithm
-plt.save_file()
+    # TODO: only to create graphics, not needed for the algorithm
+    plt.save_file()
