@@ -7,7 +7,7 @@ class Plot():
     def __init__(self, file_location='data/plot/solution.pdf'):
         self.pdf_file = PdfPages(file_location)
 
-    def plot_graph(self, graph, title=''):
+    def plot_graph(self, graph, color='#000000', title=''):
         fig = plt.figure()
         fig.suptitle(title, fontsize=12)
 
@@ -15,7 +15,7 @@ class Plot():
         for edge in graph.edges:
             list_x = [edge.node_1.x, edge.node_2.x]
             list_y = [edge.node_1.y, edge.node_2.y]
-            plt.plot(list_x, list_y, marker='o', color='#000000')
+            plt.plot(list_x, list_y, marker='o', color=color)
             plt.text(edge.node_1.x+0.5,edge.node_1.y+1,va='center',\
                     s=edge.node_1.nr,color='#000000',fontsize=12)
             plt.text(edge.node_2.x+0.5,edge.node_2.y+1,va='center',\
@@ -40,7 +40,7 @@ class Plot():
 
         self.pdf_file.savefig()
 
-    def plot_nodes(self, nodes, title=''):
+    def plot_nodes(self, nodes, color='#000000', title=''):
         fig = plt.figure()
         fig.suptitle(title, fontsize=12)
 
@@ -48,7 +48,7 @@ class Plot():
             if idx > 0:
                 list_x = [nodes[idx-1].x, nodes[idx].x]
                 list_y = [nodes[idx-1].y, nodes[idx].y]
-                plt.plot(list_x, list_y, marker='o', color='#000000')
+                plt.plot(list_x, list_y, marker='o', color=color)
                 plt.text(node.x+0.5,node.y+0.5,va='center',\
                             s=node.nr,color='#000000',fontsize=12)
 
