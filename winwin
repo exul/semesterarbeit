@@ -33,8 +33,8 @@ def calculate(args):
     writer = Writer()
 
     # read graph data/in from file
-    graph_tsp = reader.euler_2d(args.file) # graph_zz: alg 11290 / opt 7798
-    graph_hpp = reader.euler_2d(args.file, args.s, args.t) # graph_zz: alg 7490 / opt 7490, s = 1, t = 39
+    graph_tsp = reader.euclidean(args.file)
+    graph_hpp = reader.euclidean(args.file, args.s, args.t)
 
     print('Graph is created')
 
