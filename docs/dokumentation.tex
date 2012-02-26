@@ -32,6 +32,10 @@
 \usepackage{algorithm}
 \usepackage{algorithmic}
 
+% format source code
+\usepackage{listings} 
+\lstset{numbers=left, numberstyle=\tiny, numbersep=5pt} \lstset{language=Python}
+
 % header and footer
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -49,7 +53,7 @@
 \title {Semesterarbeit\\
 Implementation einer Win/Win Strategie für das TSP\\}
 \author {Andreas Brönnimann\\
-Hochschule für Technik Zürich\\
+Zürcher Hochschule für Angewandte Wissenschaften\\
 Dozent: Dr. Hans-Joachim Böckenhauer}
 \date {\today}
 
@@ -355,17 +359,57 @@ Die kürzung des Eulerkreises bzw. des Eulerpfades werden in der Liste der besuc
 
 \newpage
 \section{Implementation}
-Der gesamte Algortihmus wurde in Python 3 implementiert. Lediglich der Blossom V Algorithmus, für welchen eine bestehende Implementation verwendet wurde ist in C++ implementiert.
+Der gesamte Algorithmus wurde in Python 3 implementiert. Lediglich der Blossom V Algorithmus, für welchen eine bestehende Implementation verwendet wurde ist in C++ implementiert.
 
 Für die Knoten, Kanten und Graphen werden eigene Objekte erstellt, die nachfolgend genauer beschrieben werden. 
 
 %TODO: Einleitung: Verwendete Programmiersprache, Unittesting, etc.
 \subsection{Datenstrukturen}
 \subsubsection{Knoten}
+Jeder Knoten hat eine eindeutige ID die vom System vergeben wird. Zudem erhält jeder Knoten eine Nummer und eine Liste von Koordinaten, diese Informationen werden aus dem TSP-File gelesen. Zusätzlich ist es möglich, ein Label anzugeben, um weitere Informationen zu speichern.
+
+Die Koordinaten sind als Liste implementiert, um unabhängig von der Dimension der Instanz die benötigten Informationen speichern zu können.
+
+Damit die Knoten in einem \emph{dictionary} gespeichert werden können, implementiert dieses Objekt die \emph{hash} Funktion. Dazu wird die ID des Objekts mit der von Python zur Verfügung gestellten Funktion gehashed.
 
 \subsubsection{Kante}
+Kanten werden ebenfalls durch eine eindeutige ID, die durch das System vergeben wird, identifiziert.
+
+Eine Kante setzt sich zusammen aus zwei Knoten und einer Gewichtung der Kante. Die Gewichtung wird auf die nächste Ganzzahl gerundet. Dies entspricht der Spezifikation der TSPLIB.\footnote{\cite{reinelt95} Seite 6}
+
+Um Kanten sortieren zu können, wird die Funktion \texttt{\textunderscore\textunderscore lt\textunderscore\textunderscore} implementiert. Diese vergleicht eine gegebene Kante $E1$ mit einer zweiten $E2$ und gibt \texttt{True} zurück, wenn $E1 < E2$.
+
+Die Funktion \texttt{\textunderscore\textunderscore eq\textunderscore\textunderscore} prüft, ob zwei Kanten identisch sind, in dem die IDs der Kanten verglichen werden.
+
 \subsubsection{Graph}
-%TODO: Gewichte sind immer int Werte, verweis auf TSPLIB Doku
+%TODO: Beschreibung OK?
+Die zentrale Datenstruktur für die Berechnungen ist der Graph. In Tabelle \ref{tab:impl_graph} werden die wichtigsten Funktionen beschrieben.
+
+Wichtige für eine effiziente Funktionsweise ist die Speicherung der Knoten und Kanten. Die Knoten werden in einem mehrdimensionalen \emph{dictionary} gespeichert. Die Knoten fungieren im ersten \emph{dictionary} als Keys. Dieser Key zeigt auf ein weiteres \emph{dictionary}, der Key dieses \emph{dictionary} ist wiederum ein Knoten der auf eine Liste von Kante zeigt, die die beiden Knoten verbinden.
+
+Diese Implementation hat den Vorteil, dass direkt auf Knoten, Kanten und Nachbarknoten zugegriffen werden kann. Da zwei Knoten durch mehrere Kanten verbunden sein können, werden die Kanten in einer Liste gespeichert.
+
+\begin{table}[H]
+                \centering
+                \begin{tabular}{| p{3cm} | p{3cm} | p{3cm} | p{5cm} |}
+                    \hline
+                    \textbf{Name}                                               & \textbf{Parameter}        & \textbf{Rückgabewert}     & \textbf{Beschreibung} \\ \hline
+                    \texttt{add\textunderscore node}                            & Knoten $v_n$              &                           & Fügt den Knoten $v_n$ zum Graphen hinzu \\ \hline
+                    \texttt{add\textunderscore edge}                            & Kante  $e_n$              &                           & Fügt die Kante $e_n$ zum Graphen hinzu \\ \hline
+                    \texttt{remove\textunderscore edge}                         & Kante  $e_n$              &                           & Entfernt die Kante $e_n$ aus dem Graphen \\ \hline
+                    \texttt{neighbour\textunderscore nodes}                     & Knoten $v_n$              & Liste von Knoten          & Gibt alle mit dem Knoten $v_0$ \newline verbundenen Knoten zurück\\ \hline
+                    \texttt{neighbour\textunderscore edges}                     & Knoten $v_n$              & Liste von Kanten          & Gibt alle mit dem Knoten $v_0$ \newline verbundenen Kanten zurück\\ \hline
+                    \texttt{contains\textunderscore node}                       & Knoten $v_n$              & \texttt{True/False}       & Gibt \texttt{True} zurück, wenn der Graph den Knoten enthält, sonst \texttt{False} \\ \hline
+                    \texttt{contains\textunderscore edge}                       & Knoten $v_n$ und $v_m$    & \texttt{True/False}       & Gibt \texttt{True} zurück, wenn der Graph die Kante enthält die $v_n$ und $v_m$ verbindet, sonst \texttt{False} \\ \hline
+                    \texttt{edge\textunderscore by\textunderscore nodes}        & Knoten $v_n$ und $v_m$    & Liste von Kanten          & Gibt die Kanten zurück, die die Knoten $v_n$ und $v_m$ verbindet \\ \hline
+                    \texttt{lookup\textunderscore distance}                     & Knoten $v_n$ und $v_m$    & Liste von Gewichtungen    & Gibt die Gewichtungen der Kanten zurück die  $v_n$ und $v_m$ verbindet \\ \hline
+                \end{tabular}
+                \caption{Wichtige Funktionen des Objektes Graph}
+                \label{tab:impl_graph}
+        \end{table}
+
+
+
 \subsection{Algorithmen}
 \subsubsection{Minimaler Spannbaum}
 \subsubsection{Perfecht Matching}
