@@ -51,6 +51,9 @@ os.system('{0} -o {1} {2} | grep Optimal'.format("concorde", \
 os.system('{0} -o {1} {2} | grep Optimal'.format("concorde", \
     "data/out/solution_hpp.tsp", "data/out/graph_matrix_hpp.tsp"))
 
+# cleanup tem files
+os.system('rm *.mas *.pul *.sav *.sol')
+
 # TODO: only to create graphics, not needed for the algorithm
 plt = Plot()
 
