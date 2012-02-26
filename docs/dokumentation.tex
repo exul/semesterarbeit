@@ -393,7 +393,8 @@ Die Implementierung des Graphes als "`dictionary"' hat zur Folge, dass die Knote
 Um eine möglichst repräsentative Lösung für den Vergleich zu erhalten, wird pro Instanz der arithmetische Mittelwert aus 1000 Berechnungen verwendet.
 %TODO: Berechnung entsprechend durchführen
 
-\subsection{Concorde}
+\subsection{Genutzte Ressourcen}
+\subsubsection{Concorde}
 Zur Berechnung der exakten Lösung wird die Software Concorde verwendet. Concorde wurde von David Applegate, Robert E. Bixby, Vašek Chvátal und William J. Cook, den Autoren des Buches "`Traveling Salesman Problem"'\cite{applegate06}, geschrieben.
 
 Es ist sowohl möglich, die exakte Lösung zu berechnen, wie auch Heuristiken zu verwenden. Für diese Arbeit wurde lediglich die Berechnung der exakten Lösung verwendet.
@@ -414,8 +415,15 @@ Neben dem Kommandozeilen-Programm für Linux ist auch ein GUI für Windows verf�
         \label{img:concorde_solution}
 \end{figure}
 
-\subsection{TSPLIB}
-\subsection{Zufällige Graphen}
+\subsubsection{TSPLIB}
+Die TSPLIB ist eine Sammlung von TSP-Instanzen, die 1990 von Gerhard Reinelt erstellt wurde. Sie enthält Instanzen von 14 - 85'900 Städte TSPs und ist wohl die am häufigsten genutzte Sammlung für Berechnungen des Traveling Salesman Problems.\footnote{vgl. \cite{applegate06} Seite 500-505}
+
+Die Instanzen sind in Files abgelegt. Es werden verschiedene Formate unterstützt, unter anderem die Speicherung der Koordinaten im 2 und 3 dimensionalen euklidischen Raum und als Matrix, bei der die Elemente die Abstände zwischen den Knoten darstellt.
+
+\subsubsection{Zufällige Instanzen}
+
+\subsection{Auswertung TSPLIB Instanzen}
+\subsection{Auswertung Zufällige Instanzen}
 
 \newpage
 
