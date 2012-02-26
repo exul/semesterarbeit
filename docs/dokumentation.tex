@@ -242,8 +242,7 @@ Die Berechnung basiert auf dem Paper "`Structural Properties of Hard Metric TSP 
     \caption{Hamiltonpfad und -kreis \cite{moemke11}}
     \label{alg:hp_hc}
 \textbf{Eingabe:} Ein vollständiger Graph $G = (V,E)$, eine metrische Kostenfunktion $c: E \rightarrow \mathbb{Q}^+$ und zwei Knoten $s$ und $t$.
-    \begin{enumerate}
-        \item Minimalen Spannbaum $T$ von $G$ berechnen.
+    \begin{enumerate} \item Minimalen Spannbaum $T$ von $G$ berechnen.
         \item Minimales Perfect Matching $M_C$ der ungeraden Knoten des minimalen Spannbaumes $T$ von $G$ berechnen.
         \item Minimales Perfect Matching $M_P$ der ungeraden Knoten des Multigraphen $T$ + \{$s$, $t$\} von $G$ berechnen.
         \item Die Eulertour Eul$_C$ des Multigraphen T $\cup$ $M_C$ und den Eulerpfad Eul$_P$ des Multigraphen T $\cup$ $M_P$ berechnen.
@@ -335,7 +334,14 @@ Der Algorithmus basiert auf der Idee, dass, wenn man in einem eulerschen Graphen
     \end{algorithmic}
 \end{algorithm}
 
-%TODO: Bilder einfügen, um die Vorgehensweise aufzuzeigen?
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=14cm]{gfx/eil51_euler}
+        \caption{Eulerkreis}
+        \label{img:eil51_euler}
+\end{figure}
+
+%TODO: Weitere Bilder einfügen, um die Vorgehensweise aufzuzeigen?
 
 
 \subsection{Kürzung Eulerkreis/-pfad zu Hamiltonkreis/-pfad}
@@ -356,6 +362,13 @@ Die kürzung des Eulerkreises bzw. des Eulerpfades werden in der Liste der besuc
     \ENSURE Hamiltonkreis/-pfad $H$
     \end{algorithmic}
 \end{algorithm}
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=14cm]{gfx/eil51_tour}
+        \caption{Hamiltonkreis nach Kürzung des Eulerkreises}
+        \label{img:eil51_tour}
+\end{figure}
 
 \newpage
 \section{Implementation}
