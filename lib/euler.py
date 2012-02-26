@@ -22,8 +22,6 @@ class Euler:
         @return: A list of nodes in order of the eulerian tour/path.
         '''
 
-        #TODO: Implement euler path 
-
         euler = list()
         euler_graph = Graph()
 
@@ -180,6 +178,17 @@ class Euler:
     def euler_path(self, euler, node_s, node_t):
         del euler[-1]
         second_to_last_idx = len(euler)-1
+
+        # if the lists starts with s and ends with t we already have the
+        # correct list
+        if euler[0] == node_s and euler[len(euler)-1] == node_t:
+               return euler
+        # if the lists starts with t and ends with s we only have to sort the
+        # list the other way round and have the correct list
+        elif euler[len(euler)-1] == node_s and euler[0] == node_t:
+            euler.reverse()
+            return euler
+
 
         # iterate over the list, from the first to the second to last element
         for idx, node in enumerate(euler[:second_to_last_idx]):
