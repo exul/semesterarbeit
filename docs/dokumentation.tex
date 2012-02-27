@@ -226,6 +226,14 @@ Die Nearest-Neighbor-Heuristik startet an einem beliebigen Knoten, im nächsten 
 \begin{flushleft}
 \textbf{MST-Heuristik}
 
+Die MST-Heuristik garantiert eine Tour, die maximal doppelt so lang ist, wie die optimale Tour. Der Algorithmus funktioniert wie folgt:\footnote{vgl. \cite{teschl06} Seite 460}
+
+\begin{enumerate}
+    \item Minimalen Spannbaum erstellen
+    \item Alle Kanten verdoppeln
+    \item Eulerkreis ablaufen und dabei bereits besuchte Knoten überspringen
+\end{enumerate}
+
 \end{flushleft}
 \newpage
 \section{Win/Win Strategie}
