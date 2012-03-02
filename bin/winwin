@@ -21,12 +21,12 @@ def parse():
     calculate(args)
 
 def calculate(args):
-    from edge import Edge
-    from reader import Reader
-    from writer import Writer
-    from mst import Minimum_Spanning_Tree
-    from matcher import Matcher
-    from euler import Euler
+    from winwin.edge import Edge
+    from winwin.reader import Reader
+    from winwin.writer import Writer
+    from winwin.mst import Minimum_Spanning_Tree
+    from winwin.matcher import Matcher
+    from winwin.euler import Euler
 
     # begin calculation
     reader = Reader()
@@ -100,7 +100,7 @@ def calculate(args):
 if __name__ == "__main__":
     try:
         sys.path.insert(0, os.path.abspath(
-            os.path.join(os.path.dirname(os.path.realpath(__file__)), './lib')))
+            os.path.join(os.path.dirname(os.path.realpath(__file__)), '../lib')))
 
         parse()
     except KeyboardInterrupt:

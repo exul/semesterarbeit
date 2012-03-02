@@ -1,8 +1,8 @@
 import math
 
-from graph import Graph
-from node import Node
-from edge import Edge
+from winwin.graph import Graph
+from winwin.node import Node
+from winwin.edge import Edge
 
 class Reader:
     ''' 

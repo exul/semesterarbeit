@@ -1,5 +1,5 @@
-from node import Node
-from edge import Edge
+from winwin.node import Node
+from winwin.edge import Edge
 
 class Graph:
     ''' Represents an undirected graph '''

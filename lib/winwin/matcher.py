@@ -1,11 +1,12 @@
 import os
 from collections import OrderedDict
-from edge import Edge
+
+from winwin.edge import Edge
 
 class Matcher:
     ''' Do a matching on edges in a graph '''
 
-    def calculate(self, graph, temp_path='/tmp/', blossom_path='mpm/blossom5',
+    def calculate(self, graph, temp_path='/tmp/', blossom_path='bin/blossom5',
             add_s_t = False):
         '''
         Calculate the minimum perfect matching on the odd nodes of the given

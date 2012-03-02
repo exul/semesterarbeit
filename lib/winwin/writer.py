@@ -1,4 +1,4 @@
-from graph import Graph
+from winwin.graph import Graph
 
 class Writer:
     '''

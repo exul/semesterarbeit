@@ -1,8 +1,8 @@
 import random
 
-from node import Node
-from edge import Edge
-from graph import Graph
+from winwin.node import Node
+from winwin.edge import Edge
+from winwin.graph import Graph
 
 class Euler:
     ''' Algorithms to calculate euler tour/path  '''

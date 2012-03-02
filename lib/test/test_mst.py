@@ -1,7 +1,7 @@
 import unittest
 
-from reader import Reader
-from mst import Minimum_Spanning_Tree
+from winwin.reader import Reader
+from winwin.mst import Minimum_Spanning_Tree
 
 class Test_MST(unittest.TestCase):
 
@@ -10,7 +10,7 @@ class Test_MST(unittest.TestCase):
         self.mst = Minimum_Spanning_Tree()
 
     def test_length(self):
-        self.graph = self.reader.euler_2d('../data/in/eil51.tsp')
+        self.graph = self.reader.euclidean('data/in/eil51.tsp')
         graph = self.mst.calculate(self.graph)
 
         length = 0

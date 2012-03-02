@@ -1,9 +1,9 @@
 import random
 
-from node import Node
-from edge import Edge
-from graph import Graph
-from pqueue import PQueue
+from winwin.node import Node
+from winwin.edge import Edge
+from winwin.graph import Graph
+from winwin.pqueue import PQueue
 
 class Minimum_Spanning_Tree:
     def calculate(self, graph):

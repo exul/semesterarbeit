@@ -18,9 +18,6 @@ class Node:
     def get_z(self):
         return self.coordinates[2]
 
-    def __cmp__(self, other):
-        return id(self).__cmp__(id(other))
-
     def __hash__(self):
         return hash(id(self))
 

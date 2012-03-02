@@ -4,15 +4,16 @@ import sys
 sys.path.insert(0, os.path.abspath(
     os.path.join(os.path.dirname(os.path.realpath(__file__)), './lib')))
 
-from edge import Edge
-from reader import Reader
-from writer import Writer
-from mst import Minimum_Spanning_Tree
-from matcher import Matcher
-from euler import Euler
+from winwin.edge import Edge
+from winwin.reader import Reader
+from winwin.writer import Writer
+from winwin.mst import Minimum_Spanning_Tree
+from winwin.matcher import Matcher
+from winwin.euler import Euler
 
 # set if we want to plot the problem instance
-do_plot = False
+#do_plot = False
+do_plot = True
 
 # how many times we like to run the calculation
 #run_counts = 1000
@@ -32,8 +33,8 @@ for i in range(0, run_counts):
     # read graph data/in from file
     #graph_tsp = reader.euclidean('data/in/eil101.tsp') # alg 705 / opt 629 = 112%
     #graph_hpp = reader.euclidean('data/in/eil101.tsp', 38, 64) # alg 698 / opt 613 = 113% (13.27%)
-    graph_tsp = reader.euclidean('data/in/eil51.tsp') # alg 493 / opt 426 115%
-    graph_hpp = reader.euclidean('data/in/eil51.tsp', 40, 36) # alg 463 / opt 403 = 114% (14.77%)
+    #graph_tsp = reader.euclidean('data/in/eil51.tsp') # alg 493 / opt 426 115%
+    #graph_hpp = reader.euclidean('data/in/eil51.tsp', 40, 36) # alg 463 / opt 403 = 114% (14.77%)
     #graph_tsp = reader.euclidean('data/in/graph.tsp')
     #graph_hpp = reader.euclidean('data/in/graph.tsp', 5, 6)
     #graph_tsp = reader.euclidean('data/in/graph_zz.tsp') # alg 11290 / opt 7798
@@ -54,6 +55,9 @@ for i in range(0, run_counts):
     #graph_tsp = reader.euclidean('data/in/graph_3d.tsp') # 
     #graph_hpp = reader.euclidean('data/in/graph_3d.tsp', 19, 24) # 
 
+    graph_tsp = reader.euclidean('data/in/graph_worst_hpp.tsp') # 
+    graph_hpp = reader.euclidean('data/in/graph_worst_hpp.tsp', 1, 8) # 
+
     print('Graph is created')
 
     # TODO: write graphs to file, not needed for the algortihm
@@ -68,7 +72,7 @@ for i in range(0, run_counts):
         "data/out/solution_hpp.tsp", "data/out/graph_matrix_hpp.tsp"))
 
     # cleanup tem files
-    os.system('rm *.mas *.pul *.sav *.sol')
+    os.system('rm *.mas *.pul *.sav *.sol, *.res')
 
     if do_plot:
         # TODO: only to create graphics, not needed for the algorithm

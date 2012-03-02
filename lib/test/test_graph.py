@@ -1,9 +1,9 @@
 import unittest
 
-from reader import Reader
-from node import Node
-from edge import Edge
-from graph import Graph
+from winwin.reader import Reader
+from winwin.node import Node
+from winwin.edge import Edge
+from winwin.graph import Graph
 
 class Test_Graph(unittest.TestCase):
 
@@ -11,9 +11,10 @@ class Test_Graph(unittest.TestCase):
         self.reader = Reader()
         
     def test_add_node(self):
-        graph = self.reader.euler_2d('../data/in/eil51.tsp')
+        graph = self.reader.euclidean('data/in/eil51.tsp')
         size_before = graph.size
-        node = Node(size_before, 999, 999, 'test_node')
+        positions = list = [999, 999]
+        node = Node(size_before, positions, 'test_node')
         graph.add_node(node)
         size_after = graph.size
        
@@ -21,11 +22,13 @@ class Test_Graph(unittest.TestCase):
         self.assertEqual(size_after, 52)
 
     def test_add_edge(self):
-        graph = self.reader.euler_2d('../data/in/eil51.tsp')
+        graph = self.reader.euclidean('data/in/eil51.tsp')
         size = graph.size
-        node_1 = Node(size, 998, 998, 'test_node_1')
+        positions_1 = list = [998, 998]
+        node_1 = Node(size, positions_1, 'test_node_1')
         size = graph.size
-        node_2 = Node(size, 999, 999, 'test_node_2')
+        positions_2 = list = [999, 999]
+        node_2 = Node(size, positions_2, 'test_node_2')
 
         edge = Edge(node_1, node_2, 999)
 
@@ -43,7 +46,7 @@ class Test_Graph(unittest.TestCase):
         self.assertTrue(contains_after)
 
     def test_remove_edge(self):
-        graph = self.reader.euler_2d('../data/in/eil51.tsp')
+        graph = self.reader.euclidean('data/in/eil51.tsp')
         nodes = graph.nodes
 
         node_1 = nodes[0]
@@ -61,7 +64,7 @@ class Test_Graph(unittest.TestCase):
         self.assertFalse(contains_after)
 
     def test_neighbours_nodes(self):
-        graph = self.reader.euler_2d('../data/in/eil51.tsp')
+        graph = self.reader.euclidean('data/in/eil51.tsp')
         node = graph.nodes[0]
 
         neighbours = graph.neighbour_nodes(node)
@@ -82,7 +85,7 @@ class Test_Graph(unittest.TestCase):
             node_nr += 1
 
     def test_size(self):
-        graph = self.reader.euler_2d('../data/in/eil51.tsp')
+        graph = self.reader.euclidean('data/in/eil51.tsp')
         size = graph.size
         self.assertEqual(size, 51)
 
