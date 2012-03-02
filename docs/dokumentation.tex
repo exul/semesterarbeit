@@ -215,9 +215,15 @@ Die Nearest-Neighbor-Heuristik startet an einem beliebigen Knoten, im nächsten 
 \medskip
 
 \begin{flushleft}
-\textbf{Ant Colony Optimization}
+\textbf{Ant Colony Optimization (ACO)}
 
+Die Erste Anwendung des Ameisenalgorithmus (Ant Colony Optimization) war das Traveling Salesman Problem.\footnote{\cite{dorigo99} Seite 146}
 
+ACO bedient sich der Beobachtung aus der Natur, dass Ameisen bei der Suche nach Futter eine Pheromonspur hinterlassen, mit deren Hilfe nachfolgende Ameisen den Weg zum Futter finden.
+
+Wenn beispielsweise zwei Wege zu einer Futterquelle führen, so werden zu Beginn beide Wege mit der selben Wahrscheinlichkeit gewählt. Auf dem kürzeren der beiden Wege ist die Pheromonspur nach einer Zeitspanne $t$ allerdings höher, da eine Ameise die diesen Weg wählt nach einem Zeitraum $t$ bereits zurückkehrt, während eine Meise auf dem längeren Weg noch nicht zurück ist.
+
+Die Pheromonkonzentration erhöht nun die Wahrscheinlichkeit, dass ein Weg gewählt wird. Somit werden die kürzeren Wege bevorzugt. \cite{dorigo99}
 
 \end{flushleft}
 
@@ -549,7 +555,7 @@ Die Instanzen sind in Files abgelegt. Es werden verschiedene Formate unterstütz
                         Dimensionen                 & 3             \\ \hline
                         Länge optimale Lösung TSP   & 774           \\ \hline
                         Länge Win/Win Lösung  TSP   & 815           \\ \hline
-                        Abweichung TSP              & 3.69\%        \\ \hline
+                        Abweichung TSP              & 5.30\%        \\ \hline
                         $s$ und $t$ für HPP         & 19, 24        \\ \hline
                         Länge optimale Lösung HPP   & 706           \\ \hline
                         Länge Win/Win Lösung  HPP   & 749           \\ \hline
