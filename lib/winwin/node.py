@@ -21,6 +21,9 @@ class Node:
     def __hash__(self):
         return hash(id(self))
 
+    def __lt__(self, other):
+        return self.nr < other.nr
+
     id = property(get_id)
     x = property(get_x)
     y = property(get_y)

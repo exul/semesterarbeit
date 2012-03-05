@@ -12,12 +12,12 @@ from winwin.matcher import Matcher
 from winwin.euler import Euler
 
 # set if we want to plot the problem instance
-#do_plot = False
-do_plot = True
+do_plot = False
+#do_plot = True
 
 # how many times we like to run the calculation
-#run_counts = 1000
-run_counts = 1
+run_counts = 1000
+#run_counts = 1
 
 if do_plot:
     from plot import Plot # TODO: this import takes a lot of time
@@ -31,8 +31,8 @@ solutions_hpp = list()
 
 for i in range(0, run_counts):
     # read graph data/in from file
-    #graph_tsp = reader.euclidean('data/in/eil101.tsp') # alg 705 / opt 629 = 112%
-    #graph_hpp = reader.euclidean('data/in/eil101.tsp', 38, 64) # alg 698 / opt 613 = 113% (13.27%)
+    graph_tsp = reader.euclidean('data/in/eil101.tsp') # alg 705 / opt 629 = 112%
+    graph_hpp = reader.euclidean('data/in/eil101.tsp', 38, 64) # alg 698 / opt 613 = 113% (13.27%)
     #graph_tsp = reader.euclidean('data/in/eil51.tsp') # alg 493 / opt 426 115%
     #graph_hpp = reader.euclidean('data/in/eil51.tsp', 40, 36) # alg 463 / opt 403 = 114% (14.77%)
     #graph_tsp = reader.euclidean('data/in/graph.tsp')
@@ -55,8 +55,8 @@ for i in range(0, run_counts):
     #graph_tsp = reader.euclidean('data/in/graph_3d.tsp') # 
     #graph_hpp = reader.euclidean('data/in/graph_3d.tsp', 19, 24) # 
 
-    graph_tsp = reader.euclidean('data/in/graph_worst_hpp.tsp') # 
-    graph_hpp = reader.euclidean('data/in/graph_worst_hpp.tsp', 1, 8) # 
+    #graph_tsp = reader.euclidean('data/in/graph_worst_hpp.tsp') # 
+    #graph_hpp = reader.euclidean('data/in/graph_worst_hpp.tsp', 1, 8) # 
 
     print('Graph is created')
 
@@ -187,3 +187,9 @@ print('Average Costs for TSP in {0} runs: {1}' \
         .format(len(solutions_tsp), sum(solutions_tsp)/len(solutions_tsp)))
 print('Average Costs for HPP in {0} runs: {1}' \
         .format(len(solutions_hpp), sum(solutions_hpp)/len(solutions_tsp)))
+
+print('Min value tsp is: {0}'.format(min(solutions_tsp)))
+print('Max value tsp is: {0}'.format(max(solutions_tsp)))
+
+print('Min value hpp is: {0}'.format(min(solutions_hpp)))
+print('Max value hpp is: {0}'.format(max(solutions_hpp)))

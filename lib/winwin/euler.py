@@ -1,5 +1,3 @@
-import random
-
 from winwin.node import Node
 from winwin.edge import Edge
 from winwin.graph import Graph
@@ -26,10 +24,11 @@ class Euler:
         euler_graph = Graph()
 
         # save start node, so we can check if we did a cycle
-        # we just take the first node in the graph, it doesn't matter
-        start_node = graph.nodes[0]
+        start_node = min(graph.nodes)
+
         # for the first walk our start_node is the current_node
         current_node = start_node
+
         # we want wo walk at least once
         condition = True
 
@@ -46,9 +45,10 @@ class Euler:
             while condition:
                 # add the current node to the euler tour
                 euler_sub.append(current_node)
-                # take an arbitrary neighbour
+                # take a neighbour
                 neighbours = graph.neighbour_nodes(current_node)
-                next_node = random.choice(list(neighbours.copy().keys()))
+                next_node = min(list(neighbours.copy().keys()))
+
                 # get the edge between the current node an our new node
                 # if there is more than one edge, just take the first one
                 edge_list = graph.edge_by_nodes(current_node, next_node)
