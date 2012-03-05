@@ -1,5 +1,3 @@
-import random
-
 from winwin.node import Node
 from winwin.edge import Edge
 from winwin.graph import Graph
@@ -25,11 +23,7 @@ class Minimum_Spanning_Tree:
         # take the first node as start node (it doesn't matter which one)
         # TODO: always use the same startnode, otherwise there could be 
         # multiple MSTs that give different results in the end. needed?
-        for node in graph.nodes:
-            if node.nr == 1:
-                start_node = node
-                break
-        #start_node = random.choice(graph.nodes)
+        start_node = min(graph.nodes)
 
         # add first node to mst
         mst.add_node(start_node)

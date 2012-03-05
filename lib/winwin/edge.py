@@ -26,7 +26,7 @@ class Edge:
     def __lt__(self, other):
         # if the weights are the same, just compare the ids
         if self.weight == other.weight:
-            return self.id < other.id
+            return self.node_1.nr < other.node_1.nr
         else:
             return self.weight < other.weight
 

@@ -52,7 +52,7 @@ class Euler:
                 # get the edge between the current node an our new node
                 # if there is more than one edge, just take the first one
                 edge_list = graph.edge_by_nodes(current_node, next_node)
-                current_edge = edge_list[0]
+                current_edge = min(edge_list)
                 # delete the edge from the graph, we don't want to the the same edge twice
                 graph.remove_edge(current_edge)
 

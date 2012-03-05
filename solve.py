@@ -19,6 +19,10 @@ do_plot = False
 run_counts = 1000
 #run_counts = 1
 
+# calculate exact solution?
+#calc_exact = True
+calc_exact = False
+
 if do_plot:
     from plot import Plot # TODO: this import takes a lot of time
 
@@ -65,14 +69,15 @@ for i in range(0, run_counts):
     writer.write_matrix(graph_hpp,'data/out/graph_matrix_hpp.tsp', True) #HPP
 
     # TODO: Calculate exact solution
-    os.system('{0} -o {1} {2} | grep "Optimal Solution: "'.format("concorde", \
-        "data/out/solution_tsp.tsp", "data/out/graph_matrix_tsp.tsp"))
+    if calc_exact:
+        os.system('{0} -o {1} {2} | grep "Optimal Solution: "'.format("concorde", \
+            "data/out/solution_tsp.tsp", "data/out/graph_matrix_tsp.tsp"))
 
-    os.system('{0} -o {1} {2} | grep "Optimal Solution: "'.format("concorde", \
-        "data/out/solution_hpp.tsp", "data/out/graph_matrix_hpp.tsp"))
+        os.system('{0} -o {1} {2} | grep "Optimal Solution: "'.format("concorde", \
+            "data/out/solution_hpp.tsp", "data/out/graph_matrix_hpp.tsp"))
 
-    # cleanup tem files
-    os.system('rm *.mas *.pul *.sav *.sol, *.res')
+        # cleanup tem files
+        os.system('rm *.mas *.pul *.sav *.sol, *.res')
 
     if do_plot:
         # TODO: only to create graphics, not needed for the algorithm
