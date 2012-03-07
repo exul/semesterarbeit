@@ -16,12 +16,13 @@ do_plot = False
 #do_plot = True
 
 # how many times we like to run the calculation
-run_counts = 1000
-#run_counts = 1
+#run_counts = 1000
+#run_counts = 100
+run_counts = 1
 
 # calculate exact solution?
-#calc_exact = True
-calc_exact = False
+calc_exact = True
+#calc_exact = False
 
 if do_plot:
     from plot import Plot # TODO: this import takes a lot of time
@@ -35,10 +36,20 @@ solutions_hpp = list()
 
 for i in range(0, run_counts):
     # read graph data/in from file
-    graph_tsp = reader.euclidean('data/in/eil101.tsp') # alg 705 / opt 629 = 112%
-    graph_hpp = reader.euclidean('data/in/eil101.tsp', 38, 64) # alg 698 / opt 613 = 113% (13.27%)
+    #graph_tsp = reader.euclidean('data/in/eil101.tsp') # alg 705 / opt 629 = 112%
+    #graph_hpp = reader.euclidean('data/in/eil101.tsp', 38, 64) # alg 698 / opt 613 = 113% (13.27%)
     #graph_tsp = reader.euclidean('data/in/eil51.tsp') # alg 493 / opt 426 115%
     #graph_hpp = reader.euclidean('data/in/eil51.tsp', 40, 36) # alg 463 / opt 403 = 114% (14.77%)
+    #graph_tsp = reader.euclidean('data/in/berlin52.tsp') # alg 8422 / opt 7542
+    #graph_hpp = reader.euclidean('data/in/berlin52.tsp', 33, 47) # alg 8161 / opt 6967
+    #graph_tsp = reader.euclidean('data/in/rl1304.tsp') # alg 7777 / opt 6773
+    #graph_hpp = reader.euclidean('data/in/rl1304.tsp', 6, 566) # alg 7636 / opt 6733
+
+    #graph_tsp = reader.euclidean('data/in/rl5915.tsp') # alg 7777 / opt 6773
+    #graph_hpp = reader.euclidean('data/in/rl5915.tsp', 6, 566) # alg 7636 / opt 6733
+
+    #graph_tsp = reader.euclidean('data/in/rat575.tsp') # alg 7777 / opt 6773
+    #graph_hpp = reader.euclidean('data/in/rat575.tsp', 6, 566) # alg 7636 / opt 6733
     #graph_tsp = reader.euclidean('data/in/graph.tsp')
     #graph_hpp = reader.euclidean('data/in/graph.tsp', 5, 6)
     #graph_tsp = reader.euclidean('data/in/graph_zz.tsp') # alg 11290 / opt 7798
@@ -61,6 +72,9 @@ for i in range(0, run_counts):
 
     #graph_tsp = reader.euclidean('data/in/graph_worst_hpp.tsp') # 
     #graph_hpp = reader.euclidean('data/in/graph_worst_hpp.tsp', 1, 8) # 
+
+    graph_tsp = reader.euclidean('data/in/my_tsp.tsp') # 
+    graph_hpp = reader.euclidean('data/in/my_tsp.tsp', 1, 8) # 
 
     print('Graph is created')
 

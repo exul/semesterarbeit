@@ -15,6 +15,7 @@ def parse():
             hamilton path', action='store',required=True)
     parser.add_argument('-t','--end', dest='t',help='End node of to calculate \
     hamilton path', action='store',required=True)
+    #TODO: Optimale Lösung als Eingabe erfassen
 
     args = parser.parse_args()
 
