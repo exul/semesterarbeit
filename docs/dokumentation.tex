@@ -247,8 +247,10 @@ Die MST-Heuristik garantiert eine Tour, die maximal doppelt so lang ist, wie die
 Die Win/Win Strategie basiert darauf, dass für zwei verwandte Probleme Algorithmen $A_1$ und $A_2$ existieren und das eine Instanzen, für die $A_1$ eine schlechte Lösung liefer, $A_2$ eine gute Lösung liefert. Dass also die Worst-Case Instanzen der beiden Algorithmen disjunkt sind.\cite{boeckenhauer10}
 
 \subsection{Anwendung für das Traveling Salesman Problem}
+
 \newpage
 \section{Algorithmen}
+\label{s:algorithmen}
 %TODO: Notation bei der beschreibung der Algorithmen vereinheitlichen
 Der verwendete Algorithmus berechnet sowohl den Hamiltonpfad, wie auch den Hamiltonkreis für einen gegebenen Graphen $G$. 
 
@@ -448,6 +450,10 @@ Diese Implementation hat den Vorteil, dass direkt auf Knoten, Kanten und Nachbar
 
 \newpage
 
+\section{Applikation}
+\subsection{Übersicht}
+\subsection{Input File Format}
+\subsection{Aufruf}
 \section{Berechnungen}
 Für die Berechnung werden einerseits Instanzen aus der TSPLIB verwendet, andererseits selbst erstellte Instanzen.
 Zuerst wird das Vorgehen für die Berechnung beschrieben, anschliessend werden die verwendeten Verfahren vorgestellt.
@@ -467,7 +473,7 @@ Um die Lösung der Win/Win Strategie mit der exakten Lösung zu vergleichen wird
 
 Die Implementierung des Graphes als "`dictionary"' hat zur Folge, dass die Knoten nicht sortiert sind. Dies bringt einerseits massive Geschwindigkeitsvorteile, andererseits führt es aber dazu, dass bei der Berechnung der selben Instanz leicht unterschiedliche Ergebnise berechnet werden.
 
-Um eine möglichst repräsentative Lösung für den Vergleich zu erhalten, wird pro Instanz der arithmetische Mittelwert aus 1000 Berechnungen verwendet.
+Um eine möglichst repräsentative Lösung für den Vergleich zu erhalten, wird pro Instanz der arithmetische Mittelwert aus 100 Berechnungen verwendet.
 %TODO: Berechnung entsprechend durchführen
 
 \subsection{Genutzte Ressourcen}
@@ -488,7 +494,7 @@ Neben dem Kommandozeilen-Programm für Linux ist auch ein GUI für Windows verf�
 \begin{figure}[H]
         \centering
         \includegraphics[width=14cm]{gfx/concorde_solution}
-        \caption{Concorde hat die exakte Lösung zu eil51 berechnet}
+        \caption{Concorde hat die Lösung zu eil51 berechnet}
         \label{img:concorde_solution}
 \end{figure}
 
@@ -500,9 +506,29 @@ Die Instanzen sind in Files abgelegt. Es werden verschiedene Formate unterstütz
 \subsubsection{Zufällige Instanzen}
 
 \subsection{Auswertung TSPLIB Instanzen}
-\subsubsection{eil51}
+\subsubsection{dantzig42}
+Die TSP-Instanz dantzig42 wurde 1954 durch G. Dantzig, R. Fulkerson und S. Johnson gelöst. Eigentlich handelt sich sich um eine Instanz mit 49 Städten, da die Berechnung mit 49 Städten zu aufwändig war, wurden 7 Städte bei der Berechnung nicht berücksichtigt. Die optimale Route führte durch die 7 entfernten Städte und war somit auch für diese optimal.
 
+        \begin{table}[H]
+                \centering
+                \begin{tabular}{| l | r |}
+                    \hline
+                        Anzahl Städte               & 42            \\ \hline
+                        Dimensionen                 & 2             \\ \hline
+                        Länge optimale Lösung TSP   & 675           \\ \hline
+                        Länge Win/Win Lösung  TSP   & 745           \\ \hline
+                        Abweichung TSP              & 10.37\%       \\ \hline
+                        $s$ und $t$ für HPP         & 14,41         \\ \hline
+                        Länge optimale Lösung HPP   & 619           \\ \hline
+                        Länge Win/Win Lösung  HPP   & 715           \\ \hline
+                        Abweichung HPP              & 15.50\%       \\ \hline
+                \end{tabular}
+                \caption{Instanz dantzig42}
+                \label{tab:dantzig42}
+        \end{table}
 
+\subsubsection{eil51/eil101}
+Bei eil51 und eil101 handelt es sich um TSPLIB Probleme mit 51 und 101 Städten. Die Instanz eil51 wurde zur Erläuterung des Algorithmus in Abschnitt \ref{s:algorithmen} genutzt.
         \begin{table}[H]
                 \centering
                 \begin{tabular}{| l | r |}
@@ -510,23 +536,56 @@ Die Instanzen sind in Files abgelegt. Es werden verschiedene Formate unterstütz
                         Anzahl Städte               & 51            \\ \hline
                         Dimensionen                 & 2             \\ \hline
                         Länge optimale Lösung TSP   & 426           \\ \hline
-                        Länge Win/Win Lösung  TSP   & 483           \\ \hline
-                        Abweichung TSP              & 13.06\%       \\ \hline
+                        Länge Win/Win Lösung  TSP   & 489           \\ \hline
+                        Abweichung TSP              & 14.79\%       \\ \hline
                         $s$ und $t$ für HPP         & 36, 40        \\ \hline
                         Länge optimale Lösung HPP   & 403           \\ \hline
-                        Länge Win/Win Lösung  HPP   & 459           \\ \hline
-                        Abweichung HPP              & 13.90\%       \\ \hline
+                        Länge Win/Win Lösung  HPP   & 463           \\ \hline
+                        Abweichung HPP              & 14.89\%       \\ \hline
                 \end{tabular}
                 \caption{Instanz eil51}
                 \label{tab:instanz_eil51}
         \end{table}
 
-\subsubsection{Zusammenfassung}
+        \begin{table}[H]
+                \centering
+                \begin{tabular}{| l | r |}
+                    \hline
+                        Anzahl Städte               & 101           \\ \hline
+                        Dimensionen                 & 2             \\ \hline
+                        Länge optimale Lösung TSP   & 629           \\ \hline
+                        Länge Win/Win Lösung  TSP   & 712           \\ \hline
+                        Abweichung TSP              & 13.20\%       \\ \hline
+                        $s$ und $t$ für HPP         & 38, 64        \\ \hline
+                        Länge optimale Lösung HPP   & 613           \\ \hline
+                        Länge Win/Win Lösung  HPP   & 703           \\ \hline
+                        Abweichung HPP              & 14.68\%       \\ \hline
+                \end{tabular}
+                \caption{Instanz eil101}
+                \label{tab:instanz_eil101}
+        \end{table}
 
+\subsubsection{Zusammenfassung}
+    \begin{table}[H]
+                \centering
+                \begin{tabular}{| p{2.0cm} | p{2.0cm} | p{2.5cm} | p{2.5cm} | p{2.5cm} |}
+                    \hline
+                    \small{\textbf{Name}} &
+                    \small{\textbf{Anzahl Städte}}  & 
+                    \small{\textbf{Dimensionen}} & 
+                    \small{\textbf{Abweichung TSP}} & 
+                    \small{\textbf{Abweichung HPP}} \\ \hline
+
+                    eil51       & 51    & 2     & 14.79\%   & 14.89\%   \\ \hline
+                    eil101      & 101   & 2     & 13.20\%   & 14.68\%   \\ \hline
+                    dantzig42   & 42    & 2     & 10.37\%   & 15.50\%   \\ \hline
+               \end{tabular}
+                \caption{Auswertung TSPLIB Instanzen}
+                \label{tab:instanz_tsplib_instanzen}
+        \end{table}
 
 \subsection{Auswertung eigener Instanzen}
 \subsubsection{Zick-Zack}
-
         \begin{table}[H]
                 \centering
                 \begin{tabular}{| l | r |}
@@ -545,24 +604,61 @@ Die Instanzen sind in Files abgelegt. Es werden verschiedene Formate unterstütz
                 \label{tab:instanz_zick_zack}
         \end{table}
 
-\subsubsection{Random 3D}
-
+\subsubsection{Hoogeveen}
         \begin{table}[H]
                 \centering
                 \begin{tabular}{| l | r |}
                     \hline
-                        Anzahl Städte               & 30            \\ \hline
-                        Dimensionen                 & 3             \\ \hline
-                        Länge optimale Lösung TSP   & 774           \\ \hline
-                        Länge Win/Win Lösung  TSP   & 815           \\ \hline
-                        Abweichung TSP              & 5.30\%        \\ \hline
-                        $s$ und $t$ für HPP         & 19, 24        \\ \hline
-                        Länge optimale Lösung HPP   & 706           \\ \hline
-                        Länge Win/Win Lösung  HPP   & 749           \\ \hline
-                        Abweichung HPP              & 6.09\%        \\ \hline
+                        Anzahl Städte               & 8             \\ \hline
+                        Dimensionen                 & 2             \\ \hline
+                        Länge optimale Lösung TSP   & 4165          \\ \hline
+                        Länge Win/Win Lösung  TSP   & 4235          \\ \hline
+                        Abweichung TSP              & 1.68\%        \\ \hline
+                        $s$ und $t$ für HPP         & 1, 8          \\ \hline
+                        Länge optimale Lösung HPP   & 3163          \\ \hline
+                        Länge Win/Win Lösung  HPP   & 5138          \\ \hline
+                        Abweichung HPP              & 61.56\%       \\ \hline
+                \end{tabular}
+                \caption{Instanz Hoogeveen}
+                \label{tab:instanz_hoogeveen}
+        \end{table}
+
+\subsubsection{Random 3D}
+        \begin{table}[H]
+                \centering
+                \begin{tabular}{| l | r |}
+                    \hline
+                        Anzahl Städte               &               \\ \hline
+                        Dimensionen                 &               \\ \hline
+                        Länge optimale Lösung TSP   &               \\ \hline
+                        Länge Win/Win Lösung  TSP   &               \\ \hline
+                        Abweichung TSP              &               \\ \hline
+                        $s$ und $t$ für HPP         &               \\ \hline
+                        Länge optimale Lösung HPP   &               \\ \hline
+                        Länge Win/Win Lösung  HPP   &               \\ \hline
+                        Abweichung HPP              &               \\ \hline
                 \end{tabular}
                 \caption{Instanz Random 3D}
                 \label{tab:instanz_random_3d}
+        \end{table}
+
+\subsubsection{Random 5D}
+        \begin{table}[H]
+                \centering
+                \begin{tabular}{| l | r |}
+                    \hline
+                        Anzahl Städte               & 50            \\ \hline
+                        Dimensionen                 & 5             \\ \hline
+                        Länge optimale Lösung TSP   & 20577         \\ \hline
+                        Länge Win/Win Lösung  TSP   & 22598         \\ \hline
+                        Abweichung TSP              & 9.82\%        \\ \hline
+                        $s$ und $t$ für HPP         & 11, 47        \\ \hline
+                        Länge optimale Lösung HPP   & 19687         \\ \hline
+                        Länge Win/Win Lösung  HPP   & 21194         \\ \hline
+                        Abweichung HPP              & 7.65\%        \\ \hline
+                \end{tabular}
+                \caption{Instanz Random 5D}
+                \label{tab:instanz_random_5d}
         \end{table}
 
 \subsubsection{Zusammenfassung}
