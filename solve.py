@@ -41,7 +41,9 @@ for i in range(0, run_counts):
     #graph_tsp = reader.euclidean('data/in/eil51.tsp') # alg 493 / opt 426 115%
     #graph_hpp = reader.euclidean('data/in/eil51.tsp', 40, 36) # alg 463 / opt 403 = 114% (14.77%)
     #graph_tsp = reader.euclidean('data/in/berlin52.tsp') # alg 8422 / opt 7542
-    #graph_hpp = reader.euclidean('data/in/berlin52.tsp', 33, 47) # alg 8161 / opt 6967
+    #graph_hpp = reader.euclidean('data/in/berlin52.tsp', 29, 44) # alg 8161 / opt 6967
+    #graph_tsp = reader.euclidean('data/in/dantzig42.tsp') # alg 8422 / opt 7542
+    #graph_hpp = reader.euclidean('data/in/dantzig42.tsp', 14, 42) # alg 8161 / opt 6967
     #graph_tsp = reader.euclidean('data/in/rl1304.tsp') # alg 7777 / opt 6773
     #graph_hpp = reader.euclidean('data/in/rl1304.tsp', 6, 566) # alg 7636 / opt 6733
 
@@ -73,8 +75,11 @@ for i in range(0, run_counts):
     #graph_tsp = reader.euclidean('data/in/graph_worst_hpp.tsp') # 
     #graph_hpp = reader.euclidean('data/in/graph_worst_hpp.tsp', 1, 8) # 
 
+    #graph_tsp = reader.euclidean('data/in/graph_belt_2d.tsp') # opt 3150 = 9.65%
+    #graph_hpp = reader.euclidean('data/in/graph_belt_2d.tsp', 2, 36) # opt 2092 = 1.24%
+
     graph_tsp = reader.euclidean('data/in/my_tsp.tsp') # 
-    graph_hpp = reader.euclidean('data/in/my_tsp.tsp', 1, 8) # 
+    graph_hpp = reader.euclidean('data/in/my_tsp.tsp', 32, 24) # 
 
     print('Graph is created')
 
@@ -90,8 +95,8 @@ for i in range(0, run_counts):
         os.system('{0} -o {1} {2} | grep "Optimal Solution: "'.format("concorde", \
             "data/out/solution_hpp.tsp", "data/out/graph_matrix_hpp.tsp"))
 
-        # cleanup tem files
-        os.system('rm *.mas *.pul *.sav *.sol, *.res')
+        # cleanup temp files
+        os.system('rm *.mas *.pul *.sav *.sol *.res')
 
     if do_plot:
         # TODO: only to create graphics, not needed for the algorithm

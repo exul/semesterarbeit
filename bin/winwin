@@ -10,12 +10,17 @@ def parse():
     # create parser
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument('-f', '--file',dest='file',help='File to read TSP from',
-            action='store',required=True)
+        action='store',required=True)
     parser.add_argument('-s','--start', dest='s',help='Start node to calculate \
-            hamilton path', action='store',required=True)
+        hamilton path', action='store', type=int, required=True)
     parser.add_argument('-t','--end', dest='t',help='End node of to calculate \
-    hamilton path', action='store',required=True)
-    #TODO: Optimale Lösung als Eingabe erfassen
+        hamilton path', action='store', type=int, required=True)
+    parser.add_argument('-ot','--opt-tsp', dest='ot',help='Length of the \
+            optimal TSP-Solution', action='store',required=False, type=int, default=0)
+    parser.add_argument('-oh','--opt-hpp', dest='oh',help='Length of the \
+            optimal HPP-Solution', action='store',required=False, type=int, default=0)
+    parser.add_argument("-p", "--print", action="store_true", default=False, \
+        dest="p", help="Print solution?")
 
     args = parser.parse_args()
 
@@ -37,14 +42,14 @@ def calculate(args):
     graph_tsp = reader.euclidean(args.file)
     graph_hpp = reader.euclidean(args.file, args.s, args.t)
 
-    print('Graph is created')
+    print('Graph created')
 
     # calculate the minimum spanning tree
     mst = Minimum_Spanning_Tree()
     graph_tsp = mst.calculate(graph_tsp)
     graph_hpp = mst.calculate(graph_hpp)
 
-    print('MST calculated')
+    print('Minimum spanning tree calculated')
 
     # do a minimum perfect matching on the odd nodes of the graph
     # and add the new edges to the graph
@@ -65,38 +70,64 @@ def calculate(args):
     # do a minimum perfect matching on the MST + {s, t}
     graph_hpp = matcher.calculate(graph_hpp)
 
-    print('Perfect Matching calculated')
+    print('Perfect matching calculated')
     euler = Euler()
 
     # calculate euler tour/path
     euler_nodes_tsp = euler.calculate(graph_tsp)
     euler_nodes_hpp = euler.calculate(graph_hpp, False)
 
-    print('Euler Tour calculated')
+    print('Eulerian tour calculated')
     nodes_tsp = euler.shorten_tour(euler_nodes_tsp)
     nodes_hpp = euler.shorten_path(euler_nodes_hpp)
 
-    print('Euler Tour shortened')
+    print('Eulerian tour shortened')
     writer.write_nodes(nodes_tsp, 'data/out/tour_winwin.tsp')
     writer.write_nodes(nodes_hpp, 'data/out/tour_winwin.hpp')
 
     # calculate TSP costs
     cost_tsp = 0
+    if args.p:
+        print('\nTSP Tour:')
+
     for i in range(len(nodes_tsp)):
+        if args.p:
+            print(nodes_tsp[i].nr, end=" ")
+
         if i > 0:
-            #print(graph_tsp.lookup_distance(nodes_tsp[i-1], nodes_tsp[i])[0])
             cost_tsp += graph_tsp.lookup_distance(nodes_tsp[i-1], nodes_tsp[i])[0]
 
-    print('TSP: This tour costs {0}, we visited {1} nodes.'.format(cost_tsp, i))
+    print('\nTSP: This tour costs {0}, we visited {1} nodes.'.format(cost_tsp, i))
+
+    error_tsp = cost_tsp - args.ot
+    if args.ot > 0:
+        if error_tsp > 0:
+            print('TSP: The tour is {0}% longer than the optimum'. \
+                    format(round(100*error_tsp/args.ot, 2)))
+        else:
+            print('You found a shorter solution than the optimum, really?')
 
     # calculate HPP costs
     cost_hpp = 0
+    if args.p:
+        print('\nHPP Tour:')
+
     for i in range(len(nodes_hpp)):
+        if args.p:
+            print(nodes_hpp[i].nr, end=" ")
+
         if i > 0:
-            #print(graph_hpp.lookup_distance(nodes_hpp[i-1], nodes_hpp[i])[0])
             cost_hpp += graph_hpp.lookup_distance(nodes_hpp[i-1], nodes_hpp[i])[0]
 
-    print('HPP: This tour costs {0}, we visited {1} nodes.'.format(cost_hpp, i+1))
+    print('\nHPP: This tour costs {0}, we visited {1} nodes.'.format(cost_hpp, i+1))
+
+    if args.oh > 0:
+        error_hpp = cost_hpp - args.oh
+        if error_hpp > 0:
+            print('HPP: The tour is {0}% longer than the optimum'. \
+                    format(round(100*error_hpp/args.oh, 2)))
+        else:
+            print('You found a shorter solution than the optimum, really?')
 
 if __name__ == "__main__":
     try:
