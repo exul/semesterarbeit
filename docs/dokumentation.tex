@@ -451,13 +451,46 @@ Diese Implementation hat den Vorteil, dass direkt auf Knoten, Kanten und Nachbar
 \newpage
 
 \section{Applikation}
-\subsection{Übersicht}
+In diesem Abschnitt wird die Anwendung des Programms zur Berechnung der Win/Win Strategie genauer Beschrieben.
+
+Zur Berechnung werden die benötigten Angaben aus einer Datei im TSPLIB Format gelesen. Mittels Parameter können dann verschiedene Optionen verwendet werden.
+
 \subsection{Input File Format}
-\subsection{Aufruf}
+\subsection{Anwendung}
+Die Anwendung kann von der Kommandozeile aufgerufen werden. Dabei können folgende Parameter verwendet werden.
+
+\begin{table}[H]
+        \centering
+        \begin{tabular}{| l | l | l |}
+            \hline
+            \textbf{Parameter}          & \textbf{Beschreibung}                                         & \textbf{default}      \\ \hline
+            \texttt{-f (--file)}        & File, von welchem die Instanz gelesen wird                    &                       \\ \hline
+            \texttt{-s (--start)}       & Startknoten des Hamiltonpfades                                &                       \\ \hline
+            \texttt{-t (--end)}         & Zielknoten des Hamiltonpfades                                 &                       \\ \hline
+            \texttt{-ot (--opt-tsp)}    & Zielknoten des Hamiltonpfades                                 &                       \\ \hline
+            \texttt{-oh (--opt-hpp)}    & Zielknoten des Hamiltonpfades                                 &                       \\ \hline
+            \texttt{-p (--print)}       & Gibt an, ob die Knoten der Lösung ausgegeben werden sollen    & \texttt{False}        \\ \hline
+        \end{tabular}
+        \caption{Liste der möglichen Parameter}
+        \label{tab:parameter}
+\end{table}
+
+Die Parameter \texttt{-f}, \texttt{-s}, \texttt{-t} müssen bei jedem Aufruf angegeben werden.
+
+\subsubsection{Beispiele}
+Berechnung der Instanz eil51 mit dem Startknoten 36 und dem Zielknoten 40:
+\begin{flushleft}
+\texttt{./bin/winwin -f data/in/eil51.tsp -s 36 -t 40}
+\end{flushleft}
+
+Berechnung der Instanz dantzig42 mit dem Startknoten 14 und dem Zielknoten 41, die Länge der optimalen TSP-Route ist 675 und die Länge der optimalen HPP-Route ist 619. Die Lösungen für das TSP und das HPP wird ausgegeben:
+\begin{flushleft}
+\texttt{./bin/winwin -f data/in/dantzig42.tsp -s 14 -t 41 -ot 675 -oh 619 -p}
+\end{flushleft}
+
 \section{Berechnungen}
 Für die Berechnung werden einerseits Instanzen aus der TSPLIB verwendet, andererseits selbst erstellte Instanzen.
-Zuerst wird das Vorgehen für die Berechnung beschrieben, anschliessend werden die verwendeten Verfahren vorgestellt.
-
+Zuerst wird das Vorgehen für die Berechnung beschrieben, anschliessend werden die verwendeten Ressourcen vorgestellt. Zum Schluss werden Berechnungen auf verschiedenen Instanzen ausgewertet.
 
 \subsection{Vorgehen}
 Um die Lösung der Win/Win Strategie mit der exakten Lösung zu vergleichen wird wie folgt vorgegangen:
@@ -503,7 +536,14 @@ Die TSPLIB ist eine Sammlung von TSP-Instanzen, die 1990 von Gerhard Reinelt ers
 
 Die Instanzen sind in Files abgelegt. Es werden verschiedene Formate unterstützt, unter anderem die Speicherung der Koordinaten im 2 und 3 dimensionalen euklidischen Raum und als Matrix, bei der die Elemente die Abstände zwischen den Knoten darstellt.
 
-\subsubsection{Zufällige Instanzen}
+\subsubsection{Eigene Instanzen}
+Eigene Instanzen werden verwendet, wenn bestimmte Szenarien berechnet werden sollen, die in der TSPLIB nicht verfügbar sind.
+
+Dazu werden bestimmte Probleme von Hand erstellt. So zum Beispiel die Instanz zur Darstellung des Worst-Case des Hamiltonpfadproblems.
+
+Neben den von Hand erstellen Problemen, wurden mittels eines einfachen Scripts Zufällige Instanzen erstellt. Diese sind entweder komplett zufällig, in dem Städte innerhalb definierten Schranken verteilt werden oder zufällig, aber mit vorgegebenen Mustern. Beispielsweise wurden Instanzen erstellt, bei denen die Städte auf der X-Ache in einem Bereich von 1-1500 liegen, auf der Y-Achse aber nur von 1-100. So werden die Städte auf einem schmalen Band verteilt.
+
+\newpage
 
 \subsection{Auswertung TSPLIB Instanzen}
 \subsubsection{dantzig42}
@@ -529,6 +569,10 @@ Die TSP-Instanz dantzig42 wurde 1954 durch G. Dantzig, R. Fulkerson und S. Johns
 
 \subsubsection{eil51/eil101}
 Bei eil51 und eil101 handelt es sich um TSPLIB Probleme mit 51 und 101 Städten. Die Instanz eil51 wurde zur Erläuterung des Algorithmus in Abschnitt \ref{s:algorithmen} genutzt.
+
+\begin{table}[H]
+    \begin{minipage}[b]{0.5\linewidth}\centering
+
         \begin{table}[H]
                 \centering
                 \begin{tabular}{| l | r |}
@@ -546,6 +590,11 @@ Bei eil51 und eil101 handelt es sich um TSPLIB Probleme mit 51 und 101 Städten.
                 \caption{Instanz eil51}
                 \label{tab:instanz_eil51}
         \end{table}
+
+        \end{minipage}
+        \hspace{0.1cm}
+        \begin{minipage}[b]{0.5\linewidth}
+            \centering
 
         \begin{table}[H]
                 \centering
@@ -565,6 +614,9 @@ Bei eil51 und eil101 handelt es sich um TSPLIB Probleme mit 51 und 101 Städten.
                 \label{tab:instanz_eil101}
         \end{table}
 
+    \end{minipage}
+\end{table}
+
 \subsubsection{Zusammenfassung}
     \begin{table}[H]
                 \centering
@@ -576,16 +628,17 @@ Bei eil51 und eil101 handelt es sich um TSPLIB Probleme mit 51 und 101 Städten.
                     \small{\textbf{Abweichung TSP}} & 
                     \small{\textbf{Abweichung HPP}} \\ \hline
 
+                    dantzig42   & 42    & 2     & 10.37\%   & 15.50\%   \\ \hline
                     eil51       & 51    & 2     & 14.79\%   & 14.89\%   \\ \hline
                     eil101      & 101   & 2     & 13.20\%   & 14.68\%   \\ \hline
-                    dantzig42   & 42    & 2     & 10.37\%   & 15.50\%   \\ \hline
                \end{tabular}
                 \caption{Auswertung TSPLIB Instanzen}
                 \label{tab:instanz_tsplib_instanzen}
         \end{table}
 
 \subsection{Auswertung eigener Instanzen}
-\subsubsection{Zick-Zack}
+\subsubsection{Christofides}
+
         \begin{table}[H]
                 \centering
                 \begin{tabular}{| l | r |}
@@ -605,6 +658,8 @@ Bei eil51 und eil101 handelt es sich um TSPLIB Probleme mit 51 und 101 Städten.
         \end{table}
 
 \subsubsection{Hoogeveen}
+In seinem Paper "`Analysis of Christofides' heuristic: some paths are more difficult than cycles"'\cite{hoogeveen91} zeigte J.A. Hoogeveen anhand dieser Instanz den Worst Case Fall für das Hamiltonpfadproblem.
+
         \begin{table}[H]
                 \centering
                 \begin{tabular}{| l | r |}
@@ -622,6 +677,71 @@ Bei eil51 und eil101 handelt es sich um TSPLIB Probleme mit 51 und 101 Städten.
                 \caption{Instanz Hoogeveen}
                 \label{tab:instanz_hoogeveen}
         \end{table}
+
+\subsubsection{Band 2D}
+Bei dieser Instanz werden die Knoten auf einem länglichen Band verteilt. Dazu werden Städte zwischen 1 und 1500 auf der X-Achse und zwischen 1 und 100 auf der Y-Achse platziert.
+
+        \begin{table}[H]
+                \centering
+                \begin{tabular}{| l | r |}
+                    \hline
+                        Anzahl Städte               & 50            \\ \hline
+                        Dimensionen                 & 2             \\ \hline
+                        Länge optimale Lösung TSP   & 3150          \\ \hline
+                        Länge Win/Win Lösung  TSP   & 3454          \\ \hline
+                        Abweichung TSP              & 9.65\%        \\ \hline
+                        $s$ und $t$ für HPP         & 2, 36         \\ \hline
+                        Länge optimale Lösung HPP   & 2092          \\ \hline
+                        Länge Win/Win Lösung  HPP   & 2118          \\ \hline
+                        Abweichung HPP              & 1.24\%        \\ \hline
+                \end{tabular}
+                \caption{Instanz Band 2D}
+                \label{tab:instanz_belt_2d}
+        \end{table}
+
+\subsubsection{Band 3D}
+Bei dieser Instanz werden die Knoten auf einem länglichen Band verteilt. Dazu werden Städte zwischen zwischen 1 und 100 auf einer Achse und zwischen 1 und 1000 auf den anderen beiden Achsen platziert.
+
+        \begin{table}[H]
+                \centering
+                \begin{tabular}{| l | r |}
+                    \hline
+                        Anzahl Städte               & 50            \\ \hline
+                        Dimensionen                 & 3             \\ \hline
+                        Länge optimale Lösung TSP   & 8861          \\ \hline
+                        Länge Win/Win Lösung  TSP   & 9646          \\ \hline
+                        Abweichung TSP              & 10.56\%       \\ \hline
+                        $s$ und $t$ für HPP         & 22, 33        \\ \hline
+                        Länge optimale Lösung HPP   & 8266          \\ \hline
+                        Länge Win/Win Lösung  HPP   & 9095          \\ \hline
+                        Abweichung HPP              & 8.60\%        \\ \hline
+                \end{tabular}
+                \caption{Instanz Band 3D}
+                \label{tab:instanz_belt_3d}
+        \end{table}
+
+\subsubsection{Band 4D}
+Bei dieser Instanz werden die Knoten auf einem länglichen Band verteilt. Dazu werden Städte zwischen zwischen 1 und 100 auf einer Achse und zwischen 1 und 1000 auf den anderen beiden Achsen platziert.
+
+        \begin{table}[H]
+                \centering
+                \begin{tabular}{| l | r |}
+                    \hline
+                        Anzahl Städte               & 50            \\ \hline
+                        Dimensionen                 & 4             \\ \hline
+                        Länge optimale Lösung TSP   & 16808         \\ \hline
+                        Länge Win/Win Lösung  TSP   & 18242         \\ \hline
+                        Abweichung TSP              & 15.84\%       \\ \hline
+                        $s$ und $t$ für HPP         & 19, 31        \\ \hline
+                        Länge optimale Lösung HPP   & 15690         \\ \hline
+                        Länge Win/Win Lösung  HPP   & 18175         \\ \hline
+                        Abweichung HPP              & 8.53\%        \\ \hline
+                \end{tabular}
+                \caption{Instanz Band 4D}
+                \label{tab:instanz_belt_4d}
+        \end{table}
+
+%TODO: Bei anderen generierten Instanzen der selben Art, waren TSP und HPP teilweise gleich gut/schlecht
 
 \subsubsection{Random 3D}
         \begin{table}[H]
@@ -643,6 +763,8 @@ Bei eil51 und eil101 handelt es sich um TSPLIB Probleme mit 51 und 101 Städten.
         \end{table}
 
 \subsubsection{Random 5D}
+Eine 50-Städte Instanz mit zufälliger Verteilung. Dazu wurden pro Stadt fünf zufällige Zahlen zwischen 1 und 1000 erzeugt (die Koordinaten der Stadt). Anschliessend wurde auf Grund dieser Koordinaten der Euklidische Abstand der Städte zueinander errechnet.
+
         \begin{table}[H]
                 \centering
                 \begin{tabular}{| l | r |}
