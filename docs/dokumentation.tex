@@ -504,9 +504,11 @@ Um die Lösung der Win/Win Strategie mit der exakten Lösung zu vergleichen wird
     \item Vergleich der Win/Win Lösung mit der exakten Lösung
 \end{itemize}
 
-Die Implementierung des Graphes als "`dictionary"' hat zur Folge, dass die Knoten nicht sortiert sind. Dies bringt einerseits massive Geschwindigkeitsvorteile, andererseits führt es aber dazu, dass bei der Berechnung der selben Instanz leicht unterschiedliche Ergebnise berechnet werden.
+Die Implementierung des Graphes als "`dictionary"' hat zur Folge, dass die Knoten nicht sortiert sind. Dies bringt einerseits massive Geschwindigkeitsvorteile, andererseits führt es aber dazu, dass bei der Berechnung der selben Instanz leicht unterschiedliche Ergebnisse berechnet werden.
 
-Um eine möglichst repräsentative Lösung für den Vergleich zu erhalten, wird pro Instanz der arithmetische Mittelwert aus 100 Berechnungen verwendet.
+Um eine möglichst repräsentative Lösung für den Vergleich zu erhalten, wird bei Instanzen, die nicht auf zufälligen Werten basieren (bspw. dantzig42, eil51, christofides, hoogeveen) der arithmetische Mittelwert aus 100 Berechnungen verwendet.
+
+Bei Instanzen die aus zufälligen Werten erzeugt werden (bspw. random, band), werden 100 verschiedene Instanzen erzeugt, pro erzeugter Instanz wird dann eine Berechnung durchgeführt.
 %TODO: Berechnung entsprechend durchführen
 
 \subsection{Genutzte Ressourcen}
@@ -543,8 +545,6 @@ Dazu werden bestimmte Probleme von Hand erstellt. So zum Beispiel die Instanz zu
 
 Neben den von Hand erstellen Problemen, wurden mittels eines einfachen Scripts Zufällige Instanzen erstellt. Diese sind entweder komplett zufällig, in dem Städte innerhalb definierten Schranken verteilt werden oder zufällig, aber mit vorgegebenen Mustern. Beispielsweise wurden Instanzen erstellt, bei denen die Städte auf der X-Ache in einem Bereich von 1-1500 liegen, auf der Y-Achse aber nur von 1-100. So werden die Städte auf einem schmalen Band verteilt.
 
-\newpage
-
 \subsection{Auswertung TSPLIB Instanzen}
 \subsubsection{dantzig42}
 Die TSP-Instanz dantzig42 wurde 1954 durch G. Dantzig, R. Fulkerson und S. Johnson gelöst. Eigentlich handelt sich sich um eine Instanz mit 49 Städten, da die Berechnung mit 49 Städten zu aufwändig war, wurden 7 Städte bei der Berechnung nicht berücksichtigt. Die optimale Route führte durch die 7 entfernten Städte und war somit auch für diese optimal.
@@ -565,6 +565,27 @@ Die TSP-Instanz dantzig42 wurde 1954 durch G. Dantzig, R. Fulkerson und S. Johns
                 \end{tabular}
                 \caption{Instanz dantzig42}
                 \label{tab:dantzig42}
+        \end{table}
+
+\subsubsection{bier127}
+Eine Tour durch 127 Biergärten in Augsburg.
+
+        \begin{table}[H]
+                \centering
+                \begin{tabular}{| l | r |}
+                    \hline
+                        Anzahl Städte               & 127           \\ \hline
+                        Dimensionen                 & 2             \\ \hline
+                        Länge optimale Lösung TSP   & 118282        \\ \hline
+                        Länge Win/Win Lösung  TSP   & 133740        \\ \hline
+                        Abweichung TSP              & 13.07\%       \\ \hline
+                        $s$ und $t$ für HPP         & 98, 107       \\ \hline
+                        Länge optimale Lösung HPP   & 109028        \\ \hline
+                        Länge Win/Win Lösung  HPP   & 123599        \\ \hline
+                        Abweichung HPP              & 13.36\%       \\ \hline
+                \end{tabular}
+                \caption{Instanz bier127}
+                \label{tab:bier127}
         \end{table}
 
 \subsubsection{eil51/eil101}
@@ -604,6 +625,7 @@ Bei eil51 und eil101 handelt es sich um TSPLIB Probleme mit 51 und 101 Städten.
                     dantzig42   & 42    & 2     & 10.37\%   & 15.50\%   \\ \hline
                     eil51       & 51    & 2     & 14.79\%   & 14.89\%   \\ \hline
                     eil101      & 101   & 2     & 13.20\%   & 14.68\%   \\ \hline
+                    bier127     & 127   & 2     & 13.07\%   & 13.36\%   \\ \hline
                \end{tabular}
                 \caption{Auswertung TSPLIB Instanzen}
                 \label{tab:instanz_tsplib_instanzen}
@@ -611,6 +633,7 @@ Bei eil51 und eil101 handelt es sich um TSPLIB Probleme mit 51 und 101 Städten.
 
 \subsection{Auswertung eigener Instanzen}
 \subsubsection{Christofides}
+Die folgende Instanz zeigt den Worst Case Fall für den Hamiltonkreis, während der Hamiltonpfad keine Abweichung aufweist.
 
         \begin{table}[H]
                 \centering
@@ -626,56 +649,37 @@ Bei eil51 und eil101 handelt es sich um TSPLIB Probleme mit 51 und 101 Städten.
                         Länge Win/Win Lösung  HPP   & 7'490         \\ \hline
                         Abweichung HPP              & 0\%           \\ \hline
                 \end{tabular}
-                \caption{Instanz Zick-Zack}
-                \label{tab:instanz_zick_zack}
+                \caption{Instanz Christofides}
+                \label{tab:instanz_christofides}
         \end{table}
 
 \subsubsection{Hoogeveen}
 In seinem Paper "`Analysis of Christofides' heuristic: some paths are more difficult than cycles"'\cite{hoogeveen91} zeigte J.A. Hoogeveen anhand dieser Instanz den Worst Case Fall für das Hamiltonpfadproblem.
 
-        \begin{table}[H]
-                \centering
-                \begin{tabular}{| l | r |}
-                    \hline
-                        Anzahl Städte               & 8             \\ \hline
-                        Dimensionen                 & 2             \\ \hline
-                        Länge optimale Lösung TSP   & 4165          \\ \hline
-                        Länge Win/Win Lösung  TSP   & 4235          \\ \hline
-                        Abweichung TSP              & 1.68\%        \\ \hline
-                        $s$ und $t$ für HPP         & 1, 8          \\ \hline
-                        Länge optimale Lösung HPP   & 3163          \\ \hline
-                        Länge Win/Win Lösung  HPP   & 5138          \\ \hline
-                        Abweichung HPP              & 61.56\%       \\ \hline
-                \end{tabular}
-                \caption{Instanz Hoogeveen}
-                \label{tab:instanz_hoogeveen}
-        \end{table}
-
-\subsubsection{Band 2D-5D}
-Bei dieser Instanz werden die Knoten auf einem länglichen Band verteilt. Dazu werden Städte zwischen zwischen 1 und 100 auf einer Achse und zwischen 1 und 1000 auf den verbleibenden Achsen platziert.
-
 \begin{table}[H]
         \centering
-        \begin{tabular}{| l | r | r | r | r |}
+        \begin{tabular}{| l | r |}
             \hline
-            Instanz                     & \textbf{band\_2d}     
-                                        & \textbf{band\_3d}     
-                                        & \textbf{band\_4d}     
-                                        & \textbf{band\_5d}             \\ \hline
-                Anzahl Städte               & 50        & 50       & 50         & 50      \\ \hline
-                Dimensionen                 & 2         & 3        & 4          & 5       \\ \hline
-                Länge optimale Lösung TSP   & 3150      & 8861     & 16808      &  \\ \hline
-                Länge Win/Win Lösung  TSP   & 3454      & 9646     & 18242      &  \\ \hline
-                Abweichung TSP              & 9.65\%    & 10.56\%  & 15.84\%    &  \\ \hline
-                $s$ und $t$ für HPP         & 2, 36     & 22, 33   & 19, 31     &  \\ \hline
-                Länge optimale Lösung HPP   & 2092      & 8266     & 15690      &  \\ \hline
-                Länge Win/Win Lösung  HPP   & 2118      & 9095     & 18175      &  \\ \hline
-                Abweichung HPP              & 1.24\%    & 8.60\%   & 8.53\%     &  \\ \hline
+                Anzahl Städte               & 8             \\ \hline
+                Dimensionen                 & 2             \\ \hline
+                Länge optimale Lösung TSP   & 4165          \\ \hline
+                Länge Win/Win Lösung  TSP   & 4235          \\ \hline
+                Abweichung TSP              & 1.68\%        \\ \hline
+                $s$ und $t$ für HPP         & 1, 8          \\ \hline
+                Länge optimale Lösung HPP   & 3163          \\ \hline
+                Länge Win/Win Lösung  HPP   & 5138          \\ \hline
+                Abweichung HPP              & 61.56\%       \\ \hline
         \end{tabular}
-        \caption{Instanzen Band 2D-5D}
-        \label{tab:instanzen_belt}
+        \caption{Instanz Hoogeveen}
+        \label{tab:instanz_hoogeveen}
 \end{table}
-%TODO: Bei anderen generierten Instanzen der selben Art, waren TSP und HPP teilweise gleich gut/schlecht
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=14cm]{gfx/hoogeveen_algorithm}
+        \caption{Graph der Hoogeveen Instanz}
+        \label{img:hoogeveen_algorithm}
+\end{figure}
 
 \subsubsection{Random 2D-5D}
 Eine 50-Städte Instanz mit zufälliger Verteilung. Dazu wurden pro Stadt fünf zufällige Zahlen zwischen 1 und 1000 erzeugt (die Koordinaten der Stadt). Anschliessend wurde auf Grund dieser Koordinaten der Euklidische Abstand der Städte zueinander errechnet.
@@ -702,7 +706,114 @@ Eine 50-Städte Instanz mit zufälliger Verteilung. Dazu wurden pro Stadt fünf 
         \label{tab:instanzen_random}
 \end{table}
 
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=14cm]{gfx/random_algorithm}
+        \caption{Instanz mit 50 zufällig platzierten Städten}
+        \label{img:random_algorithm}
+\end{figure}
+
+
+\subsubsection{Band 2D-5D}
+Bei dieser Instanz werden die Knoten auf einem länglichen Band verteilt. Dazu werden Städte zwischen zwischen 1 und 100 auf einer Achse und zwischen 1 und 1500 auf den verbleibenden Achsen platziert.
+
+\begin{table}[H]
+        \centering
+        \begin{tabular}{| l | r | r | r | r |}
+            \hline
+            Instanz                     & \textbf{band\_2d}     
+                                        & \textbf{band\_3d}     
+                                        & \textbf{band\_4d}     
+                                        & \textbf{band\_5d}             \\ \hline
+                Anzahl Städte               & 50        & 50       & 50         & 50        \\ \hline
+                Dimensionen                 & 2         & 3        & 4          & 5         \\ \hline
+                Länge optimale Lösung TSP   & 3150      & 8861     & 16808      & 25774     \\ \hline
+                Länge Win/Win Lösung  TSP   & 3454      & 9646     & 18242      & 28910     \\ \hline
+                Abweichung TSP              & 9.65\%    & 10.56\%  & 15.84\%    & 16.51\%   \\ \hline
+                $s$ und $t$ für HPP         & 2, 36     & 22, 33   & 19, 31     & 13, 21    \\ \hline
+                Länge optimale Lösung HPP   & 2092      & 8266     & 15690      & 24814     \\ \hline
+                Länge Win/Win Lösung  HPP   & 2118      & 9095     & 18175      & 27639     \\ \hline
+                Abweichung HPP              & 1.24\%    & 8.60\%   & 8.53\%     & 11.38\%   \\ \hline
+        \end{tabular}
+        \caption{Instanzen Band 2D-5D}
+        \label{tab:instanzen_belt}
+\end{table}
+
+\subsubsection{Zwei Gruppen 2D-5D}
+Bei dieser Instanz werden die Städte innerhalb zwei definierter Quadrate verteilt. Die Quadrate liegen 2000 Einheiten auseinander. Die Quadrate selbst haben eine Seitenlänge von 100 Einheiten.
+
+\begin{table}[H]
+        \centering
+        \begin{tabular}{| l | r | r | r | r |}
+            \hline
+            Instanz                     & \textbf{crowds2\_2d}     
+                                        & \textbf{crowds2\_3d}     
+                                        & \textbf{crowds2\_4d}     
+                                        & \textbf{crowds2\_5d}             \\ \hline
+                Anzahl Städte               & 50        & 50       & 50         & 50        \\ \hline
+                Dimensionen                 & 2         & 3        & 4          & 5         \\ \hline
+                Länge optimale Lösung TSP   &           &          &            &           \\ \hline
+                Länge Win/Win Lösung  TSP   &           &          &            &           \\ \hline
+                Abweichung TSP              &     \%    &      \%  &      \%    &      \%   \\ \hline
+                $s$ und $t$ für HPP         &           &          &            &           \\ \hline
+                Länge optimale Lösung HPP   &           &          &            &           \\ \hline
+                Länge Win/Win Lösung  HPP   &           &          &            &           \\ \hline
+                Abweichung HPP              &     \%    &     \%   &     \%     &      \%   \\ \hline
+        \end{tabular}
+        \caption{Instanzen zwei Gruppen 2D-5D}
+        \label{tab:instanzen_crowds2}
+\end{table}
+
+\subsubsection{Drei Gruppen 2D-5D}
+Bei dieser Instanz werden die Städte innerhalb drei definierter Quadrate verteilt. Die Quadrate liegen 2000 Einheiten auseinander. Die Quadrate selbst haben eine Seitenlänge von 100 Einheiten.
+
+\begin{table}[H]
+        \centering
+        \begin{tabular}{| l | r | r | r | r |}
+            \hline
+            Instanz                     & \textbf{crowds3\_2d}     
+                                        & \textbf{crowds3\_3d}     
+                                        & \textbf{crowds3\_4d}     
+                                        & \textbf{crowds3\_5d}             \\ \hline
+                Anzahl Städte               & 50        & 50       & 50         & 50        \\ \hline
+                Dimensionen                 & 2         & 3        & 4          & 5         \\ \hline
+                Länge optimale Lösung TSP   &           &          &            &           \\ \hline
+                Länge Win/Win Lösung  TSP   &           &          &            &           \\ \hline
+                Abweichung TSP              &     \%    &      \%  &      \%    &      \%   \\ \hline
+                $s$ und $t$ für HPP         &           &          &            &           \\ \hline
+                Länge optimale Lösung HPP   &           &          &            &           \\ \hline
+                Länge Win/Win Lösung  HPP   &           &          &            &           \\ \hline
+                Abweichung HPP              &     \%    &     \%   &     \%     &      \%   \\ \hline
+        \end{tabular}
+        \caption{Instanzen drei Gruppen 2D-5D}
+        \label{tab:instanzen_crowds3}
+\end{table}
+
 \subsubsection{Zusammenfassung}
+    \begin{table}[H]
+                \centering
+                \begin{tabular}{| p{2.0cm} | p{2.0cm} | p{2.5cm} | p{2.5cm} | p{2.5cm} |}
+                    \hline
+                    \small{\textbf{Name}} &
+                    \small{\textbf{Anzahl Städte}}  & 
+                    \small{\textbf{Dimensionen}} & 
+                    \small{\textbf{Abweichung TSP}} & 
+                    \small{\textbf{Abweichung HPP}} \\ \hline
+
+                    christofides    & 39    & 2     & 44.78\%   & 0\%           \\ \hline
+                    hoogeveen       & 8     & 2     & 1.68\%    & 61.56\%       \\ \hline
+                    random\_2d      & 50    & 2     & 13.40\%   & 15.45\%       \\ \hline
+                    random\_3d      & 50    & 3     & 15.17\%   & 17.81\%       \\ \hline
+                    random\_4d      & 50    & 4     & 6.88\%    & 9.40\%        \\ \hline
+                    random\_5d      & 50    & 5     & 9.82\%    & 7.65\%        \\ \hline
+                    band\_2d        & 50    & 2     & 9.65\%    & 1.24\%        \\ \hline
+                    band\_3d        & 50    & 3     & 10.56\%   & 8.60\%        \\ \hline
+                    band\_4d        & 50    & 4     & 15.84\%   & 8.53\%        \\ \hline
+                    band\_5d        & 50    & 5     & 16.51\%   & 11.38\%       \\ \hline
+               \end{tabular}
+                \caption{Auswertung der eigenen Instanzen}
+                \label{tab:instanz_eigene_instanzen}
+        \end{table}
 
 \newpage
 
