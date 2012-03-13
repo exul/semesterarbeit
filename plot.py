@@ -4,8 +4,12 @@ import matplotlib.pyplot as plt
 class Plot():
     ''' Plot a figure '''
 
-    def __init__(self, file_location='data/plot/solution.pdf'):
+    def __init__(self, file_location='data/plot/solution.pdf', use_fix_scale=False, \
+            fix_scale_x=1000, fix_scale_y=1000):
         self.pdf_file = PdfPages(file_location)
+        self.fix_scale_x = fix_scale_x
+        self.fix_scale_y = fix_scale_y
+        self.use_fix_scale = use_fix_scale
 
     def plot_graph(self, graph, color='#000000', title=''):
         fig = plt.figure()
@@ -34,9 +38,10 @@ class Plot():
         y_scale_upper += y_factor
         y_scale_lower -= y_factor
 
-        plt.axis([x_scale_lower,x_scale_upper,y_scale_lower,y_scale_upper])
-        #plt.axis([x_scale_lower,150,y_scale_lower,150])
-        #plt.axis([x_scale_lower,200,y_scale_lower,200])
+        if self.use_fix_scale:
+            plt.axis([x_scale_lower,self.fix_scale_x,y_scale_lower,self.fix_scale_y])
+        else:
+            plt.axis([x_scale_lower,x_scale_upper,y_scale_lower,y_scale_upper])
 
         self.pdf_file.savefig()
 
@@ -65,9 +70,10 @@ class Plot():
         y_scale_upper += y_factor
         y_scale_lower -= y_factor
 
-        plt.axis([x_scale_lower,x_scale_upper,y_scale_lower,y_scale_upper])
-        #plt.axis([x_scale_lower,150,y_scale_lower,150])
-        #plt.axis([x_scale_lower,200,y_scale_lower,200])
+        if self.use_fix_scale:
+            plt.axis([x_scale_lower,self.fix_scale_x,y_scale_lower,self.fix_scale_y])
+        else:
+            plt.axis([x_scale_lower,x_scale_upper,y_scale_lower,y_scale_upper])
 
         self.pdf_file.savefig()
 

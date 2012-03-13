@@ -10,10 +10,11 @@ from winwin.writer import Writer
 from winwin.mst import Minimum_Spanning_Tree
 from winwin.matcher import Matcher
 from winwin.euler import Euler
+from winwin.generator import Generator
 
 # set if we want to plot the problem instance
-do_plot = False
-#do_plot = True
+#do_plot = False
+do_plot = True
 
 # how many times we like to run the calculation
 #run_counts = 1000
@@ -24,9 +25,14 @@ run_counts = 1
 calc_exact = True
 #calc_exact = False
 
+# do we generate the graph ourselfs?
+#generated_graph = False
+generated_graph = True
+
 if do_plot:
     from plot import Plot # TODO: this import takes a lot of time
 
+generator = Generator()
 reader = Reader()
 writer = Writer()
 
@@ -75,17 +81,55 @@ for i in range(0, run_counts):
     #graph_tsp = reader.euclidean('data/in/graph_worst_hpp.tsp') # 
     #graph_hpp = reader.euclidean('data/in/graph_worst_hpp.tsp', 1, 8) # 
 
+    #graph_tsp = reader.euclidean('data/in/hoogeveen.tsp') # 
+    #graph_hpp = reader.euclidean('data/in/hoogeveen.tsp', 1, 8) # 
+
     #graph_tsp = reader.euclidean('data/in/graph_belt_2d.tsp') # opt 3150 = 9.65%
     #graph_hpp = reader.euclidean('data/in/graph_belt_2d.tsp', 2, 36) # opt 2092 = 1.24%
 
+    #graph_tsp = reader.euclidean('data/in/graph_belt_5d.tsp') # 
+    #graph_hpp = reader.euclidean('data/in/graph_belt_5d.tsp', 13, 21) #
+
+    #graph_tsp = reader.euclidean('data/in/graph_belt_3d.tsp') # opt 8861 = 10.56%
+    #graph_hpp = reader.euclidean('data/in/graph_belt_3d.tsp', 22, 33) # opt 8266 = 8.60%
+    #graph_tsp = reader.euclidean('data/in/random_2d.tsp') # 
+    #graph_hpp = reader.euclidean('data/in/random_2d.tsp', 32, 4) # 
+
+    #graph_tsp = reader.euclidean('data/in/random_3d.tsp') # 
+    #graph_hpp = reader.euclidean('data/in/random_3d.tsp', 2, 23) # 
+
+    #graph_tsp = reader.euclidean('data/in/random_4d.tsp') # 
+    #graph_hpp = reader.euclidean('data/in/random_4d.tsp', 7, 20) # 
+
+    #graph_tsp = reader.euclidean('data/in/bier127.tsp') # 
+    #graph_hpp = reader.euclidean('data/in/bier127.tsp', 98, 107) # 
+
     graph_tsp = reader.euclidean('data/in/my_tsp.tsp') # 
-    graph_hpp = reader.euclidean('data/in/my_tsp.tsp', 32, 24) # 
+    graph_hpp = reader.euclidean('data/in/my_tsp.tsp', 32, 4) # 
+
+
+    if generated_graph:
+        # generate graph
+        #generator.random('data/in/my_tsp.tsp', 'my tsp', 'My own graph', 50, 2, \
+                #1, 1000)
+
+        #generator.belt('data/in/my_tsp.tsp', 'my tsp', 'My own graph (belt)', 50, 2, \
+                #1, 100, 1, 1500)
+
+        #generator.crowds2('data/in/my_tsp.tsp', 'my tsp', 'My own graph (crowds2)', \
+                        #50, 2, 100, 100, 2000)
+
+        # read generated graph
+        graph = reader.euclidean('data/in/my_tsp.tsp') # 
+
+        # TODO: write graphs to file, not needed for the algortihm
+        writer.write_matrix(graph,'data/out/graph_matrix_tsp.tsp', False) #TSP
+        writer.write_matrix(graph,'data/out/graph_matrix_hpp.tsp', True) #HPP
+    else:
+        writer.write_matrix(graph_tsp,'data/out/graph_matrix_tsp.tsp', False) #TSP
+        writer.write_matrix(graph_hpp,'data/out/graph_matrix_hpp.tsp', True) #HPP
 
     print('Graph is created')
-
-    # TODO: write graphs to file, not needed for the algortihm
-    writer.write_matrix(graph_tsp,'data/out/graph_matrix_tsp.tsp', False) #TSP
-    writer.write_matrix(graph_hpp,'data/out/graph_matrix_hpp.tsp', True) #HPP
 
     # TODO: Calculate exact solution
     if calc_exact:
@@ -98,9 +142,22 @@ for i in range(0, run_counts):
         # cleanup temp files
         os.system('rm *.mas *.pul *.sav *.sol *.res')
 
+    if generated_graph:
+        # get s and t from optimal solution
+        f = open('data/out/solution_hpp.tsp')
+        data = f.readlines()
+        first_line = data[1]
+        last_line = data[-1]
+        s = first_line.split()[1]
+        t = last_line.split()[-1]
+
+        # read graph again, with correct s and t
+        graph_tsp = reader.euclidean('data/in/my_tsp.tsp') # 
+        graph_hpp = reader.euclidean('data/in/my_tsp.tsp', s, t) # 
+
     if do_plot:
         # TODO: only to create graphics, not needed for the algorithm
-        plt = Plot()
+        plt = Plot('data/plot/solution.pdf', False)
 
     # calculate the minimum spanning tree
     mst = Minimum_Spanning_Tree()
