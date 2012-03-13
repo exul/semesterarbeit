@@ -1,5 +1,7 @@
 import math
+import re
 
+import winwin
 from winwin.graph import Graph
 from winwin.node import Node
 from winwin.edge import Edge
@@ -28,6 +30,9 @@ class Reader:
         '''
         graph = Graph()
 
+        dimension = 0
+        euc_dimension = 0
+
         #TODO: Expection Handling needed?
         nodes = list()
         f = open(file_location, 'r')
@@ -45,23 +50,40 @@ class Reader:
                 # all other rows are coordinates
                 node_coordinates = line_data[1:]
 
+                # check if euclidean dimensions match
+                if euc_dimension != len(node_coordinates):
+                    raise EuclideanDimensionMissmatchError(euc_dimension, \
+                        len(node_coordinates))
+
                 # convert coordinates to float
                 node_coordinates = [float(i) for i in node_coordinates]
             else:
+                line_data = line.split(':')
+
+                if line_data[0] == 'EDGE_WEIGHT_TYPE':
+                    match = re.search('\d',line_data[1])
+                    euc_dimension = int(match.group(0))
+                
+                if line_data[0] == 'DIMENSION':
+                    dimension = int(line_data[1])
+
                 continue
 
             temp_node = Node(node_nr, node_coordinates)
             nodes.append(temp_node)
 
             # set node s
-            #TODO: Check if node_s_nr is an integer
             if temp_node.nr == int(node_s_nr):
                 graph.node_s = temp_node
 
             # set node t
-            #TODO: Check if node_t_nr is an integer
             if temp_node.nr == int(node_t_nr):
                 graph.node_t = temp_node
+
+        # check if dimensions match
+        if dimension != len(nodes):
+            raise DimensionMissmatchError(dimension, len(nodes))
+
 
         # calculate distance and add nodes and edges to the graph
         for node_1 in nodes:
@@ -128,3 +150,16 @@ class Reader:
             solution_nodes.append(first_node)
 
         return solution_nodes
+
+class EuclideanDimensionMissmatchError(Exception):
+    '''Exception if euclidean dimensions do not fit. '''
+    def __init__(self, euc_dimension, len_node_coordinates):
+        Exception.__init__(self)
+        print('The coordinates don\'t match the given euclidean dimension (EDGE_WEIGHT_TYPE), euclidean dimension is {0}, but we have {1} coordinates.'.format(euc_dimension, len_node_coordinates))
+
+class DimensionMissmatchError(Exception):
+    '''Exception if dimensions do not fit. '''
+    def __init__(self, dimension, len_nodes):
+        Exception.__init__(self)
+
+        print('The number of nodes doesn\'t match with the given dimension, dimension is {0}, but {1} nodes are given.'.format(dimension, len_nodes))
