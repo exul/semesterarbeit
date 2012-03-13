@@ -446,6 +446,7 @@ Diese Implementation hat den Vorteil, dass direkt auf Knoten, Kanten und Nachbar
 \subsubsection{Perfecht Matching}
 \subsubsection{Eulerkreis/-pfad}
 \subsubsection{Kürzung Eulerkreis/-pfad zu Hamiltonkreis/-pfad}
+\subsection{Generierung der Zufälligen Instanzen}
 \subsection{Unittests}
 
 \newpage
@@ -456,6 +457,52 @@ In diesem Abschnitt wird die Anwendung des Programms zur Berechnung der Win/Win 
 Zur Berechnung werden die benötigten Angaben aus einer Datei im TSPLIB Format gelesen. Mittels Parameter können dann verschiedene Optionen verwendet werden.
 
 \subsection{Input File Format}
+Der Graph, der zur Berechnung verwendet wird, wird in Form eines Textfiles vom Programm gelesen. Hierzu wurde die Spezifikation der TSPLIB übernommen, mit den Einschränkungen, dass nur euklidische Distanzen als Gewichtungen erlaubt sind, nur der Typ TSP unterstützt wird und die Position der Knoten durch ihre Koordinaten im Raum definiert werden.
+
+Das TSPLIB Format besteht aus Header-Informationen und den Koordinaten der Städte.
+
+\begin{verbatim}
+NAME : hoogeveen 
+COMMENT : The Hoogeveen Graph 
+TYPE : TSP 
+DIMENSION : 8 
+EDGE_WEIGHT_TYPE : EUC_2D
+NODE_COORD_SECTION
+1   49      0   
+2   50      60  
+3   50      1050
+4   0       49  
+5   1051    1050
+6   1100    49  
+7   1050    60  
+8   1051    0   
+EOF
+\end{verbatim}
+
+\subsubsection{Name}
+Name der Datei (wird für die Berechnung nicht berücksichtigt).
+
+\subsubsection{COMMENT}
+Freitext Kommentar (bspw. Name des Erstellers der Instanz)
+
+\subsubsection{TYPE}
+Die TSPLIB sieht verschiedene Typen von Problemstellungen vor, neben TSP bspw. das asymmetrische TSP (ATSP). Für den Win/Win Algorithmus wird nur der TYP TSP unterstützt.
+
+\subsubsection{DIMENSION}
+Anzahl der Städte.
+
+\subsubsection{EDGE\_WEIGHT\_TYPE}
+Gibt an, wie die Distanzen im Dokument abgebildet werden. Es werden ausschliesslich euklidische Distanzen unterstützt (bspw. EUC\_2D, wobei 2 die Dimension des Raumes ist).
+
+\subsubsection{NODE\_COORD\_SECTION}
+Ab hier werden die Koordinaten der Städte angegeben. Die erste Spalte ist dabei die ID des Knotens und muss fortlaufend von 1 bis N nummeriert sein. Die darauffolgenden Spalten sind Koordinaten, eine Spalte pro Achse, bspw.
+
+\begin{verbatim}
+1   x_achse     y_achse     z_achse
+2   x_achse     y_achse     z_achse
+3   x_achse     y_achse     z_achse
+\end{verbatim}
+
 \subsection{Anwendung}
 Die Anwendung kann von der Kommandozeile aufgerufen werden. Dabei können folgende Parameter verwendet werden.
 
@@ -509,6 +556,8 @@ Die Implementierung des Graphes als "`dictionary"' hat zur Folge, dass die Knote
 Um eine möglichst repräsentative Lösung für den Vergleich zu erhalten, wird bei Instanzen, die nicht auf zufälligen Werten basieren (bspw. dantzig42, eil51, christofides, hoogeveen) der arithmetische Mittelwert aus 100 Berechnungen verwendet.
 
 Bei Instanzen die aus zufälligen Werten erzeugt werden (bspw. random, band), werden 100 verschiedene Instanzen erzeugt, pro erzeugter Instanz wird dann eine Berechnung durchgeführt.
+
+Zu jeder Instanz werden die Ergebnisse in einer Tabelle dargestellt und interpretiert. Bei den eigenen Instanzen wird zur Illustration jeweils eine der hundert Graphen in 2D dargestellt. Am Ende werden die Abweichungen in einer Übersichtstabelle zusammengefasst.
 %TODO: Berechnung entsprechend durchführen
 
 \subsection{Genutzte Ressourcen}
@@ -546,6 +595,7 @@ Dazu werden bestimmte Probleme von Hand erstellt. So zum Beispiel die Instanz zu
 Neben den von Hand erstellen Problemen, wurden mittels eines einfachen Scripts Zufällige Instanzen erstellt. Diese sind entweder komplett zufällig, in dem Städte innerhalb definierten Schranken verteilt werden oder zufällig, aber mit vorgegebenen Mustern. Beispielsweise wurden Instanzen erstellt, bei denen die Städte auf der X-Ache in einem Bereich von 1-1500 liegen, auf der Y-Achse aber nur von 1-100. So werden die Städte auf einem schmalen Band verteilt.
 
 \subsection{Auswertung TSPLIB Instanzen}
+
 \subsubsection{dantzig42}
 Die TSP-Instanz dantzig42 wurde 1954 durch G. Dantzig, R. Fulkerson und S. Johnson gelöst. Eigentlich handelt sich sich um eine Instanz mit 49 Städten, da die Berechnung mit 49 Städten zu aufwändig war, wurden 7 Städte bei der Berechnung nicht berücksichtigt. Die optimale Route führte durch die 7 entfernten Städte und war somit auch für diese optimal.
 
@@ -632,6 +682,12 @@ Bei eil51 und eil101 handelt es sich um TSPLIB Probleme mit 51 und 101 Städten.
         \end{table}
 
 \subsection{Auswertung eigener Instanzen}
+Im Folgenden werden selbst generierte Instanzen ausgewertet. 
+
+\begin{flushleft}
+\emph{Hinweis: Aus Platzgründen sind die Bilder teilweise verzerrt, die Achsen sind entsprechend beschriftet.}
+\end{flushleft}
+
 \subsubsection{Christofides}
 Die folgende Instanz zeigt den Worst Case Fall für den Hamiltonkreis, während der Hamiltonpfad keine Abweichung aufweist.
 
@@ -676,9 +732,10 @@ In seinem Paper "`Analysis of Christofides' heuristic: some paths are more diffi
 
 \begin{figure}[H]
         \centering
-        \includegraphics[width=14cm]{gfx/hoogeveen_algorithm}
-        \caption{Graph der Hoogeveen Instanz}
-        \label{img:hoogeveen_algorithm}
+        \includegraphics[width=16cm]{gfx/hoogeveen_hpp_comparison}
+        \includegraphics[width=16cm]{gfx/hoogeveen_tsp_comparison}
+        \caption{Hoogeveen Instanz}
+        \label{img:hoogeveen_comparison}
 \end{figure}
 
 \subsubsection{Random 2D-5D}
@@ -697,7 +754,6 @@ Eine 50-Städte Instanz mit zufälliger Verteilung. Dazu wurden pro Stadt fünf 
             Länge optimale Lösung TSP   & 5521      & 11240     & 16802     & 20577   \\ \hline
             Länge Win/Win Lösung  TSP   & 6261      & 12945     & 17958     & 22598   \\ \hline
             Abweichung TSP              & 13.40\%   & 15.17\%   & 6.88\%    & 9.82\%  \\ \hline
-            $s$ und $t$ für HPP         & 4, 32     & 2, 23     & 7, 20     & 11, 47  \\ \hline
             Länge optimale Lösung HPP   & 5144      & 10759     & 16018     & 19687   \\ \hline
             Länge Win/Win Lösung  HPP   & 5939      & 12675     & 17523     & 21194   \\ \hline
             Abweichung HPP              & 15.45\%   & 17.81\%   & 9.40\%    & 7.65\%  \\ \hline
@@ -707,12 +763,12 @@ Eine 50-Städte Instanz mit zufälliger Verteilung. Dazu wurden pro Stadt fünf 
 \end{table}
 
 \begin{figure}[H]
-        \centering
-        \includegraphics[width=14cm]{gfx/random_algorithm}
-        \caption{Instanz mit 50 zufällig platzierten Städten}
-        \label{img:random_algorithm}
+    \centering
+    \includegraphics[width=16cm]{gfx/random_hpp_comparison}
+    \includegraphics[width=16cm]{gfx/random_tsp_comparison}
+    \caption{Random Instanz 2D}
+    \label{img:random_comparison}
 \end{figure}
-
 
 \subsubsection{Band 2D-5D}
 Bei dieser Instanz werden die Knoten auf einem länglichen Band verteilt. Dazu werden Städte zwischen zwischen 1 und 100 auf einer Achse und zwischen 1 und 1500 auf den verbleibenden Achsen platziert.
@@ -739,8 +795,16 @@ Bei dieser Instanz werden die Knoten auf einem länglichen Band verteilt. Dazu w
         \label{tab:instanzen_belt}
 \end{table}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=16cm]{gfx/belt_hpp_comparison}
+    \includegraphics[width=16cm]{gfx/belt_tsp_comparison}
+    \caption{Band Instanz 2D}
+    \label{img:belt_comparison}
+\end{figure}
+
 \subsubsection{Zwei Gruppen 2D-5D}
-Bei dieser Instanz werden die Städte innerhalb zwei definierter Quadrate verteilt. Die Quadrate liegen 2000 Einheiten auseinander. Die Quadrate selbst haben eine Seitenlänge von 100 Einheiten.
+Bei dieser Instanz werden die Städte innerhalb zwei definierter Quadrate, bzw. Würfel verteilt. Die Quadrate/Würfel liegen 2000 Einheiten auseinander. Die Quadrate selbst haben eine Seitenlänge von 100 Einheiten.
 
 \begin{table}[H]
         \centering
@@ -755,7 +819,6 @@ Bei dieser Instanz werden die Städte innerhalb zwei definierter Quadrate vertei
                 Länge optimale Lösung TSP   &           &          &            &           \\ \hline
                 Länge Win/Win Lösung  TSP   &           &          &            &           \\ \hline
                 Abweichung TSP              &     \%    &      \%  &      \%    &      \%   \\ \hline
-                $s$ und $t$ für HPP         &           &          &            &           \\ \hline
                 Länge optimale Lösung HPP   &           &          &            &           \\ \hline
                 Länge Win/Win Lösung  HPP   &           &          &            &           \\ \hline
                 Abweichung HPP              &     \%    &     \%   &     \%     &      \%   \\ \hline
@@ -780,7 +843,6 @@ Bei dieser Instanz werden die Städte innerhalb drei definierter Quadrate vertei
                 Länge optimale Lösung TSP   &           &          &            &           \\ \hline
                 Länge Win/Win Lösung  TSP   &           &          &            &           \\ \hline
                 Abweichung TSP              &     \%    &      \%  &      \%    &      \%   \\ \hline
-                $s$ und $t$ für HPP         &           &          &            &           \\ \hline
                 Länge optimale Lösung HPP   &           &          &            &           \\ \hline
                 Länge Win/Win Lösung  HPP   &           &          &            &           \\ \hline
                 Abweichung HPP              &     \%    &     \%   &     \%     &      \%   \\ \hline
