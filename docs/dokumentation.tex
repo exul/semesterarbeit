@@ -479,8 +479,8 @@ NODE_COORD_SECTION
 EOF
 \end{verbatim}
 
-\subsubsection{Name}
-Name der Datei (wird für die Berechnung nicht berücksichtigt).
+\subsubsection{NAME}
+Name der Datei.
 
 \subsubsection{COMMENT}
 Freitext Kommentar (bspw. Name des Erstellers der Instanz)
@@ -489,10 +489,11 @@ Freitext Kommentar (bspw. Name des Erstellers der Instanz)
 Die TSPLIB sieht verschiedene Typen von Problemstellungen vor, neben TSP bspw. das asymmetrische TSP (ATSP). Für den Win/Win Algorithmus wird nur der TYP TSP unterstützt.
 
 \subsubsection{DIMENSION}
-Anzahl der Städte.
+Anzahl der Städte. Diese Angabe wird genutzt, um zu prüfen ob die Anzahl der Städte im Header der tatsächlich angegebenen Anzahl der Städte entspricht.
 
 \subsubsection{EDGE\_WEIGHT\_TYPE}
 Gibt an, wie die Distanzen im Dokument abgebildet werden. Es werden ausschliesslich euklidische Distanzen unterstützt (bspw. EUC\_2D, wobei 2 die Dimension des Raumes ist).
+Anhand der Dimension des Raumes wird geprüft, ob die Anzahl Spalten (die Koordinaten einer Stadt) korrekt ist.
 
 \subsubsection{NODE\_COORD\_SECTION}
 Ab hier werden die Koordinaten der Städte angegeben. Die erste Spalte ist dabei die ID des Knotens und muss fortlaufend von 1 bis N nummeriert sein. Die darauffolgenden Spalten sind Koordinaten, eine Spalte pro Achse, bspw.
@@ -826,6 +827,14 @@ Bei dieser Instanz werden die Städte innerhalb zwei definierter Quadrate, bzw. 
         \caption{Instanzen zwei Gruppen 2D-5D}
         \label{tab:instanzen_crowds2}
 \end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=16cm]{gfx/crowds2_hpp_comparison}
+    \includegraphics[width=16cm]{gfx/crowds2_tsp_comparison}
+    \caption{zwei Gruppen Instanz 2D}
+    \label{img:crowds2_comparison}
+\end{figure}
 
 \subsubsection{Drei Gruppen 2D-5D}
 Bei dieser Instanz werden die Städte innerhalb drei definierter Quadrate verteilt. Die Quadrate liegen 2000 Einheiten auseinander. Die Quadrate selbst haben eine Seitenlänge von 100 Einheiten.
