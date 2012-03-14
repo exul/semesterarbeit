@@ -442,10 +442,110 @@ Diese Implementation hat den Vorteil, dass direkt auf Knoten, Kanten und Nachbar
 
 
 \subsection{Algorithmen}
+Da die Algorithmen in Abschnitt \ref{s:algorithmen} bereits beschrieben wurden, wird hier lediglich auf die wichtisten Punkte der implementierung eingegangen.
+
 \subsubsection{Minimaler Spannbaum}
+Zur Erstellung des minimale Spannbaums wird nach der Wahl eines Starknotens aus den erreichbaren Kanten jeweils diejenige mit dem kleinsten Gewicht gesucht. Um dies effizient zu ermöglichen, wird die bestehende Datenstruktur \emph{Priority Queue} genutzt:
+
+\begin{flushleft}
+    Initiales Befüllen der Queue, sortierung nach Gewicht:
+\end{flushleft}
+\begin{verbatim}
+for new_edge in graph.neighbour_edges(start_node):
+    neighbour_edges.add_item(new_edge.weight, new_edge)
+\end{verbatim}
+
+\begin{flushleft}
+    Wahl der nächsten Kante aus der Queue:
+\end{flushleft}
+\begin{verbatim}
+next_edge = neighbour_edges.get_top_priority()
+\end{verbatim}
+
+\begin{flushleft}
+    Hinzufügen der neuen Kanten nach bei der Iteration:
+\end{flushleft}
+
+\begin{verbatim}
+next_edges = graph.neighbour_edges(next_edge.node_2)
+for new_edge in next_edges:
+    neighbour_edges.add_item(new_edge.weight, new_edge)
+\end{verbatim}
+
+Die Iteration wird durchgeführt, bis alle Knoten im MST enthalten sind.
+
 \subsubsection{Perfecht Matching}
+Für das Perfect Matching wird eine bestehende Implementation verwendet. Um diese zu Nutzen wird eine File mit den ungeraden Knoten aufbereitet. Bei der Berechnung werden die Angaben aus dem File gelesen und das Ergebnis in ein Output-File geschrieben.
+
+Die Kanten, die sich durch das Matching ergeben haben, werden aus dem Output-File gelesen, als Objekte erstellt und zum Graphen hinzugefügt.
+
+\begin{flushleft}
+    Liste der Ungeraden Knoten erstellen:
+\end{flushleft}
+\begin{verbatim}
+for node in nodes:
+    if len(graph.neighbour_nodes(node)) % 2 == 1:
+        odd_nodes[odd_node_nr] = node
+        odd_node_nr += 1
+\end{verbatim}
+
+\begin{flushleft}
+    Lesen des Output-Files, erstellen der Kanten und hinzufügen zum Graphen:
+\end{flushleft}
+\begin{verbatim}
+        for line in f:
+            node_1_odd_node_nr,node_2_odd_node_nr = line.split()
+            node_1 = odd_nodes[int(node_1_odd_node_nr)] 
+            node_2 = odd_nodes[int(node_2_odd_node_nr)]
+            weight = graph.lookup_distance(node_1, node_2)[0]
+            edge = Edge(node_1, node_2, weight)
+            graph.add_edge(edge)
+\end{verbatim}
+
 \subsubsection{Eulerkreis/-pfad}
+Zur Erstellung des Eulerkreises/-pfades wurden zwei Routinen erstellt. Die erste erstellt die Kreise und die zweite fügt diese zusammen, bis schlussendlich der Eulerkreis-/pfad gefunden ist.
+
+\begin{flushleft}
+   Ein Nachbar des aktuellen Knoten wird gewählt und die dazwischenliegende Kante zum Eulerkreis hinzugefügt. Falls zwischen den Knoten mehrere Kanten existieren, wird diejenige mit dem kleinsten Gewicht genommen:
+\end{flushleft}
+\begin{verbatim}
+neighbours = graph.neighbour_nodes(current_node)
+next_node = min(list(neighbours.copy().keys()))
+
+edge_list = graph.edge_by_nodes(current_node, next_node)
+current_edge = min(edge_list)
+\end{verbatim}
+
+\begin{flushleft}
+    Zusammenfügen zweier Kreise (\texttt{euler} und \texttt{euler\_sub}). Es muss über die Liste iteriert werden, um den korrekten Punkt zum Einfügen der zweiten Liste zu finden:
+\end{flushleft}
+\begin{verbatim}
+for node in euler_tmp:
+    if node == current_node and found == False:
+        for node_sub in euler_sub:
+            euler.append(node_sub)
+        found = True
+    else:
+        euler.append(node)
+\end{verbatim}
+
+\begin{flushleft}
+   Im Falle eines Eulerpfades an stelle des Kreises ist das Vorgehen das selbe. Wenn der Kreis gefunden wurde, wird die Kante zwischen $s$ und $t$ entfernt.
+\end{flushleft}
+
 \subsubsection{Kürzung Eulerkreis/-pfad zu Hamiltonkreis/-pfad}
+Die Kürzung des Eulerkreises/-pfades zu einem Hamiltonkreis/-pfad funktioniert sehr einfach. Dazu wird wird eine neue Liste von Knoten erstellt, zu der ein Knoten hinzugefügt wird, wenn er noch nicht in der Liste vorhanden ist. Beim Hamiltonkreis wird zum Schluss der Startknoten nochmals hinzugefügt, um den Kreis zu schliessen. 
+
+Diese Implementation hat den Vorteil, dass die Kürzung nachvollziehbar ist. Eine Alternative wäre die Implementation mittels eine Datenstruktur, die keine doppelten Einträge zulässt.
+
+\begin{verbatim}
+for node in nodes:
+    if node not in nodes_shortened:
+        nodes_shortened.append(node)
+
+nodes_shortened.append(nodes_shortened[0])
+\end{verbatim}
+
 \subsection{Generierung der Zufälligen Instanzen}
 \subsection{Unittests}
 
@@ -885,6 +985,12 @@ Bei dieser Instanz werden die Städte innerhalb drei definierter Quadrate vertei
                 \caption{Auswertung der eigenen Instanzen}
                 \label{tab:instanz_eigene_instanzen}
         \end{table}
+
+\newpage
+
+\section{Fazit}
+\subsection{Rückblick}
+\subsection{Weitere Möglichkeiten}
 
 \newpage
 
