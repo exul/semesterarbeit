@@ -47,6 +47,7 @@ class Reader:
                 #1 to n
                 # the first column is the node nr.
                 node_nr = line_data[0]
+
                 # all other rows are coordinates
                 node_coordinates = line_data[1:]
 
@@ -60,11 +61,11 @@ class Reader:
             else:
                 line_data = line.split(':')
 
-                if line_data[0] == 'EDGE_WEIGHT_TYPE':
+                if line_data[0].strip() == 'EDGE_WEIGHT_TYPE':
                     match = re.search('\d',line_data[1])
                     euc_dimension = int(match.group(0))
                 
-                if line_data[0] == 'DIMENSION':
+                if line_data[0].strip() == 'DIMENSION':
                     dimension = int(line_data[1])
 
                 continue

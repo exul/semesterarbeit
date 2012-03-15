@@ -20,9 +20,7 @@ class Minimum_Spanning_Tree:
         # create priority queue
         neighbour_edges = PQueue()
 
-        # take the first node as start node (it doesn't matter which one)
-        # TODO: always use the same startnode, otherwise there could be 
-        # multiple MSTs that give different results in the end. needed?
+        # take the first node as start node
         start_node = min(graph.nodes)
 
         # add first node to mst

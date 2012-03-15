@@ -26,8 +26,8 @@ calc_exact = True
 #calc_exact = False
 
 # do we generate the graph ourselfs?
-#generated_graph = False
-generated_graph = True
+generated_graph = False
+#generated_graph = True
 
 if do_plot:
     from plot import Plot # TODO: this import takes a lot of time
@@ -50,62 +50,17 @@ for i in range(0, run_counts):
     #graph_hpp = reader.euclidean('data/in/berlin52.tsp', 29, 44) # alg 8161 / opt 6967
     #graph_tsp = reader.euclidean('data/in/dantzig42.tsp') # alg 8422 / opt 7542
     #graph_hpp = reader.euclidean('data/in/dantzig42.tsp', 14, 42) # alg 8161 / opt 6967
-    #graph_tsp = reader.euclidean('data/in/rl1304.tsp') # alg 7777 / opt 6773
-    #graph_hpp = reader.euclidean('data/in/rl1304.tsp', 6, 566) # alg 7636 / opt 6733
-
-    #graph_tsp = reader.euclidean('data/in/rl5915.tsp') # alg 7777 / opt 6773
-    #graph_hpp = reader.euclidean('data/in/rl5915.tsp', 6, 566) # alg 7636 / opt 6733
-
-    #graph_tsp = reader.euclidean('data/in/rat575.tsp') # alg 7777 / opt 6773
-    #graph_hpp = reader.euclidean('data/in/rat575.tsp', 6, 566) # alg 7636 / opt 6733
-    #graph_tsp = reader.euclidean('data/in/graph.tsp')
-    #graph_hpp = reader.euclidean('data/in/graph.tsp', 5, 6)
-    #graph_tsp = reader.euclidean('data/in/graph_zz.tsp') # alg 11290 / opt 7798
-    #graph_hpp = reader.euclidean('data/in/graph_zz.tsp', 1, 39) # alg 7490 / opt 7490
-    #graph_tsp = reader.euclidean('data/in/graph_zz_orig.tsp') # alg 912 / opt 768
-    #graph_hpp = reader.euclidean('data/in/graph_zz_orig.tsp', 1, 39) # opt 532
-    #graph_tsp = reader.euclidean('data/in/graph_zz_short.tsp') # opt 768
-    #graph_hpp = reader.euclidean('data/in/graph_zz_short.tsp', 1, 5) # opt 532
-    #graph_tsp = reader.euclidean('data/in/graph_worst.tsp') # opt 1084
-    #graph_hpp = reader.euclidean('data/in/graph_worst.tsp', 30, 118) # opt 1023
-    #graph_tsp = reader.euclidean('data/in/graph_worst.tsp') # opt 1084
-    #graph_hpp = reader.euclidean('data/in/graph_worst.tsp', 10, 34) # opt 1023
-    #graph_tsp = reader.euclidean('data/in/graph_random.tsp') #  alg 1527 / opt 1439 = 106%
-    #graph_hpp = reader.euclidean('data/in/graph_random.tsp', 39, 1) #  alg 956 / opt 938 = 101%
-    #graph_tsp = reader.euler_3d('data/in/graph_3d.tsp') # 
-    #graph_hpp = reader.euler_3d('data/in/graph_3d.tsp', 19, 24) # 
-
-    #graph_tsp = reader.euclidean('data/in/graph_3d.tsp') # 
-    #graph_hpp = reader.euclidean('data/in/graph_3d.tsp', 19, 24) # 
-
-    #graph_tsp = reader.euclidean('data/in/graph_worst_hpp.tsp') # 
-    #graph_hpp = reader.euclidean('data/in/graph_worst_hpp.tsp', 1, 8) # 
-
     #graph_tsp = reader.euclidean('data/in/hoogeveen.tsp') # 
     #graph_hpp = reader.euclidean('data/in/hoogeveen.tsp', 1, 8) # 
 
-    #graph_tsp = reader.euclidean('data/in/graph_belt_2d.tsp') # opt 3150 = 9.65%
-    #graph_hpp = reader.euclidean('data/in/graph_belt_2d.tsp', 2, 36) # opt 2092 = 1.24%
-
-    #graph_tsp = reader.euclidean('data/in/graph_belt_5d.tsp') # 
-    #graph_hpp = reader.euclidean('data/in/graph_belt_5d.tsp', 13, 21) #
-
-    #graph_tsp = reader.euclidean('data/in/graph_belt_3d.tsp') # opt 8861 = 10.56%
-    #graph_hpp = reader.euclidean('data/in/graph_belt_3d.tsp', 22, 33) # opt 8266 = 8.60%
-    #graph_tsp = reader.euclidean('data/in/random_2d.tsp') # 
-    #graph_hpp = reader.euclidean('data/in/random_2d.tsp', 32, 4) # 
-
-    #graph_tsp = reader.euclidean('data/in/random_3d.tsp') # 
-    #graph_hpp = reader.euclidean('data/in/random_3d.tsp', 2, 23) # 
-
-    #graph_tsp = reader.euclidean('data/in/random_4d.tsp') # 
-    #graph_hpp = reader.euclidean('data/in/random_4d.tsp', 7, 20) # 
+    graph_tsp = reader.euclidean('data/in/christophides.tsp') # 
+    graph_hpp = reader.euclidean('data/in/christophides.tsp', 1, 39) # 
 
     #graph_tsp = reader.euclidean('data/in/bier127.tsp') # 
     #graph_hpp = reader.euclidean('data/in/bier127.tsp', 98, 107) # 
 
-    graph_tsp = reader.euclidean('data/in/my_tsp.tsp') # 
-    graph_hpp = reader.euclidean('data/in/my_tsp.tsp', 32, 4) # 
+    #graph_tsp = reader.euclidean('data/in/my_tsp.tsp') # 
+    #graph_hpp = reader.euclidean('data/in/my_tsp.tsp', 32, 4) # 
 
 
     if generated_graph:

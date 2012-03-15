@@ -76,9 +76,6 @@ class Euler:
             euler = self.merge_cycles(euler, euler_sub, current_node) 
 
             for node in euler:
-                #TODO: Find better solution to get the next_node, best would be a list
-                #with nodes that are candiates (nodes that are in the last cycle and
-                #have at least 1 neighbour)
                 if graph.contains_node(node):
                     neighbours = graph.neighbour_nodes(node)
                     if len(neighbours) > 0:
@@ -173,8 +170,6 @@ class Euler:
         return nodes_shortened
 
 
-    # TODO: There should be a nicer solution to create an euler path out of an
-    # euler tour
     def euler_path(self, euler, node_s, node_t):
         del euler[-1]
         second_to_last_idx = len(euler)-1
