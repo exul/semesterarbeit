@@ -82,13 +82,11 @@ def calculate(args):
     nodes_hpp = euler.shorten_path(euler_nodes_hpp)
 
     print('Eulerian tour shortened')
-    writer.write_nodes(nodes_tsp, 'data/out/tour_winwin.tsp')
-    writer.write_nodes(nodes_hpp, 'data/out/tour_winwin.hpp')
 
     # calculate TSP costs
     cost_tsp = 0
     if args.p:
-        print('\nTSP Tour:')
+        print('\nTSP:')
 
     for i in range(len(nodes_tsp)):
         if args.p:
@@ -110,7 +108,7 @@ def calculate(args):
     # calculate HPP costs
     cost_hpp = 0
     if args.p:
-        print('\nHPP Tour:')
+        print('\nHPP:')
 
     for i in range(len(nodes_hpp)):
         if args.p:
@@ -119,15 +117,15 @@ def calculate(args):
         if i > 0:
             cost_hpp += graph_hpp.lookup_distance(nodes_hpp[i-1], nodes_hpp[i])[0]
 
-    print('\nHPP: This tour costs {0}, we visited {1} nodes.'.format(cost_hpp, i+1))
+    print('\nHPP: This path costs {0}, we visited {1} nodes.'.format(cost_hpp, i+1))
 
     if args.oh > 0:
         error_hpp = cost_hpp - args.oh
         if error_hpp > 0:
-            print('HPP: The tour is {0}% longer than the optimum'. \
+            print('HPP: The path is {0}% longer than the optimum'. \
                     format(round(100*error_hpp/args.oh, 2)))
         else:
-            print('You found a shorter solution than the optimum, really?')
+            print('You found a shorter path than the optimum, really?')
 
 if __name__ == "__main__":
     try:
