@@ -68,6 +68,12 @@ Dozent: Dr. Hans-Joachim Böckenhauer}
 \thispagestyle{empty}
 \newpage
 
+\begin{abstract}
+    Zusammenfassung
+\end{abstract}
+
+\newpage
+
 \tableofcontents
 \newpage
 \section{Einleitung}
@@ -595,6 +601,8 @@ Anzahl der Städte. Diese Angabe wird genutzt, um zu prüfen ob die Anzahl der S
 Gibt an, wie die Distanzen im Dokument abgebildet werden. Es werden ausschliesslich euklidische Distanzen unterstützt (bspw. EUC\_2D, wobei 2 die Dimension des Raumes ist).
 Anhand der Dimension des Raumes wird geprüft, ob die Anzahl Spalten (die Koordinaten einer Stadt) korrekt ist.
 
+\emph{Hinweis: Gemäss Spezifikation der TSPLIB wird nur EUC\_2D und EUC\_3D unterstützt, diese Einschränkung besteht für die Win/Win Strategie nicht.}
+
 \subsubsection{NODE\_COORD\_SECTION}
 Ab hier werden die Koordinaten der Städte angegeben. Die erste Spalte ist dabei die ID des Knotens und muss fortlaufend von 1 bis N nummeriert sein. Die darauffolgenden Spalten sind Koordinaten, eine Spalte pro Achse, bspw.
 
@@ -809,6 +817,14 @@ Die folgende Instanz zeigt den Worst Case Fall für den Hamiltonkreis, während 
                 \caption{Instanz Christofides}
                 \label{tab:instanz_christofides}
         \end{table}
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=16cm]{gfx/christofides_hpp_comparison}
+        \includegraphics[width=16cm]{gfx/christofides_tsp_comparison}
+        \caption{Hoogeveen Instanz}
+        \label{img:christofides_comparison}
+\end{figure}
 
 \subsubsection{Hoogeveen}
 In seinem Paper "`Analysis of Christofides' heuristic: some paths are more difficult than cycles"'\cite{hoogeveen91} zeigte J.A. Hoogeveen anhand dieser Instanz den Worst Case Fall für das Hamiltonpfadproblem.
