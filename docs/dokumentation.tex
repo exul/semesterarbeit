@@ -85,29 +85,37 @@ Um ein Verständnis für die Implementation zu entwickeln, werden das Traveling 
 Danach werden die wichtigsten Teile der Implementation erklärt, bevor dann die Ergebnisse ausgewertet werden. 
 
 \subsection{Abgrenzung}
-Diese Arbeit beschränkt sich auf die Implementation der Win/Win Strategie und die Auswertung der Ergebnisse. Neue Algorithmen zu finden ist nicht Teil dieser Arbeit.
+Diese Arbeit beschäftigt sich mit dem metrischen Traveling Salesman Problem. Die Dreiecksungleichung muss erfüllt sein: Eine Strecke von 1 nach 2 ist somit immer kürzer, als von 1 nach 3 nach 2.
+
+\begin{figure}[H]
+        \centering
+        \includegraphics[width=2.5cm]{gfx/triangle_inequality}
+        \caption{Dreiecksungleichung}
+        \label{img:triangle_inequality}
+\end{figure}
 
 \subsection{Motivation}
 Mich fasziniert, dass die Problembeschreibung sehr einfach ist, die Lösung jedoch äusserst schwierig.
 Ausserdem lassen sich viele Überlegungen mit Papier und Stift aufzeichnen, ohne das ein Computer benötigt wird. 
-Abbildung \ref{img:simple_tsp} zeigt ein 6 Städte TSP, eine Mögliche Route ist dabei blau markiert. Offensichtlich ist es nicht die optimale Route. Das Bild zeigt jedoch, wie einfach man das Problem für kleine Instanzen analysieren kann, selbst ohne einen Rechner zu benutzen.
+Abbildung \ref{img:simple_tsp} zeigt ein 6 Städte TSP, eine mögliche Route ist dabei blau markiert. Offensichtlich ist es nicht die optimale Route. Das Bild zeigt jedoch, wie einfach man das Problem für kleine Instanzen analysieren kann, selbst ohne einen Rechner zu benutzen.
 
 \begin{figure}[H]
         \centering
-        \includegraphics[width=8cm]{gfx/simple_tsp}
+        \includegraphics[width=4cm]{gfx/simple_tsp}
         \caption{6 Städte TSP}
         \label{img:simple_tsp}
 \end{figure}
 
 \newpage
 \section{Traveling Salesman Problem (TSP)}
+\label{s:traveling_salesman_problem}
 Dieser Abschnitt gibt einen Überblick zum Traveling Salesman Problem. Als Erstes wird die Problemstellung erklärt und anschliessend der geschichtliche Hintergrund erläutert. Nach einer kurzen Beschreibung zur NP-Vollständigkeit des Problems, wird erklärt, wie das Problem modelliert werden kann. Da es neben dem in dieser Arbeit vorgestellten Algorithmus viele weitere Möglichkeiten gibt, ein TSP zu lösen, werden einige exakte und heuristische Lösungsverfahren kurz beschrieben.
 
 \subsection{Problembeschreibung}
 Die Problemstellung ist simple: Es soll eine Rundreise durch eine Anzahl Städte gefunden werden und zwar so, dass der Handlungsreisende wieder an seinen Ausgangspunkt zurückkehrt und die zurückgelegt Strecke möglichst kurz ist.
 
 \subsection{Geschichte}
-Der Urheber der Bezeichnung "`Traveling Salesman Problem"' ist nicht genau bekannt. Es ist jedoch klar, dass damit das Auffinden der kürzesten Rundreise eines Handelsreisenden gemeint ist.\footnote{vgl. \cite{applegate06} Seite 1-3} 1983 publizierte Heiner Müller-Merbach in seinem Paper\cite{mueller83} einen Ausschnitt aus dem Buch "`Der Handlungsreisende – wie er sein soll und was er zu thun hat, um Aufträge zu erhalten und eines glücklichen Erfolgs in seinen Geschäften gewiß zu sein – von einem alten Commis-Voyageur"' in dem die Wichtigkeit einer guten Route beschrieben:  
+Der Urheber der Bezeichnung "`Traveling Salesman Problem"' ist nicht genau bekannt. Es ist jedoch klar, dass damit das Auffinden der kürzesten Rundreise eines Handlungsreisenden gemeint ist.\footnote{vgl. \cite{applegate06} Seite 1-3} 1983 publizierte Heiner Müller-Merbach in seinem Paper\cite{mueller83} einen Ausschnitt aus dem Buch "`Der Handlungsreisende – wie er sein soll und was er zu thun hat, um Aufträge zu erhalten und eines glücklichen Erfolgs in seinen Geschäften gewiß zu sein – von einem alten Commis-Voyageur"' in dem die Wichtigkeit einer guten Route beschrieben:  
 \begin{quotation}
 Die Geschäfte führen Handlungsreisende bald hier, bald dort hin, und es lassen sich nicht füglich Reiserouten angeben, die für alle vorkommende Fälle passend sind: aber es kann durch eine zweckmäßige Wahl und Eintheilung der Tour, manchmal so viel Zeit gewonnen werden, dass wir es nicht glauben umgehen zu dürfen, auch hierüber einige Vorschriften zu geben. Ein Jeder möge so viel davon benutzen, als es seinem Zwecke für dienlich hält: so viel glauben wir aber davon versichern zu dürfen, daß es nicht wohl thunlich sein wird, die Touren durch Deutschland in Absicht der Entfernungen und, worauf der Reisende hauptsächlich zu sehen hat, des Hin- und Herreisens, mit mehr Oekonomie einzurichten. Die Hauptsache besteht immer darin: so viele Orte wie möglich mitzunehmen, ohne den nämlichen Ort zweimal berühren zu müssen.
 \end{quotation}
@@ -223,7 +231,7 @@ Die Nearest-Neighbor-Heuristik startet an einem beliebigen Knoten, im nächsten 
 \begin{flushleft}
 \textbf{Ant Colony Optimization (ACO)}
 
-Die Erste Anwendung des Ameisenalgorithmus (Ant Colony Optimization) war das Traveling Salesman Problem.\footnote{\cite{dorigo99} Seite 146}
+Die erste Anwendung des Ameisenalgorithmus (Ant Colony Optimization) war das Traveling Salesman Problem.\footnote{\cite{dorigo99} Seite 146}
 
 ACO bedient sich der Beobachtung aus der Natur, dass Ameisen bei der Suche nach Futter eine Pheromonspur hinterlassen, mit deren Hilfe nachfolgende Ameisen den Weg zum Futter finden.
 
@@ -249,17 +257,29 @@ Die MST-Heuristik garantiert eine Tour, die maximal doppelt so lang ist, wie die
 \end{flushleft}
 \newpage
 \section{Win/Win Strategie}
+Das Konzept der Win/Win Strategie für Näherungsalgorithmen wurde von H.J. Böckenhauer, Ralf Klasing, Tobias Mömke und Monika Steinová im Paper "`Improved approximations for TSP with simple precedence constraints"'\cite{boeckenhauer10} vorgestellt.  Auch D. Eppstein veröffentlichte in "`Paired approximation problems and incompatible inapproximabilities"`\cite{eppstein10} dieses Konzept. Er benutzt allerdings die Bezeichnung "`paired approximation"'.
+
+
 \subsection{Grundidee}
-Die Win/Win Strategie basiert darauf, dass für zwei verwandte Probleme Algorithmen $A_1$ und $A_2$ existieren und das eine Instanzen, für die $A_1$ eine schlechte Lösung liefer, $A_2$ eine gute Lösung liefert. Dass also die Worst-Case Instanzen der beiden Algorithmen disjunkt sind.\cite{boeckenhauer10}
+Die Win/Win Strategie basiert darauf, dass für zwei verwandte Probleme Algorithmen $A_1$ und $A_2$ existieren und das eine Instanzen, für die $A_1$ eine schlechte Lösung liefert, $A_2$ eine gute Lösung liefert. Dass also die Worst-Case Instanzen der beiden Algorithmen disjunkt sind.
 
 \subsection{Anwendung für das Traveling Salesman Problem}
+Das Traveling Salesman Problem, welches im Abschnitt \ref{s:traveling_salesman_problem} bereits beschrieben wurde ist eng Verwandt mit dem Hamiltonpfadproblem. Beim Hamiltonpfadproblem wird nicht eine Rundreise gesucht, bei der Start und Ziel in der selben Stadt sind, sondern eine Reise durch $n$ Städte, bei der Start $s$ und Ziel $t$ in zwei verschiedenen Städten liegen. Wenn man beim HPP für $s$ und $t$ die selbe Stadt wählt, entspricht dies einem TSP.
+
+Der Christofides Algorithmus ist die Heuristik mit der besten Gütegarantie für das Traveling Salesman Problem. Die Rundreise, die mittels Christofides Algorithmus berechnet wird, ist maximal 1/2\% länger, als die optimale Route. Diese obere Grenze konnte seit der Veröffentlichung vor über 30 Jahren nicht verbessert werden.
+
+Für das Hamiltonpfadproblem ist der Hoogeveen Algorithmus die beste bekannte Heuristik, der gefundene Pfad ist maximal 2/3 länger als der optimale Pfad.\cite{moemke11}
+
+Für die Win/Win Strategie bedeutet dies nun, dass Instanzen, für die der Christofides Algorithmus schlechte Näherungen liefert, der Hoogeveen Algorithmus gute Lösungen liefert, die signifikant unterhalb der oberen Schranke liegen.
 
 \newpage
 \section{Algorithmen}
 \label{s:algorithmen}
-%TODO: Notation bei der beschreibung der Algorithmen vereinheitlichen
-Der verwendete Algorithmus berechnet sowohl den Hamiltonpfad, wie auch den Hamiltonkreis für einen gegebenen Graphen $G$. 
+\subsection{Notation}
+Für die folgenden Algrithmen sei $G$ ein Graph, $V$ dessen Knoten, $E$ die Kanten und $E(G)$ die Anzahl Kanten des Graphen.
 
+\subsection{Win/Win Algorithmus}
+Der verwendete Algorithmus berechnet sowohl den Hamiltonpfad, wie auch den Hamiltonkreis für einen gegebenen Graphen $G$. 
 Die Berechnung basiert auf dem Paper "`Structural Properties of Hard Metric TSP Inputs"'\cite{moemke11} (der Algorithmus wurde bereits im Paper "`Improved Approximations for TSP with Simple Precedence Constraints"'\cite{boeckenhauer10} vorgestellt):
 
 \begin{algorithm}
@@ -379,8 +399,8 @@ Die kürzung des Eulerkreises bzw. des Eulerpfades werden in der Liste der besuc
     \begin{algorithmic}[1]
     \REQUIRE Liste $L$ mit den Knoten des Eulerkreises/-pfades 
     \FOR{$i = 1 \to len(L)$}
-        \IF{$L[i]$ not in $K$}
-            \STATE Füge $L[i]$ zu $K$ hinzu
+        \IF{$L[i]$ not in $H$}
+            \STATE Füge $L[i]$ zu $H$ hinzu
         \ENDIF
     \ENDFOR
     \ENSURE Hamiltonkreis/-pfad $H$
@@ -396,7 +416,7 @@ Die kürzung des Eulerkreises bzw. des Eulerpfades werden in der Liste der besuc
 
 \newpage
 \section{Implementation}
-Der gesamte Algorithmus wurde in Python 3 implementiert. Lediglich der Blossom V Algorithmus, für welchen eine bestehende Implementation verwendet wurde ist in C++ implementiert.
+Der gesamte Algorithmus ist in Python 3 implementiert. Lediglich der Blossom V Algorithmus, für welchen eine bestehende Implementation verwendet wird ist in C++ implementiert.
 
 Für die Knoten, Kanten und Graphen werden eigene Objekte erstellt, die nachfolgend genauer beschrieben werden. 
 
@@ -419,7 +439,6 @@ Um Kanten sortieren zu können, wird die Funktion \texttt{\textunderscore\textun
 Die Funktion \texttt{\textunderscore\textunderscore eq\textunderscore\textunderscore} prüft, ob zwei Kanten identisch sind, in dem die IDs der Kanten verglichen werden.
 
 \subsubsection{Graph}
-%TODO: Beschreibung OK?
 Die zentrale Datenstruktur für die Berechnungen ist der Graph. In Tabelle \ref{tab:impl_graph} werden die wichtigsten Funktionen beschrieben.
 
 Wichtige für eine effiziente Funktionsweise ist die Speicherung der Knoten und Kanten. Die Knoten werden in einem mehrdimensionalen \emph{dictionary} gespeichert. Die Knoten fungieren im ersten \emph{dictionary} als Keys. Dieser Key zeigt auf ein weiteres \emph{dictionary}, der Key dieses \emph{dictionary} ist wiederum ein Knoten der auf eine Liste von Kante zeigt, die die beiden Knoten verbinden.
@@ -448,7 +467,7 @@ Diese Implementation hat den Vorteil, dass direkt auf Knoten, Kanten und Nachbar
 
 
 \subsection{Algorithmen}
-Da die Algorithmen in Abschnitt \ref{s:algorithmen} bereits beschrieben wurden, wird hier lediglich auf die wichtisten Punkte der implementierung eingegangen.
+Da die Algorithmen in Abschnitt \ref{s:algorithmen} bereits beschrieben wurden, wird hier lediglich auf die wichtigsten Punkte der Implementierung eingegangen.
 
 \subsubsection{Minimaler Spannbaum}
 Zur Erstellung des minimale Spannbaums wird nach der Wahl eines Starknotens aus den erreichbaren Kanten jeweils diejenige mit dem kleinsten Gewicht gesucht. Um dies effizient zu ermöglichen, wird die bestehende Datenstruktur \emph{Priority Queue} genutzt:
@@ -512,7 +531,7 @@ for node in nodes:
 Zur Erstellung des Eulerkreises/-pfades wurden zwei Routinen erstellt. Die erste erstellt die Kreise und die zweite fügt diese zusammen, bis schlussendlich der Eulerkreis-/pfad gefunden ist.
 
 \begin{flushleft}
-   Ein Nachbar des aktuellen Knoten wird gewählt und die dazwischenliegende Kante zum Eulerkreis hinzugefügt. Falls zwischen den Knoten mehrere Kanten existieren, wird diejenige mit dem kleinsten Gewicht genommen:
+    In einer Schleife wird ein Nachbarknoten des aktuellen Knotens gewählt. Die dazwischenliegende Kante wird zum Eulerkreis hinzugefügt. Falls zwischen den Knoten mehrere Kanten existieren, wird diejenige mit dem kleinsten Gewicht selektiert:
 \end{flushleft}
 \begin{verbatim}
 neighbours = graph.neighbour_nodes(current_node)
@@ -523,7 +542,7 @@ current_edge = min(edge_list)
 \end{verbatim}
 
 \begin{flushleft}
-    Zusammenfügen zweier Kreise (\texttt{euler} und \texttt{euler\_sub}). Es muss über die Liste iteriert werden, um den korrekten Punkt zum Einfügen der zweiten Liste zu finden:
+    Damit zwei Kreise (\texttt{euler} und \texttt{euler\_sub}) zusammengefügt werden können, muss über die Liste iteriert werden. So kann der korrekte Punkt zum Einfügen der zweiten Liste gefunden werden.
 \end{flushleft}
 \begin{verbatim}
 for node in euler_tmp:
@@ -554,7 +573,9 @@ nodes_shortened.append(nodes_shortened[0])
 
 \subsection{Generierung der Zufälligen Instanzen}
 \subsection{Unittests}
+Python unterstützt standardmässig Unittests. Diese werden verwendet, um die einzelnen Komponenten des Algorithmus zu testen.
 
+Bei Änderungen am Quellcode werden die Unittests verwendet, um zu prüfen, ob Seiteneffekte auftreten und ob es zu Fehlern kommt.
 \newpage
 
 \section{Applikation}
