@@ -416,7 +416,7 @@ Die kürzung des Eulerkreises bzw. des Eulerpfades werden in der Liste der besuc
 
 \newpage
 \section{Implementation}
-Der gesamte Algorithmus ist in Python 3 implementiert. Lediglich der Blossom V Algorithmus, für welchen eine bestehende Implementation verwendet wird ist in C++ implementiert.
+Der gesamte Algorithmus ist in Python 3 implementiert. Lediglich der Blossom V Algorithmus, für welchen eine bestehende Implementation verwendet wird, ist in C++ implementiert.
 
 Für die Knoten, Kanten und Graphen werden eigene Objekte erstellt, die nachfolgend genauer beschrieben werden. 
 
@@ -427,7 +427,7 @@ Jeder Knoten hat eine eindeutige ID die vom System vergeben wird. Zudem erhält 
 
 Die Koordinaten sind als Liste implementiert, um unabhängig von der Dimension der Instanz die benötigten Informationen speichern zu können.
 
-Damit die Knoten in einem \emph{dictionary} gespeichert werden können, implementiert dieses Objekt die \emph{hash} Funktion. Dazu wird die ID des Objekts mit der von Python zur Verfügung gestellten Funktion gehashed.
+Damit die Knoten in einem \emph{dictionary}\footnote{zu vergleichen mit einer Hashtable in Java} gespeichert werden können, implementiert dieses Objekt die \emph{hash} Funktion. Dazu wird die ID des Objekts mit der von Python zur Verfügung gestellten Funktion gehashed.
 
 \subsubsection{Kante}
 Kanten werden ebenfalls durch eine eindeutige ID, die durch das System vergeben wird, identifiziert.
@@ -571,11 +571,67 @@ for node in nodes:
 nodes_shortened.append(nodes_shortened[0])
 \end{verbatim}
 
-\subsection{Generierung der Zufälligen Instanzen}
-\subsection{Unittests}
-Python unterstützt standardmässig Unittests. Diese werden verwendet, um die einzelnen Komponenten des Algorithmus zu testen.
+\subsection{Generierung von Instanzen}
+Für die Generierung der eigenen Instanzen wird ein TSP-File mit den entsprechenden Koordinaten geschrieben.
 
-Bei Änderungen am Quellcode werden die Unittests verwendet, um zu prüfen, ob Seiteneffekte auftreten und ob es zu Fehlern kommt.
+Folgende Arten von Instanzen werden generiert:
+
+\subsubsection{Zufällige Instanzen}
+Zur Generierung von Zufälligen Instanzen sind zwei Schleifen notwendig, einmal um die Anzahl Knoten zu generieren und einmal um die Anzahl Dimensionen im euklidischen Raum zu generieren. Bei den zufälligen Instanzen werden beliebige Punkte innerhalb der gegebenen minimalen und maximalen Grenzen erzeugt:
+
+\begin{verbatim}
+for i in range(0,cities):
+    print('{0}'.format(i+1), end=" ", file=f)
+        for j in range(0, dimension):
+            print('{0}'.format(random.randrange(min_coord,max_coord)), \
+                end=" ", file=f)
+
+    print('',file=f)
+\end{verbatim}
+
+\subsubsection{Band}
+Bei der Generierung von Instanzen mit einer länglichen Verteilung werden zwei verschiedene minimale und maximale Begrenzungen eingesetzt. Für eine Achse wird dazu die eine Begrenzung verwendet, für alle anderen die zweite:
+
+\begin{verbatim}
+for i in range(0,cities):
+    print('{0}'.format(i+1), end=" ", file=f)
+        for j in range(0, dimension):
+            if j == 1:
+                print('{0}'.format(random.randrange( \
+                    min_coord_height,max_coord_height)), end=" ", file=f)
+            else:
+                print('{0}'.format(random.randrange( \
+                    min_coord_width,max_coord_with)), end=" ", file=f)
+
+    print('',file=f)
+\end{verbatim}
+
+\subsubsection{Gruppen}
+Um die Gruppen zu erzeugen, wird die Seitenlänge der Quadrate angegeben, innerhalb dieser Quadrate werden die Knoten platziert. Zusätzlich wird der Abstand zwischen den Quadraten definiert. Daraus werden die Koordinaten errechnet, hier das Beispiel, mit welchem zwei Gruppen generiert werden:
+
+\begin{verbatim}
+for i in range(0,cities):
+    print('{0}'.format(i+1), end=" ", file=f)
+
+    if i % 2 == 0:
+        # x coordinate first crowd
+        print('{0}'.format(random.randrange(1,width_c1)), end=" ", file=f)
+        # y coordinate first crowd
+        print('{0}'.format(random.randrange(1,width_c1)), end=" ", file=f)
+    else:
+        # x coordinate second crowd
+        print('{0}'.format(random.randrange(offset,offset+width_c2)), \
+            end=" ", file=f)
+        # y coordinate second crowd
+        print('{0}'.format(random.randrange(1,width_c2)), end=" ", file=f)
+
+    print('',file=f)
+\end{verbatim}
+
+\subsection{Unittests}
+Python unterstützt standardmässig Unittests. Diese werden verwendet, um die wichtigen Komponenten des Algorithmus zu testen.
+
+Bei Änderungen am Quellcode werden die Unittests genutzt, um zu prüfen, ob Seiteneffekte auftreten und ob es zu Fehlern kommt.
 \newpage
 
 \section{Applikation}
