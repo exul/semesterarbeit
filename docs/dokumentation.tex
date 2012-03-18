@@ -792,16 +792,18 @@ Die TSP-Instanz dantzig42 wurde 1954 durch G. Dantzig, R. Fulkerson und S. Johns
                         Anzahl Städte               & 42            \\ \hline
                         Dimensionen                 & 2             \\ \hline
                         Länge optimale Lösung TSP   & 675           \\ \hline
-                        Länge Win/Win Lösung  TSP   & 745           \\ \hline
-                        Abweichung TSP              & 10.37\%       \\ \hline
+                        Länge Win/Win Lösung  TSP   & 744.60        \\ \hline
+                        Abweichung TSP              & 10.31\%       \\ \hline
                         $s$ und $t$ für HPP         & 14,41         \\ \hline
                         Länge optimale Lösung HPP   & 619           \\ \hline
-                        Länge Win/Win Lösung  HPP   & 715           \\ \hline
-                        Abweichung HPP              & 15.50\%       \\ \hline
+                        Länge Win/Win Lösung  HPP   & 717.24        \\ \hline
+                        Abweichung HPP              & 15.87\%       \\ \hline
                 \end{tabular}
                 \caption{Instanz dantzig42}
                 \label{tab:dantzig42}
         \end{table}
+
+Für diese Instanz liefert der Christofides Algorithmus etwas bessere Ergebnisse als der Hoogeveen Algorithmus. Die Knoten sind auf der X-Achse zwischen 3 und 174 und auf der Y-Achse zwischen 13 und 106 verteilt. Da der Minimale Spannbaum bessere Voraussetzungen für die Rundreise als für den Pfad liefert, ist die Genauigkeit für das TSP besser.
 
 \subsubsection{bier127}
 Eine Tour durch 127 Biergärten in Augsburg.
@@ -813,16 +815,18 @@ Eine Tour durch 127 Biergärten in Augsburg.
                         Anzahl Städte               & 127           \\ \hline
                         Dimensionen                 & 2             \\ \hline
                         Länge optimale Lösung TSP   & 118282        \\ \hline
-                        Länge Win/Win Lösung  TSP   & 133740        \\ \hline
-                        Abweichung TSP              & 13.07\%       \\ \hline
+                        Länge Win/Win Lösung  TSP   & 133740.98     \\ \hline
+                        Abweichung TSP              & 13.06\%       \\ \hline
                         $s$ und $t$ für HPP         & 98, 107       \\ \hline
                         Länge optimale Lösung HPP   & 109028        \\ \hline
-                        Länge Win/Win Lösung  HPP   & 123599        \\ \hline
+                        Länge Win/Win Lösung  HPP   & 123598.08     \\ \hline
                         Abweichung HPP              & 13.36\%       \\ \hline
                 \end{tabular}
                 \caption{Instanz bier127}
                 \label{tab:bier127}
         \end{table}
+
+Für beide Algorithmen ergibt sich ein Abweichung von ca. 13\%. Keine der Algorithmen hat hier einen Vorteil.
 
 \subsubsection{eil51/eil101}
 Bei eil51 und eil101 handelt es sich um TSPLIB Probleme mit 51 und 101 Städten. Die Instanz eil51 wurde zur Erläuterung des Algorithmus in Abschnitt \ref{s:algorithmen} genutzt.
@@ -836,18 +840,24 @@ Bei eil51 und eil101 handelt es sich um TSPLIB Probleme mit 51 und 101 Städten.
                 Anzahl Städte               & 51        & 101       \\ \hline
                 Dimensionen                 & 2         & 2         \\ \hline
                 Länge optimale Lösung TSP   & 426       & 629       \\ \hline
-                Länge Win/Win Lösung  TSP   & 489       & 712       \\ \hline
-                Abweichung TSP              & 14.79\%   & 13.20\%   \\ \hline
+                Länge Win/Win Lösung  TSP   & 488.24    & 712.03    \\ \hline
+                Abweichung TSP              & 14.61\%   & 13.20\%   \\ \hline
                 $s$ und $t$ für HPP         & 36, 40    & 38, 64    \\ \hline
                 Länge optimale Lösung HPP   & 403       & 613       \\ \hline
-                Länge Win/Win Lösung  HPP   & 463       & 703       \\ \hline
-                Abweichung HPP              & 14.89\%   & 14.68     \\ \hline
+                Länge Win/Win Lösung  HPP   & 462.48    & 701.60    \\ \hline
+                Abweichung HPP              & 14.76\%   & 14.45     \\ \hline
         \end{tabular}
         \caption{Instanzen eil51 und eil101}
         \label{tab:instanzen_eil}
 \end{table}
 
+Weder bei eil51, noch bei eil51 ist einer der beiden Algorithmen im Vorteil. Da die Knoten bei beiden Instanzen innerhalb eines Quadrates verteilt sind, eignet sich der resultierende Minimale Spannbaum weder für eine Rundreise, noch für einene Pfad besonders gut.
+
 \subsubsection{Zusammenfassung}
+Wie die in Tabelle \ref{tab:instanzen_tsplib} aufgelisteten Werte zeigen, sind bei Berechnungen auf Problemen der TSPLIB keine Auffälligkeiten festzustellen.
+
+Da keines der Berechneten Probleme spezielle Charakteristiken aufweist, die einen der beiden Algorithmen begünstigen (bspw. einen Minimalen Spannbaum, der für einen der beiden Algorithmus besser geeignet ist), ist dies nachvollziehbar.
+
     \begin{table}[H]
                 \centering
                 \begin{tabular}{| p{2.0cm} | p{2.0cm} | p{2.5cm} | p{2.5cm} | p{2.5cm} |}
@@ -858,13 +868,13 @@ Bei eil51 und eil101 handelt es sich um TSPLIB Probleme mit 51 und 101 Städten.
                     \small{\textbf{Abweichung TSP}} & 
                     \small{\textbf{Abweichung HPP}} \\ \hline
 
-                    dantzig42   & 42    & 2     & 10.37\%   & 15.50\%   \\ \hline
-                    eil51       & 51    & 2     & 14.79\%   & 14.89\%   \\ \hline
-                    eil101      & 101   & 2     & 13.20\%   & 14.68\%   \\ \hline
-                    bier127     & 127   & 2     & 13.07\%   & 13.36\%   \\ \hline
+                    dantzig42   & 42    & 2     & 10.31\%   & 15.87\%   \\ \hline
+                    bier127     & 127   & 2     & 13.06\%   & 13.36\%   \\ \hline
+                    eil51       & 51    & 2     & 14.61\%   & 14.76\%   \\ \hline
+                    eil101      & 101   & 2     & 13.20\%   & 14.45\%   \\ \hline
                \end{tabular}
                 \caption{Auswertung TSPLIB Instanzen}
-                \label{tab:instanz_tsplib_instanzen}
+                \label{tab:instanzen_tsplib}
         \end{table}
 
 \subsection{Auswertung eigener Instanzen}
@@ -895,11 +905,13 @@ Die folgende Instanz zeigt den Worst Case Fall für den Hamiltonkreis, während 
                 \label{tab:instanz_christofides}
         \end{table}
 
+Die Berechnung zeigt, dass die Win/Win Strategie für das Hamiltonpfadproblem die exakte Lösung liefert, wohingegeben die Lösung für das Traveling Salesman Problem äusserst schlecht ist. Mit 44.78\% ist die Abweichung 5.22\% unterhalb der oberen Schranke. Dies ist darauf zurückzuführen, dass die Instanze leicht von der Worst Case Instanz abweicht, um für jede Berechnung eine schlechte Lösung zu garantieren.
+
 \begin{figure}[H]
         \centering
         \includegraphics[width=16cm]{gfx/christofides_hpp_comparison}
         \includegraphics[width=16cm]{gfx/christofides_tsp_comparison}
-        \caption{Hoogeveen Instanz}
+        \caption{Christofides Instanz}
         \label{img:christofides_comparison}
 \end{figure}
 
@@ -923,6 +935,8 @@ In seinem Paper "`Analysis of Christofides' heuristic: some paths are more diffi
         \caption{Instanz Hoogeveen}
         \label{tab:instanz_hoogeveen}
 \end{table}
+
+Die Ergebnisse entsprechen den Erwartungen, mit eine Abweichung von 66.56\% liegt das Ergebnis des Hoogeveen Algorithmus nur 5.11\% unterhalb der oberen Schranke. Auch hier wurde die Instanz leicht verändert, um die schlechten Lösungen zu garantieren.
 
 \begin{figure}[H]
         \centering
