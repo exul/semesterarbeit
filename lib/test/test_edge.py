@@ -3,7 +3,7 @@ import unittest
 from winwin.node import Node
 from winwin.edge import Edge
 
-class Test_Node(unittest.TestCase):
+class Test_Edge(unittest.TestCase):
 
     def setUp(self):
         self.node_1 = Node(1, 2, 3)

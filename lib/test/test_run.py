@@ -11,9 +11,9 @@ def run():
     loader = unittest.TestLoader()
 
     suite = loader.loadTestsFromModule(test_graph)
-    suite.addTests(loader.loadTestsFromModule(test_mst))
     suite.addTests(loader.loadTestsFromModule(test_node))
     suite.addTests(loader.loadTestsFromModule(test_edge))
+    suite.addTests(loader.loadTestsFromModule(test_mst))
     suite.addTests(loader.loadTestsFromModule(test_euler))
 
     runner = unittest.TextTestRunner(verbosity=2)
