@@ -853,6 +853,50 @@ Bei eil51 und eil101 handelt es sich um TSPLIB Probleme mit 51 und 101 Städten.
 
 Weder bei eil51, noch bei eil51 ist einer der beiden Algorithmen im Vorteil. Da die Knoten bei beiden Instanzen innerhalb eines Quadrates verteilt sind, eignet sich der resultierende Minimale Spannbaum weder für eine Rundreise, noch für einene Pfad besonders gut.
 
+\subsubsection{rat195}
+195 Städte Instanz, bei der der Minimale Spannbaum einem Gitternetz ähnelt.
+
+        \begin{table}[H]
+                \centering
+                \begin{tabular}{| l | r |}
+                    \hline
+                        Anzahl Städte               & 195           \\ \hline
+                        Dimensionen                 & 2             \\ \hline
+                        Länge optimale Lösung TSP   & 2323          \\ \hline
+                        Länge Win/Win Lösung  TSP   & 2608          \\ \hline
+                        Abweichung TSP              & 12.27\%       \\ \hline
+                        $s$ und $t$ für HPP         & 1, 179        \\ \hline
+                        Länge optimale Lösung HPP   & 2255          \\ \hline
+                        Länge Win/Win Lösung  HPP   & 2502          \\ \hline
+                        Abweichung HPP              & 9.53\%        \\ \hline
+                \end{tabular}
+                \caption{Instanz rat195}
+                \label{tab:rat195}
+        \end{table}
+
+Der Hoogeveen Algorithmus ist bei dieser Instanz leicht im Vorteil, da die Kürzung des Eulerpfades ein besseres Ergebnis liefert, als die Kürzung der Eulertour.
+
+\subsubsection{another problem}
+
+        \begin{table}[H]
+                \centering
+                \begin{tabular}{| l | r |}
+                    \hline
+                        Anzahl Städte               &               \\ \hline
+                        Dimensionen                 & 2             \\ \hline
+                        Länge optimale Lösung TSP   &               \\ \hline
+                        Länge Win/Win Lösung  TSP   &               \\ \hline
+                        Abweichung TSP              &      \%       \\ \hline
+                        $s$ und $t$ für HPP         &               \\ \hline
+                        Länge optimale Lösung HPP   &               \\ \hline
+                        Länge Win/Win Lösung  HPP   &               \\ \hline
+                        Abweichung HPP              &     \%        \\ \hline
+                \end{tabular}
+                \caption{Instanz att532}
+                \label{tab:att532}
+        \end{table}
+
+
 \subsubsection{Zusammenfassung}
 Wie die in Tabelle \ref{tab:instanzen_tsplib} aufgelisteten Werte zeigen, sind bei Berechnungen auf Problemen der TSPLIB keine Auffälligkeiten festzustellen.
 
@@ -872,6 +916,7 @@ Da keines der Berechneten Probleme spezielle Charakteristiken aufweist, die eine
                     bier127     & 127   & 2     & 13.06\%   & 13.36\%   \\ \hline
                     eil51       & 51    & 2     & 14.61\%   & 14.76\%   \\ \hline
                     eil101      & 101   & 2     & 13.20\%   & 14.45\%   \\ \hline
+                    rat195      & 195   & 2     & 12.27\%   & 9.53\%    \\ \hline
                \end{tabular}
                 \caption{Auswertung TSPLIB Instanzen}
                 \label{tab:instanzen_tsplib}
