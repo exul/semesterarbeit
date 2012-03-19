@@ -876,26 +876,27 @@ Weder bei eil51, noch bei eil51 ist einer der beiden Algorithmen im Vorteil. Da 
 
 Der Hoogeveen Algorithmus ist bei dieser Instanz leicht im Vorteil, da die Kürzung des Eulerpfades ein besseres Ergebnis liefert, als die Kürzung der Eulertour.
 
-\subsubsection{another problem}
+\subsubsection{ts225}
+Bei der Instanz ts225 sind die Knoten auf den Seiten eines Quadrates platziert, dieses Quadrat ist wiederum durch 4 x 4 Quadrate unterteilt auf deren Ränder sich die Knoten befinden.
 
         \begin{table}[H]
                 \centering
                 \begin{tabular}{| l | r |}
                     \hline
-                        Anzahl Städte               &               \\ \hline
+                        Anzahl Städte               & 225           \\ \hline
                         Dimensionen                 & 2             \\ \hline
-                        Länge optimale Lösung TSP   &               \\ \hline
-                        Länge Win/Win Lösung  TSP   &               \\ \hline
-                        Abweichung TSP              &      \%       \\ \hline
-                        $s$ und $t$ für HPP         &               \\ \hline
-                        Länge optimale Lösung HPP   &               \\ \hline
-                        Länge Win/Win Lösung  HPP   &               \\ \hline
-                        Abweichung HPP              &     \%        \\ \hline
+                        Länge optimale Lösung TSP   & 126643        \\ \hline
+                        Länge Win/Win Lösung  TSP   & 134480.17     \\ \hline
+                        Abweichung TSP              & 6.19\%        \\ \hline
+                        $s$ und $t$ für HPP         & 27, 210       \\ \hline
+                        Länge optimale Lösung HPP   & 123401        \\ \hline
+                        Länge Win/Win Lösung  HPP   & 132990.61     \\ \hline
+                        Abweichung HPP              & 7.78\%        \\ \hline
                 \end{tabular}
-                \caption{Instanz att532}
-                \label{tab:att532}
+                \caption{Instanz ts225}
+                \label{tab:ts225}
         \end{table}
-
+Die Abweichung beider Algorithmen ist relativ gerin, da der Minimale Spannbaum nahe an der optimalen Lösung liegt. Da weder der Hamiltonpfad noch der Hamiltonkreis gross von diesen Quadraten abweichen, ist keiner der beiden Algorithmen im Vorteil.
 
 \subsubsection{Zusammenfassung}
 Wie die in Tabelle \ref{tab:instanzen_tsplib} aufgelisteten Werte zeigen, sind bei Berechnungen auf Problemen der TSPLIB keine Auffälligkeiten festzustellen.
@@ -917,6 +918,7 @@ Da keines der Berechneten Probleme spezielle Charakteristiken aufweist, die eine
                     eil51       & 51    & 2     & 14.61\%   & 14.76\%   \\ \hline
                     eil101      & 101   & 2     & 13.20\%   & 14.45\%   \\ \hline
                     rat195      & 195   & 2     & 12.27\%   & 9.53\%    \\ \hline
+                    ts225       & 225   & 2     &  6.19\%   & 7.78\%    \\ \hline
                \end{tabular}
                 \caption{Auswertung TSPLIB Instanzen}
                 \label{tab:instanzen_tsplib}
