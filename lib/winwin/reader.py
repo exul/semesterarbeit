@@ -62,7 +62,7 @@ class Reader:
                 line_data = line.split(':')
 
                 if line_data[0].strip() == 'EDGE_WEIGHT_TYPE':
-                    match = re.search('\d',line_data[1])
+                    match = re.search('\d+',line_data[1])
                     euc_dimension = int(match.group(0))
                 
                 if line_data[0].strip() == 'DIMENSION':
