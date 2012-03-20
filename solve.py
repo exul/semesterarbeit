@@ -1,5 +1,7 @@
 import os
+import re
 import sys
+import subprocess as sub
 
 sys.path.insert(0, os.path.abspath(
     os.path.join(os.path.dirname(os.path.realpath(__file__)), './lib')))
@@ -13,21 +15,21 @@ from winwin.euler import Euler
 from winwin.generator import Generator
 
 # set if we want to plot the problem instance
-#do_plot = False
-do_plot = True
+do_plot = False
+#do_plot = True
 
 # how many times we like to run the calculation
 #run_counts = 1000
-#run_counts = 100
-run_counts = 1
+run_counts = 100
+#run_counts = 1
 
 # calculate exact solution?
 calc_exact = True
 #calc_exact = False
 
 # do we generate the graph ourselfs?
-generated_graph = False
-#generated_graph = True
+#generated_graph = False
+generated_graph = True
 
 if do_plot:
     from plot import Plot # TODO: this import takes a lot of time
@@ -38,7 +40,11 @@ writer = Writer()
 
 # store solutions for every calculation run
 solutions_tsp = list()
+solutions_opt_tsp = list()
 solutions_hpp = list()
+solutions_opt_hpp = list()
+error_tsp = list()
+error_hpp = list()
 
 for i in range(0, run_counts):
     # read graph data/in from file
@@ -53,11 +59,17 @@ for i in range(0, run_counts):
     #graph_tsp = reader.euclidean('data/in/hoogeveen.tsp') # 
     #graph_hpp = reader.euclidean('data/in/hoogeveen.tsp', 1, 8) # 
 
-    graph_tsp = reader.euclidean('data/in/christophides.tsp') # 
-    graph_hpp = reader.euclidean('data/in/christophides.tsp', 1, 39) # 
+    #graph_tsp = reader.euclidean('data/in/christofides.tsp') # 
+    #graph_hpp = reader.euclidean('data/in/christofides.tsp', 1, 39) # 
 
     #graph_tsp = reader.euclidean('data/in/bier127.tsp') # 
     #graph_hpp = reader.euclidean('data/in/bier127.tsp', 98, 107) # 
+
+    #graph_tsp = reader.euclidean('data/in/rat195.tsp') # 
+    #graph_hpp = reader.euclidean('data/in/rat195.tsp', 1, 179) # 
+
+    #graph_tsp = reader.euclidean('data/in/ts225.tsp') # 
+    #graph_hpp = reader.euclidean('data/in/ts225.tsp', 27, 210) # 
 
     #graph_tsp = reader.euclidean('data/in/my_tsp.tsp') # 
     #graph_hpp = reader.euclidean('data/in/my_tsp.tsp', 32, 4) # 
@@ -74,6 +86,9 @@ for i in range(0, run_counts):
         #generator.crowds2('data/in/my_tsp.tsp', 'my tsp', 'My own graph (crowds2)', \
                         #50, 2, 100, 100, 2000)
 
+        generator.crowds3('data/in/my_tsp.tsp', 'my tsp', 'My own graph (crowds3)', \
+                        50, 2, 100, 100, 100, 2000, 2000)
+
         # read generated graph
         graph = reader.euclidean('data/in/my_tsp.tsp') # 
 
@@ -88,13 +103,40 @@ for i in range(0, run_counts):
 
     # TODO: Calculate exact solution
     if calc_exact:
-        os.system('{0} -o {1} {2} | grep "Optimal Solution: "'.format("concorde", \
-            "data/out/solution_tsp.tsp", "data/out/graph_matrix_tsp.tsp"))
+        #optimal_solution tsp
+        args_tsp = ['concorde', '-o', 'data/out/solution_tsp.tsp', \
+                'data/out/graph_matrix_tsp.tsp']
+        p1 = sub.Popen(args_tsp, stdout=sub.PIPE)
+        p2 = sub.Popen(["grep", "Optimal Solution"], stdin=p1.stdout, stdout=sub.PIPE)
+        p1.stdout.close()
+        output = p2.communicate()[0]
+        m = re.search(b"\d+\.\d*", output)
+        solution_opt_tsp = float(m.group(0))
+        print('Exact solution TSP: {0}'.format(solution_opt_tsp))
+        solutions_opt_tsp.append(solution_opt_tsp)
 
-        os.system('{0} -o {1} {2} | grep "Optimal Solution: "'.format("concorde", \
-            "data/out/solution_hpp.tsp", "data/out/graph_matrix_hpp.tsp"))
+        #os.system('{0} -o {1} {2} | grep "Optimal Solution: "'. \
+                #format("concorde", "data/out/solution_tsp.tsp", \
+                #"data/out/graph_matrix_tsp.tsp"))
+
+        #optimal_solution hpp
+        args_tsp = ['concorde', '-o', 'data/out/solution_hpp.tsp', \
+                'data/out/graph_matrix_hpp.tsp']
+        p1 = sub.Popen(args_tsp, stdout=sub.PIPE)
+        p2 = sub.Popen(["grep", "Optimal Solution"], stdin=p1.stdout, stdout=sub.PIPE)
+        p1.stdout.close()
+        output = p2.communicate()[0]
+        m = re.search(b"\d+\.\d*", output)
+        solution_opt_hpp = float(m.group(0))
+        print('Exact solution HPP: {0}'.format(solution_opt_hpp))
+        solutions_opt_hpp.append(solution_opt_hpp)
+
+        #os.system('{0} -o {1} {2} | grep "Optimal Solution: "'. \
+                #format("concorde", "data/out/solution_hpp.tsp", \
+                #"data/out/graph_matrix_hpp.tsp"))
 
         # cleanup temp files
+        #sub.Popen(['rm', '*.mas', '*.pul', '*.sav', '*.sol', '*.res'])
         os.system('rm *.mas *.pul *.sav *.sol *.res')
 
     if generated_graph:
@@ -194,6 +236,10 @@ for i in range(0, run_counts):
     # add tsp costs to the list of solutions
     solutions_tsp.append(cost_tsp)
 
+    if calc_exact:
+        # calculate error
+        error_tsp.append((cost_tsp/solution_opt_tsp-1)*100)
+
     print('TSP: This tour costs {0}, we visited {1} nodes.'.format(cost_tsp, i))
 
     # calculate HPP costs
@@ -205,6 +251,10 @@ for i in range(0, run_counts):
 
     # add hamilton path costs to the list of solutions
     solutions_hpp.append(cost_hpp)
+
+    if calc_exact:
+        # calculate error
+        error_hpp.append((cost_hpp/solution_opt_hpp-1)*100)
 
     print('HPP: This tour costs {0}, we visited {1} nodes.'.format(cost_hpp, i+1))
 
@@ -221,8 +271,17 @@ for i in range(0, run_counts):
 
 print('Average Costs for TSP in {0} runs: {1}' \
         .format(len(solutions_tsp), sum(solutions_tsp)/len(solutions_tsp)))
+print('Average Optimal Cost for TSP in {0} runs: {1}' \
+        .format(len(solutions_opt_tsp), sum(solutions_opt_tsp)/len(solutions_opt_tsp)))
+print('Average Error for TSP in {0} runs: {1}' \
+        .format(len(error_tsp), sum(error_tsp)/len(error_tsp)))
+
 print('Average Costs for HPP in {0} runs: {1}' \
         .format(len(solutions_hpp), sum(solutions_hpp)/len(solutions_tsp)))
+print('Average Optimal Cost for HPP in {0} runs: {1}' \
+        .format(len(solutions_opt_hpp), sum(solutions_opt_hpp)/len(solutions_opt_hpp)))
+print('Average Error for HPP in {0} runs: {1}' \
+        .format(len(error_hpp), sum(error_hpp)/len(error_hpp)))
 
 print('Min value tsp is: {0}'.format(min(solutions_tsp)))
 print('Max value tsp is: {0}'.format(max(solutions_tsp)))
