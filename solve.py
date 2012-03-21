@@ -20,8 +20,8 @@ do_plot = False
 
 # how many times we like to run the calculation
 #run_counts = 1000
-run_counts = 100
-#run_counts = 1
+#run_counts = 100
+run_counts = 1
 
 # calculate exact solution?
 calc_exact = True
@@ -77,20 +77,33 @@ for i in range(0, run_counts):
 
     if generated_graph:
         # generate graph
-        #generator.random('data/in/my_tsp.tsp', 'my tsp', 'My own graph', 50, 2, \
-                #1, 1000)
+        #generator.random('data/in/my_tsp.tsp', 'my tsp', 'My own graph', 50, 3, \
+                #1, 45)
 
         #generator.belt('data/in/my_tsp.tsp', 'my tsp', 'My own graph (belt)', 50, 2, \
                 #1, 100, 1, 1500)
 
         #generator.crowds2('data/in/my_tsp.tsp', 'my tsp', 'My own graph (crowds2)', \
-                        #50, 2, 100, 100, 2000)
+                        #50, 3, 100, 100, 2000)
 
         generator.crowds3('data/in/my_tsp.tsp', 'my tsp', 'My own graph (crowds3)', \
-                        50, 2, 100, 100, 100, 2000, 2000)
+                        50, 3, 100, 100, 100, 2000, 2000)
 
         # read generated graph
         graph = reader.euclidean('data/in/my_tsp.tsp') # 
+
+        # TODO: Debug, output distance
+        distances = list()
+        for edge in graph.edges:
+            distances.append(edge.weight)
+            #print(edge.weight)
+
+        davg = sum(distances)/len(distances)
+        dmin = min(distances)
+        dmax = max(distances)
+        print('avg: {0}'.format(davg))
+        print('min: {0}, abw: {1}'.format(dmin,(davg-dmin)/davg))
+        print('max: {0}, abw: {1}'.format(dmax,(dmax-davg)/davg))
 
         # TODO: write graphs to file, not needed for the algortihm
         writer.write_matrix(graph,'data/out/graph_matrix_tsp.tsp', False) #TSP
