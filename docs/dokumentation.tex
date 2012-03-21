@@ -268,7 +268,7 @@ Das Traveling Salesman Problem, welches im Abschnitt \ref{s:traveling_salesman_p
 
 Der Christofides Algorithmus ist die Heuristik mit der besten Gütegarantie für das Traveling Salesman Problem. Die Rundreise, die mittels Christofides Algorithmus berechnet wird, ist maximal 1/2\% länger, als die optimale Route. Diese obere Grenze konnte seit der Veröffentlichung vor über 30 Jahren nicht verbessert werden.
 
-Für das Hamiltonpfadproblem ist der Hoogeveen Algorithmus die beste bekannte Heuristik, der gefundene Pfad ist maximal 2/3 länger als der optimale Pfad.\cite{moemke11}
+Für das Hamiltonpfadproblem ist der Hoogeveen Algorithmus die beste bekannte Heuristik, der gefundene Pfad ist maximal 2/3 länger als der optimale Pfad. Seit über 20 Jahren konnte kein Algorithmus gefunden werden, der eine tiefere obere Grenze garantiert.\cite{moemke11}
 
 Für die Win/Win Strategie bedeutet dies nun, dass Instanzen, für die der Christofides Algorithmus schlechte Näherungen liefert, der Hoogeveen Algorithmus gute Lösungen liefert, die signifikant unterhalb der oberen Schranke liegen.
 
@@ -952,7 +952,7 @@ Die folgende Instanz zeigt den Worst Case Fall für den Hamiltonkreis, während 
                 \label{tab:instanz_christofides}
         \end{table}
 
-Die Berechnung zeigt, dass die Win/Win Strategie für das Hamiltonpfadproblem die exakte Lösung liefert, wohingegeben die Lösung für das Traveling Salesman Problem äusserst schlecht ist. Mit 44.78\% ist die Abweichung 5.22\% unterhalb der oberen Schranke. Dies ist darauf zurückzuführen, dass die Instanze leicht von der Worst Case Instanz abweicht, um für jede Berechnung eine schlechte Lösung zu garantieren.
+Die Berechnung zeigt, dass die Win/Win Strategie für das Hamiltonpfadproblem die exakte Lösung liefert, wohingegeben die Lösung für das Traveling Salesman Problem äusserst schlecht ist. Mit 44.78\% ist die Abweichung 5.22 Prozentpunkten unterhalb der oberen Schranke. Dies ist darauf zurückzuführen, dass die Instanze leicht von der Worst Case Instanz abweicht, um für jede Berechnung eine schlechte Lösung zu garantieren.
 
 \begin{figure}[H]
         \centering
@@ -971,19 +971,20 @@ In seinem Paper "`Analysis of Christofides' heuristic: some paths are more diffi
             \hline
                 Anzahl Städte               & 8             \\ \hline
                 Dimensionen                 & 2             \\ \hline
-                Länge optimale Lösung TSP   & 4165          \\ \hline
-                Länge Win/Win Lösung  TSP   & 4235          \\ \hline
-                Abweichung TSP              & 1.68\%        \\ \hline
+                Länge optimale Lösung TSP   & 4223          \\ \hline
+                Länge Win/Win Lösung  TSP   & 4282          \\ \hline
+                Abweichung TSP              & 1.40\%        \\ \hline
                 $s$ und $t$ für HPP         & 1, 8          \\ \hline
-                Länge optimale Lösung HPP   & 3163          \\ \hline
-                Länge Win/Win Lösung  HPP   & 5138          \\ \hline
-                Abweichung HPP              & 61.56\%       \\ \hline
+                Länge optimale Lösung HPP   & 3221          \\ \hline
+                Länge Win/Win Lösung  HPP   & 5163          \\ \hline
+                Abweichung HPP              & 60.29\%       \\ \hline
         \end{tabular}
         \caption{Instanz Hoogeveen}
         \label{tab:instanz_hoogeveen}
 \end{table}
 
-Die Ergebnisse entsprechen den Erwartungen, mit eine Abweichung von 66.56\% liegt das Ergebnis des Hoogeveen Algorithmus nur 5.11\% unterhalb der oberen Schranke. Auch hier wurde die Instanz leicht verändert, um die schlechten Lösungen zu garantieren.
+Die Ergebnisse entsprechen den Erwartungen, mit eine Abweichung von 60.29\% liegt das Ergebnis des Hoogeveen Algorithmus nur 6.38 Prozentpunkte unterhalb der oberen Schranke. Auch hier wurde die Instanz leicht verändert, um die schlechten Lösungen zu garantieren.
+%TODO: Prozen oder Prozenpunkte => Formulierung prüfen
 
 \begin{figure}[H]
         \centering
@@ -1006,16 +1007,22 @@ Eine 50-Städte Instanz mit zufälliger Verteilung. Dazu wurden pro Stadt fünf 
                                         & \textbf{random\_5d} \\ \hline
             Anzahl Städte               & 50        & 50        & 50        & 50            \\ \hline
             Dimensionen                 & 2         & 3         & 4         & 5       \\ \hline
-            Länge optimale Lösung TSP   & 5521      & 11240     & 16802     & 20577   \\ \hline
-            Länge Win/Win Lösung  TSP   & 6261      & 12945     & 17958     & 22598   \\ \hline
-            Abweichung TSP              & 13.40\%   & 15.17\%   & 6.88\%    & 9.82\%  \\ \hline
-            Länge optimale Lösung HPP   & 5144      & 10759     & 16018     & 19687   \\ \hline
-            Länge Win/Win Lösung  HPP   & 5939      & 12675     & 17523     & 21194   \\ \hline
-            Abweichung HPP              & 15.45\%   & 17.81\%   & 9.40\%    & 7.65\%  \\ \hline
+            \o\ Länge optimale Lösung TSP   & 5732.97   & 11075.87  & 16131.26  & 21071.25  \\ \hline
+            \o\ Länge Win/Win Lösung  TSP   & 6329.3    & 12232.04  & 17757.49  & 23119.57  \\ \hline
+            \o\ Abweichung TSP              & 10.40\%   & 10.44\%   & 10.08\%   & 9.72\%    \\ \hline
+            \o\ Länge optimale Lösung HPP   & 5328.47   & 10499.64  & 15419.89  & 20226.01  \\ \hline
+            \o\ Länge Win/Win Lösung  HPP   & 5981.15   & 11741.98  & 17104.14  & 22291.39  \\ \hline
+            \o\ Abweichung HPP              & 12.24\%   & 11.83\%   & 10.92\%   & 10.21\%   \\ \hline
         \end{tabular}
         \caption{Instanzen Random 2D-5D}
         \label{tab:instanzen_random}
 \end{table}
+
+Bei einer zufälligen Verteilung von Knoten ist weder der Christofides, noch der Hoogeveen Algorithmus im Vorteil. Was jedoch auffällt ist, dass die Ergebnisse für beide Algorithmen für höhere Dimensionen genauer werden.
+
+Dies könnte darauf zurückzuführen sein, dass bei höheren Dimensionen die Distanz zwischen den Punkte immer ähnlicher wird. Dass also der Unterschied zwischen der kleinsten und der grössten Distanz im Vergleich zur kleinsten Distanz mit zunehmender Dimension gegen 0 konvergiert.\cite{beyer99}
+
+Wenn nun die Distanzen zwischen den Punkten kaum voneinander abweichen, spielt die gewählte Route eine immer kleinere Rolle.
 
 \begin{figure}[H]
     \centering
@@ -1026,6 +1033,7 @@ Eine 50-Städte Instanz mit zufälliger Verteilung. Dazu wurden pro Stadt fünf 
 \end{figure}
 
 \subsubsection{Band 2D-5D}
+%TODO: Neu rechnen
 Bei dieser Instanz werden die Knoten auf einem länglichen Band verteilt. Dazu werden Städte zwischen zwischen 1 und 100 auf einer Achse und zwischen 1 und 1500 auf den verbleibenden Achsen platziert.
 
 \begin{table}[H]
@@ -1059,6 +1067,7 @@ Bei dieser Instanz werden die Knoten auf einem länglichen Band verteilt. Dazu w
 \end{figure}
 
 \subsubsection{Zwei Gruppen 2D-5D}
+%TODO: Neu rechnen
 Bei dieser Instanz werden die Städte innerhalb zwei definierter Quadrate, bzw. Würfel verteilt. Die Quadrate/Würfel liegen 2000 Einheiten auseinander. Die Quadrate selbst haben eine Seitenlänge von 100 Einheiten.
 
 \begin{table}[H]
