@@ -98,7 +98,6 @@ class Generator:
 
         f.close()
 
-#TODO: Erweitern auf n Dimensionen
     def crowds3(self, filename, name, comment, cities, dimension, \
         width_c1, width_c2, width_c3, offset_h, offset_v):
 
@@ -141,23 +140,6 @@ class Generator:
                 elif i % 3 == 2:
                     # all other axes for the third crowed
                     print('{0}'.format(random.randrange(1,width_c3)), end=" ", file=f)
-
-
-            #if i % 3 == 0:
-                ## x coordinate first crowd
-                #print('{0}'.format(random.randrange(1,width_c1)), end=" ", file=f)
-                ## y coordinate first crowd
-                #print('{0}'.format(random.randrange(1,width_c1)), end=" ", file=f)
-            #elif i % 3 == 1:
-                ## x coordinate second crowd
-                #print('{0}'.format(random.randrange(offset_h,offset_h+width_c2)), end=" ", file=f)
-                ## y coordinate second crowd
-                #print('{0}'.format(random.randrange(1,width_c2)), end=" ", file=f)
-            #elif i % 3 == 2:
-                ## x coordinate third crowd
-                #print('{0}'.format(random.randrange(offset_h/2-width_c3/2,offset_h/2+width_c3/2)), end=" ", file=f)
-                ## y coordinate third crowd
-                #print('{0}'.format(random.randrange(offset_v,offset_v+width_c3)), end=" ", file=f)
 
             print('',file=f)
 
