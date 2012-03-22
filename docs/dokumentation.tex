@@ -595,13 +595,20 @@ Bei der Generierung von Instanzen mit einer länglichen Verteilung werden zwei v
 \begin{verbatim}
 for i in range(0,cities):
     print('{0}'.format(i+1), end=" ", file=f)
-        for j in range(0, dimension):
-            if j == 1:
-                print('{0}'.format(random.randrange( \
-                    min_coord_height,max_coord_height)), end=" ", file=f)
-            else:
-                print('{0}'.format(random.randrange( \
-                    min_coord_width,max_coord_with)), end=" ", file=f)
+
+    for j in range(0,dimension):
+        if i % 2 == 0 and j == 0:
+            # x coordinate first crowed
+            print('{0}'.format(random.randrange(1,width_c1)), end=" ", file=f)
+        elif i % 2 == 1 and j == 0:
+            # x coordinate second crowed
+            print('{0}'.format(random.randrange(width_c1+offset,width_c1+offset+width_c2)), end=" ", file=f) 
+        elif i % 2 == 0:
+            # all the axes first crowed
+            print('{0}'.format(random.randrange(1,width_c1)), end=" ", file=f)
+        elif i % 2 == 1:
+            # all the axes first crowed
+            print('{0}'.format(random.randrange(1,width_c2)), end=" ", file=f)
 
     print('',file=f)
 \end{verbatim}
@@ -1033,30 +1040,33 @@ Wenn nun die Distanzen zwischen den Punkten kaum voneinander abweichen, spielt d
 \end{figure}
 
 \subsubsection{Band 2D-5D}
-%TODO: Neu rechnen
-Bei dieser Instanz werden die Knoten auf einem länglichen Band verteilt. Dazu werden Städte zwischen zwischen 1 und 100 auf einer Achse und zwischen 1 und 1500 auf den verbleibenden Achsen platziert.
+Bei dieser Instanz werden die Knoten auf einem länglichen Band verteilt. Dazu werden Städte zwischen zwischen 1 und 1500 auf einer Achse und zwischen 1 und 100 auf den verbleibenden Achsen platziert.
 
 \begin{table}[H]
         \centering
-        \begin{tabular}{| l | r | r | r | r |}
+        \begin{tabular}{| l | r | r | r | r | r |}
             \hline
             Instanz                     & \textbf{band\_2d}     
                                         & \textbf{band\_3d}     
                                         & \textbf{band\_4d}     
-                                        & \textbf{band\_5d}             \\ \hline
-                Anzahl Städte               & 50        & 50       & 50         & 50        \\ \hline
-                Dimensionen                 & 2         & 3        & 4          & 5         \\ \hline
-                Länge optimale Lösung TSP   & 3150      & 8861     & 16808      & 25774     \\ \hline
-                Länge Win/Win Lösung  TSP   & 3454      & 9646     & 18242      & 28910     \\ \hline
-                Abweichung TSP              & 9.65\%    & 10.56\%  & 15.84\%    & 16.51\%   \\ \hline
-                $s$ und $t$ für HPP         & 2, 36     & 22, 33   & 19, 31     & 13, 21    \\ \hline
-                Länge optimale Lösung HPP   & 2092      & 8266     & 15690      & 24814     \\ \hline
-                Länge Win/Win Lösung  HPP   & 2118      & 9095     & 18175      & 27639     \\ \hline
-                Abweichung HPP              & 1.24\%    & 8.60\%   & 8.53\%     & 11.38\%   \\ \hline
+                                        & \textbf{band\_5d}
+                                        & \textbf{band\_25d}             \\ \hline
+                Anzahl Städte               & 50        & 50       & 50         & 50        & 50        \\ \hline
+                Dimensionen                 & 2         & 3        & 4          & 5         & 25        \\ \hline
+                Länge optimale Lösung TSP   & 3144.56   & 3650.60  & 4095.70    & 4490.46   & 9701.34   \\ \hline
+                Länge Win/Win Lösung  TSP   & 3408.22   & 3950.75  & 4423.12    & 4826.89   & 10107.28  \\ \hline
+                Abweichung TSP              & 8.38\%    &  8.22\%  &  7.99\%    &  7.49\%   &  4.18\%   \\ \hline
+                Länge optimale Lösung HPP   & 2250.46   & 2863.07  & 3391.65    & 3833.77   & 9235.66   \\ \hline
+                Länge Win/Win Lösung  HPP   & 2356.45   & 3029.49  & 3595.61    & 4052.66   & 9614.99   \\ \hline
+                Abweichung HPP              & 4.71\%    &  5.81\%  &  6.01\%    &  5.71\%   &  4.11\%   \\ \hline
         \end{tabular}
         \caption{Instanzen Band 2D-5D}
         \label{tab:instanzen_belt}
 \end{table}
+
+Bei dieser länglichen Instanz ist der Hamiltonpfad etwas im Vorteil. Obwohl die Abweichung für den Hamiltonpfad mit zunehmenden Dimensionen zuerst zunimmt, wird das Ergebnis ab 5 Dimensionen wieder besser. Beim Hamiltonkreis zeigt sich das selbe Bild, wie bereits bei den zufälligen Instanzen. Mit zunehmenden Dimensionen wird das Ergebnis genauer.
+
+Um diesen Effekt besser aufzuzeigen, wurden 100 Instanzen mit 25 Dimensionen erzeugt und berechnet. Wie in Tabelle \ref{tab:instanzen_belt} sieht, nimmt die Abweichung weiter ab.
 
 \begin{figure}[H]
     \centering
@@ -1068,28 +1078,32 @@ Bei dieser Instanz werden die Knoten auf einem länglichen Band verteilt. Dazu w
 
 \subsubsection{Zwei Gruppen 2D-5D}
 %TODO: Neu rechnen
-Bei dieser Instanz werden die Städte innerhalb zwei definierter Quadrate, bzw. Würfel verteilt. Die Quadrate/Würfel liegen 2000 Einheiten auseinander. Die Quadrate selbst haben eine Seitenlänge von 100 Einheiten.
+Bei dieser Instanz werden die Städte innerhalb zwei definierter Quadrate, bzw. Würfel verteilt. Die Quadrate/Würfel liegen 2000 Einheiten auseinander. Die Quadrate/Würfel selbst haben eine Seitenlänge von 100 Einheiten.
 
 \begin{table}[H]
         \centering
-        \begin{tabular}{| l | r | r | r | r |}
+        \begin{tabular}{| l | r | r | r | r | r |}
             \hline
             Instanz                     & \textbf{crowds2\_2d}     
                                         & \textbf{crowds2\_3d}     
                                         & \textbf{crowds2\_4d}     
-                                        & \textbf{crowds2\_5d}             \\ \hline
-                Anzahl Städte               & 50        & 50       & 50         & 50        \\ \hline
-                Dimensionen                 & 2         & 3        & 4          & 5         \\ \hline
-                Länge optimale Lösung TSP   &           &          &            &           \\ \hline
-                Länge Win/Win Lösung  TSP   &           &          &            &           \\ \hline
-                Abweichung TSP              &     \%    &      \%  &      \%    &      \%   \\ \hline
-                Länge optimale Lösung HPP   &           &          &            &           \\ \hline
-                Länge Win/Win Lösung  HPP   &           &          &            &           \\ \hline
-                Abweichung HPP              &     \%    &     \%   &     \%     &      \%   \\ \hline
+                                        & \textbf{crowds2\_5d}     
+                                        & \textbf{crowds2\_25d}             \\ \hline
+                Anzahl Städte               & 50        & 50       & 50         & 50        & 50        \\ \hline
+                Dimensionen                 & 2         & 3        & 4          & 5         & 25        \\ \hline
+                Länge optimale Lösung TSP   & 4796.68   & 5370.32  & 5892.36    & 6372.35   & 11958.9   \\ \hline
+                Länge Win/Win Lösung  TSP   & 4884.68   & 5518.35  & 6077.12    & 6595.74   & 12344.0   \\ \hline
+                Abweichung TSP              &  1.83\%   &  2.76\%  &  3.14\%    &  3.51\%   & 3.22\%    \\ \hline
+                Länge optimale Lösung HPP   & 2755.26   & 3325.95  & 3847.05    & 4326.41   & 9900.32   \\ \hline
+                Länge Win/Win Lösung  HPP   & 2851.91   & 3485.51  & 4052.33    & 4565.58   & 10316.07  \\ \hline
+                Abweichung HPP              &  3.51\%   &  4.80\%  &  5.34\%    &  5.53\%   & 4.20\%    \\ \hline
         \end{tabular}
         \caption{Instanzen zwei Gruppen 2D-5D}
         \label{tab:instanzen_crowds2}
 \end{table}
+
+Der Hamiltonkreis liefert bei dieser Instanz leiht bessere Ergebnisse, als der Hamiltonpfad. Im 2 dimensionalen Raum hat der Abstand von 2000 Einheiten zwischen den Punkteansammlungen  grossen Anteil an der gesamten Länge der Route hat, dieser Anteil nimmt mit zunehmenden Dimensionen ab. Aus diesem Grund ist der Hamiltonkreis bei dieser Instanz leicht besser. Die Strecke von 2000 Einheiten wird sowohl von der exakten, wie auch von der Win Win Lösung zweimal genutzt. Somit fallen die Anteile der Abweichungen innerhalb der Punkteansammlungen kaum ins Gewicht.
+Auch bei dieser Instanz nimmt die Abweichung mit zunehmenden Dimensionen ab. Im Vergleich zu den beiden bisherigen Instanzen dauert es hier jedoch länger.
 
 \begin{figure}[H]
     \centering
