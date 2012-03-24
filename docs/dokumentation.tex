@@ -85,16 +85,9 @@ Um ein Verständnis für die Implementation zu entwickeln, werden das Traveling 
 Danach werden die wichtigsten Teile der Implementation erklärt, bevor dann die Ergebnisse ausgewertet werden. 
 
 \subsection{Abgrenzung}
-Diese Arbeit beschäftigt sich ausschliesslich mit dem metrischen Traveling Salesman Problem. Das heisst, die Dreiecksungleichung muss erfüllt sein: Eine Strecke von 1 nach 2 ist somit immer kürzer, als von 1 nach 3 nach 2. 
+Diese Arbeit beschäftigt sich ausschliesslich mit dem metrischen Traveling Salesman Problem. Das heisst, die Dreiecksungleichung muss erfüllt sein: Eine Strecke von A nach B ist somit immer kürzer, als von A nach B via C. 
 
 Es ist nicht Ziel dieser Arbeit, neue Algorithmen zu finden, sondern den bestehenden Algorithmus zu analysieren.
-
-\begin{figure}[H]
-        \centering
-        \includegraphics[width=2.5cm]{gfx/triangle_inequality}
-        \caption{Dreiecksungleichung}
-        \label{img:triangle_inequality}
-\end{figure}
 
 \subsection{Motivation}
 Mich fasziniert, dass die Problembeschreibung sehr einfach ist, die Lösung jedoch äusserst schwierig. Diese Herausforderung motiviert mich.
@@ -103,7 +96,7 @@ Abbildung \ref{img:simple_tsp} zeigt ein 6 Städte TSP, eine mögliche Route ist
 
 \begin{figure}[H]
         \centering
-        \includegraphics[width=4cm]{gfx/simple_tsp}
+        \includegraphics[width=7cm]{gfx/simple_tsp}
         \caption{6 Städte TSP}
         \label{img:simple_tsp}
 \end{figure}
@@ -305,6 +298,9 @@ Für die Berechnung wird ein vollständiger Graph erstellt, d.h. jeder Knoten de
 
 Damit der Hamiltonpfad berechnet werden kann, wird ein Startpunkt $s$ und ein Endpunkt $t$ benötigt.
 
+
+\newpage
+
 \subsection{Minimaler Spannbaum - Algorithmus von Prim}
 Auf dem als Eingabe erstellten vollständigen Graphen wird nun ein minimaler Spannbaum (MST) berechnet. Zur Berechnung des MST wird der Algorithmus von Prim genutzt.
 
@@ -334,25 +330,25 @@ Um den minimalen Spannbaum zu finden werden folgende Schritte abgearbeitet\footn
 
 \begin{figure}[H]
         \centering
-        \includegraphics[width=14cm]{gfx/eil51_mst}
+        \includegraphics[width=12cm]{gfx/eil51_mst}
         \caption{Minimaler Spannbaum der TSP Instanz eil51 (TSPLIB)}
         \label{img:eil51_mst}
 \end{figure}
 
-
-%TODO: Bilder einfügen, um die Vorgehensweise aufzuzeigen?
+\newpage
 
 \subsection{Minimales perfektes Matching - Blossom V}
-%TODO: Genauer beschreiben
 Das minimale perfekte Matching wird mittels Blossom V Algorithmus berechnet. Der Blossom V Algortihmus ist eine Weiterentwicklung des bekannten Blossom Algorithmus, der 1965 von Edmonds vorgestellt wurde.
 Für diesen Algorithmus wird eine bestehende Implementation verwendet. 
 
 \begin{figure}[H]
         \centering
-        \includegraphics[width=14cm]{gfx/eil51_pm}
+        \includegraphics[width=12cm]{gfx/eil51_pm}
         \caption{Minimales perfektes Matching (rot) auf den ungeraden Knoten des MST (schwarz)}
         \label{img:eil51_pm}
 \end{figure}
+
+\newpage
 
 \subsection{Eulerkreis - Hierholzer}
 Die Berechnung des Eulerkreises wird mittels Algorithmus von Hierholzer umgesetzt. Dieser wurde 1873 in der postum veröffentlichten Arbeit "`Über die Möglichkeit, einen Linienzug ohne Wiederholung und ohne Unterbrechung zu umfahren"'\cite{hierholzer73} beschrieben.
@@ -382,13 +378,12 @@ Der Algorithmus basiert auf der Idee, dass, wenn man in einem eulerschen Graphen
 
 \begin{figure}[H]
         \centering
-        \includegraphics[width=14cm]{gfx/eil51_euler}
+        \includegraphics[width=11.5cm]{gfx/eil51_euler}
         \caption{Eulerkreis}
         \label{img:eil51_euler}
 \end{figure}
 
-%TODO: Weitere Bilder einfügen, um die Vorgehensweise aufzuzeigen?
-
+\newpage
 
 \subsection{Kürzung Eulerkreis/-pfad zu Hamiltonkreis/-pfad}
 Zur Kürzung des Eulerkreises bzw. des Eulerpfades werden in der Liste der besuchten Knoten alle doppelten Einträge gelöscht.
@@ -411,7 +406,7 @@ Zur Kürzung des Eulerkreises bzw. des Eulerpfades werden in der Liste der besuc
 
 \begin{figure}[H]
         \centering
-        \includegraphics[width=14cm]{gfx/eil51_tour}
+        \includegraphics[width=13cm]{gfx/eil51_tour}
         \caption{Hamiltonkreis nach Kürzung des Eulerkreises}
         \label{img:eil51_tour}
 \end{figure}
@@ -587,7 +582,6 @@ for i in range(0,cities):
         for j in range(0, dimension):
             print('{0}'.format(random.randrange(min_coord,max_coord)), \
                 end=" ", file=f)
-
     print('',file=f)
 \end{verbatim}
 
@@ -604,14 +598,14 @@ for i in range(0,cities):
             print('{0}'.format(random.randrange(1,width_c1)), end=" ", file=f)
         elif i % 2 == 1 and j == 0:
             # x coordinate second crowed
-            print('{0}'.format(random.randrange(width_c1+offset,width_c1+offset+width_c2)), end=" ", file=f) 
+            print('{0}'.format(random.randrange(width_c1+offset, \
+                width_c1+offset+width_c2)), end=" ", file=f) 
         elif i % 2 == 0:
             # all the axes first crowed
             print('{0}'.format(random.randrange(1,width_c1)), end=" ", file=f)
         elif i % 2 == 1:
             # all the axes first crowed
             print('{0}'.format(random.randrange(1,width_c2)), end=" ", file=f)
-
     print('',file=f)
 \end{verbatim}
 
@@ -633,7 +627,6 @@ for i in range(0,cities):
             end=" ", file=f)
         # y coordinate second crowd
         print('{0}'.format(random.randrange(1,width_c2)), end=" ", file=f)
-
     print('',file=f)
 \end{verbatim}
 
@@ -641,6 +634,21 @@ for i in range(0,cities):
 Python unterstützt standardmässig Unittests. Diese werden verwendet, um die wichtigen Komponenten des Algorithmus zu testen.
 
 Bei Änderungen am Quellcode werden die Unittests genutzt, um zu prüfen, ob Seiteneffekte auftreten und ob es zu Fehlern kommt.
+
+Nachfolgenden ein Beispiel aus den Unittests. Mit diesem Unittest wird geprüft, ob ein Knoten zum Graphen hinzugefügt werden kann.
+
+\begin{verbatim}
+def test_add_node(self):
+        graph = self.reader.euclidean('data/in/eil51.tsp')
+        size_before = graph.size
+        positions = [999, 999]
+        node = Node(size_before, positions, 'test_node')
+        graph.add_node(node)
+        size_after = graph.size
+    
+        self.assertEqual(size_before, 51) 
+        self.assertEqual(size_after, 52)
+\end{verbatim}
 \newpage
 
 \section{Applikation}
@@ -1134,7 +1142,7 @@ Bei dieser Instanz werden die Städte innerhalb drei definierter Quadrate/Würfe
                 Abweichung TSP              & 1.63\%    &  2.18\%  &  2.59\%    &  2.72\%   & 2.67\%        \\ \hline
                 Länge optimale Lösung HPP   & 5057.23   & 5655.68  & 6207.08    & 6662.68   & 12133.32      \\ \hline
                 Länge Win/Win Lösung  HPP   & 5213.61   & 5912.55  & 6527.30    & 6899.54   & 12573.64      \\ \hline
-                Abweichung HPP              & 3.09\%    &  4.54\%  &  5.16\%    &  3.56\%   & 3.63          \\ \hline
+                Abweichung HPP              & 3.09\%    &  4.54\%  &  5.16\%    &  3.56\%   & 3.63\%        \\ \hline
         \end{tabular}
         \caption{Instanzen drei Gruppen 2D-5D}
         \label{tab:instanzen_crowds3}
@@ -1187,13 +1195,19 @@ Für die anderen Instanzen konnten keine grossen Unterschiede zwischen den beide
 \newpage
 
 \section{Fazit}
+\subsection{Ergebnisse}
 Durch die Implementation der Win Win Strategie konnten die Aussagen des Papers "`Structural Properties of Hard Metric TSP Inputs"'\cite{moemke11} grundsätzlich bestätigt werden. 
 
-Für beliebige TSP Instanzen bringt die Berechnung allerdings wenig Vorteile.
+Für beliebige TSP Instanzen bringt die Berechnung allerdings wenig Vorteile. Es gibt nur wenige Instanzen, die für einen der beidne Algorithmen einen Wors Case darstellt. Somit sind auch nur wenige Instanzen für einen der beiden Algorithmen sehr gut lösbar.
 
-\subsection{Rückblick}
+Aufgrund der Berechnungen lässt sich vermuten, dass beide Algorithmen ihre obere Grenze nur selten Erreichen. Für die meisten Berechnungen wurde eine Abweichung von weniger als 15\% erreicht.
 
 \subsection{Weitere Möglichkeiten}
+Zusätzlich, zu den bereits ausgewerteten Intanzen könnten weitere Instanzen erzeugt und berechnet werden. Dabei wäre insbesondere Interessant, die bekanten Worst Case Instanzen zu nutzen, um grössere Problemstellungen zu erzeugen, die anschliessend berechnet werden könnten.
+
+Zur Steigerung der Berechnungsgeschwindigkeit könnten die Algorithmen in C oder C++ implementiert werden. Auch bei den Datenstrukturen besteht die Möglichkeit, weitere Optimierungen vorzunehmen.
+
+Die verwendeten Unittests sind sehr einfach gehalten und könnten verbessert werden. Beispielsweise decken die Tests momentan nicht jede verwendete Funktion ab.
 
 \newpage
 
