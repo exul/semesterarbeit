@@ -78,14 +78,16 @@ Dozent: Dr. Hans-Joachim Böckenhauer}
 \newpage
 \section{Einleitung}
 \subsection{Ziel und Vorgehensweise}
-Ziel dieser Arbeit ist es, die Win/Win Strategie des Papers "`Structural properties of hard metric TSP inputs"'\cite{moemke11} zu Implementieren. Anschliessend wird die Implementation zur Berechnung verschiedener Problemstellungen verwendet. Das Ergebnis wird mit den theoretisch erwarteten Resultaten verglichen und ausgewertet.
+Ziel dieser Arbeit ist es, die Win/Win Strategie des Papers "`Structural properties of hard metric TSP inputs"'\cite{moemke11} zu implementieren. Anschliessend wird die Implementation zur Berechnung verschiedener Problemstellungen verwendet. Das Ergebnis wird mit den theoretisch erwarteten Resultaten verglichen und ausgewertet.
 
 Um ein Verständnis für die Implementation zu entwickeln, werden das Traveling Salesman Problem (TSP oder übersetzt: das Problem des Handlungsreisenden), die Grundlagen von Win/Win Strategien und die verwendeten Algorithmen vorgestellt. 
 
 Danach werden die wichtigsten Teile der Implementation erklärt, bevor dann die Ergebnisse ausgewertet werden. 
 
 \subsection{Abgrenzung}
-Diese Arbeit beschäftigt sich mit dem metrischen Traveling Salesman Problem. Die Dreiecksungleichung muss erfüllt sein: Eine Strecke von 1 nach 2 ist somit immer kürzer, als von 1 nach 3 nach 2.
+Diese Arbeit beschäftigt sich ausschliesslich mit dem metrischen Traveling Salesman Problem. Das heisst, die Dreiecksungleichung muss erfüllt sein: Eine Strecke von 1 nach 2 ist somit immer kürzer, als von 1 nach 3 nach 2. 
+
+Es ist nicht Ziel dieser Arbeit, neue Algorithmen zu finden, sondern den bestehenden Algorithmus zu analysieren.
 
 \begin{figure}[H]
         \centering
@@ -95,9 +97,9 @@ Diese Arbeit beschäftigt sich mit dem metrischen Traveling Salesman Problem. Di
 \end{figure}
 
 \subsection{Motivation}
-Mich fasziniert, dass die Problembeschreibung sehr einfach ist, die Lösung jedoch äusserst schwierig.
-Ausserdem lassen sich viele Überlegungen mit Papier und Stift aufzeichnen, ohne das ein Computer benötigt wird. 
-Abbildung \ref{img:simple_tsp} zeigt ein 6 Städte TSP, eine mögliche Route ist dabei blau markiert. Offensichtlich ist es nicht die optimale Route. Das Bild zeigt jedoch, wie einfach man das Problem für kleine Instanzen analysieren kann, selbst ohne einen Rechner zu benutzen.
+Mich fasziniert, dass die Problembeschreibung sehr einfach ist, die Lösung jedoch äusserst schwierig. Diese Herausforderung motiviert mich.
+
+Abbildung \ref{img:simple_tsp} zeigt ein 6 Städte TSP, eine mögliche Route ist dabei blau markiert. Offensichtlich ist es nicht die optimale Route. Das Bild zeigt jedoch, wie einfach man das Problem für kleine Instanzen analysieren kann, selbst ohne einen Rechner zu benutzen. Solche Überlegungen lassen sich mit Papier und Stift aufzeichnen, ohne dass ein Computer benötigt wird. 
 
 \begin{figure}[H]
         \centering
@@ -109,20 +111,20 @@ Abbildung \ref{img:simple_tsp} zeigt ein 6 Städte TSP, eine mögliche Route ist
 \newpage
 \section{Traveling Salesman Problem (TSP)}
 \label{s:traveling_salesman_problem}
-Dieser Abschnitt gibt einen Überblick zum Traveling Salesman Problem. Als Erstes wird die Problemstellung erklärt und anschliessend der geschichtliche Hintergrund erläutert. Nach einer kurzen Beschreibung zur NP-Vollständigkeit des Problems, wird erklärt, wie das Problem modelliert werden kann. Da es neben dem in dieser Arbeit vorgestellten Algorithmus viele weitere Möglichkeiten gibt, ein TSP zu lösen, werden einige exakte und heuristische Lösungsverfahren kurz beschrieben.
+Dieser Abschnitt gibt einen Überblick zum Traveling Salesman Problem. Als Erstes wird die Problemstellung erklärt und anschliessend der geschichtliche Hintergrund erläutert. Nach einer kurzen Beschreibung zur NP\footnote{Nondeterministic Polynomial-Time}-Vollständigkeit des Problems, wird erklärt, wie das Problem modelliert werden kann. Da es neben dem in dieser Arbeit vorgestellten Algorithmus viele weitere Möglichkeiten gibt, ein TSP zu lösen, werden einige exakte und heuristische Lösungsverfahren kurz beschrieben.
 
 \subsection{Problembeschreibung}
-Die Problemstellung ist simple: Es soll eine Rundreise durch eine Anzahl Städte gefunden werden und zwar so, dass der Handlungsreisende wieder an seinen Ausgangspunkt zurückkehrt und die zurückgelegt Strecke möglichst kurz ist.
+Die Problemstellung ist simpel: Es soll eine Rundreise durch eine Anzahl Städte gefunden werden und zwar so, dass der Handlungsreisende wieder an seinen Ausgangspunkt zurückkehrt und die zurückgelegt Strecke möglichst kurz ist.
 
 \subsection{Geschichte}
-Der Urheber der Bezeichnung "`Traveling Salesman Problem"' ist nicht genau bekannt. Es ist jedoch klar, dass damit das Auffinden der kürzesten Rundreise eines Handlungsreisenden gemeint ist.\footnote{vgl. \cite{applegate06} Seite 1-3} 1983 publizierte Heiner Müller-Merbach in seinem Paper\cite{mueller83} einen Ausschnitt aus dem Buch "`Der Handlungsreisende – wie er sein soll und was er zu thun hat, um Aufträge zu erhalten und eines glücklichen Erfolgs in seinen Geschäften gewiß zu sein – von einem alten Commis-Voyageur"' in dem die Wichtigkeit einer guten Route beschrieben:  
+Der Urheber der Bezeichnung "`Traveling Salesman Problem"' ist nicht genau bekannt. Es ist jedoch klar, dass damit das Auffinden der kürzesten Rundreise eines Handlungsreisenden gemeint ist.\footnote{vgl. \cite{applegate06} Seite 1-3} 1983 publizierte Heiner Müller-Merbach in seinem Paper\cite{mueller83} einen Ausschnitt aus dem Buch "`Der Handlungsreisende – wie er sein soll und was er zu thun hat, um Aufträge zu erhalten und eines glücklichen Erfolgs in seinen Geschäften gewiß zu sein – von einem alten Commis-Voyageur"', in dem er die Wichtigkeit einer guten Route beschreibt:  
 \begin{quotation}
 Die Geschäfte führen Handlungsreisende bald hier, bald dort hin, und es lassen sich nicht füglich Reiserouten angeben, die für alle vorkommende Fälle passend sind: aber es kann durch eine zweckmäßige Wahl und Eintheilung der Tour, manchmal so viel Zeit gewonnen werden, dass wir es nicht glauben umgehen zu dürfen, auch hierüber einige Vorschriften zu geben. Ein Jeder möge so viel davon benutzen, als es seinem Zwecke für dienlich hält: so viel glauben wir aber davon versichern zu dürfen, daß es nicht wohl thunlich sein wird, die Touren durch Deutschland in Absicht der Entfernungen und, worauf der Reisende hauptsächlich zu sehen hat, des Hin- und Herreisens, mit mehr Oekonomie einzurichten. Die Hauptsache besteht immer darin: so viele Orte wie möglich mitzunehmen, ohne den nämlichen Ort zweimal berühren zu müssen.
 \end{quotation}
 
 Auch wenn das Problem in diesem Buch nicht mathematisch analysiert wird, beschreibt der Text das Traveling Salesman Problem. 
 
-Eine der ersten mathematischen Analysen des Problem stammen aus dem Jahr 1757 vom berühmten Schweizer Mathematiker Leonard Euler. Er veröffentlichte ein Paper, in dem er eine Lösung zur "`Knights Tour"' vorstellte. Bei der "`Knights Tour"' soll auf einem Schachbrett mit dem Springer eine Folge von Sprüngen gefunden werden, so dass jedes Feld genau einmal besucht wird und der Springer am Ende wieder auf seinem Startfeld steht.
+Eine der ersten mathematischen Analysen des Problems stammt aus dem Jahr 1757 vom berühmten Schweizer Mathematiker Leonard Euler. Er veröffentlichte ein Paper, in dem er eine Lösung zur "`Knights Tour"' vorstellte. Bei der "`Knights Tour"' soll auf einem Schachbrett mit dem Springer eine Folge von Sprüngen gefunden werden, so dass jedes Feld genau einmal besucht wird und der Springer am Ende wieder auf seinem Startfeld steht.
 
 Dieses Problem kann als TSP formuliert werden. Die Wegkosten zu den mittels einem Springer erreichbaren Felder sind 0, die Kosten zu den nicht erreichbaren Felder sind 1.\footnote{vgl. \cite{applegate06} Seite 8-10}
 
@@ -141,7 +143,7 @@ In den 1960er und 1970er beschäftigten sich immer mehr Wissenschaftler mit dem 
 
 1977 wurde ein 120 Städte TSP von Martin Grötschel gelöst. Die Route beinhaltete Städte im damaligen Westdeutschland.
 
-Im Jahre 1987 wurden gleich drei bedeutende Instanzen gelöst: Ein 532 Städte TSP von Padberg und Rinaldi, ein 666 Städte TSP von Grötschel und Holland und das 2392 Städte TSP, wiederum von Padberg and Rinaldi.\footnote{vgl. \cite{applegate06} S. 50-51}
+Im Jahre 1987 wurden gleich drei bedeutende Instanzen gelöst: Ein 532 Städte TSP von Padberg und Rinaldi, ein 666 Städte TSP von Grötschel und Holland und das 2392 Städte TSP, wiederum von Padberg und Rinaldi.\footnote{vgl. \cite{applegate06} S. 50-51}
 
 Anfang der 1990er Jahre begannen David Applegate, Robert E. Bixby, Vašek Chvátal und William J. Cook mit der Entwicklung von Concorde. Seit 1992 wurden immer grössere Instanzen mit Hilfe von Concorde gelöst. Die grössten Erfolg von 1992-2006 sind in Tabelle \ref{tab:concorde_history} ersichtlich.\footnote{\cite{applegate06} Seite 53}
 
@@ -170,15 +172,15 @@ Die nächste Herausforderung ist das so genannte "`World TSP"', es beinhaltet 1'
 \newpage
 
 \subsection{NP-Vollständigkeit}
-Das Traveling Salesman Problem ist eines der bekanntesten NP\footnote{Nondeterministic Polynomial-Time}-Vollständigen Probleme. 
+Das Traveling Salesman Problem ist eines der bekanntesten NP-vollständigen Probleme. 
 
-Es wird auch in der Liste von Karps 21 NP-Vollständigen Problemen aufgeführt. Die 1972 veröffentlichte List\cite{karp72} enthält sowohl das gerichtete, wie auch das ungerichtete Hamiltonkreisproblem (das TSP ist ein Spezialfall des Hamiltonkreisproblem). 
+Es wird auch in der Liste von Karps 21 NP-vollständigen Problemen aufgeführt. Die 1972 veröffentlichte Liste\cite{karp72} enthält sowohl das gerichtete, wie auch das ungerichtete Hamiltonkreisproblem (das TSP ist ein Spezialfall des Hamiltonkreisproblem). 
 
 \medskip
 
 In Hopcrofts "`Einführung in die Automatentheorie, formale Sprachen und Komplexitätstheorie"' findet sich folgende Definition:\footnote{\cite{hopcroft02} Seite 432}
 
-Sei $L$ eine Sprache (eine Problem) in $\mathcal{NP}$. Wir sagen $L$ ist NP-vollständig, wenn folgende Aussagen über $L$ wahr sind:
+Sei $L$ eine Sprache (ein Problem) in $\mathcal{NP}$. Wir sagen $L$ ist NP-vollständig, wenn folgende Aussagen über $L$ wahr sind:
 \begin{itemize}
     \item L ist in $\mathcal{NP}$ enthalten.
     \item Für jede Sprache $L'$ in $\mathcal{NP}$ existiert eine polynomiale Reduktion von $L'$ auf $L$.
@@ -188,9 +190,9 @@ Sei $L$ eine Sprache (eine Problem) in $\mathcal{NP}$. Wir sagen $L$ ist NP-voll
 %Oder anders ausgedrückt: Wenn wir von einem Problem $L$ wissen, dass es in $\mathcal{NP}$ ist und wir unser Problem $P$ mit polynomialen Zeitaufwand auf das Problem $L$ abbilden können, dann ist $P$ NP-vollständig.
 
 \subsection{Modellierung}
-Das Problem des Handlungsreisenden wird für diese Arbeit (wie in vielen anderen Beispielen) als Graph modelliert. Dabei repräsentieren die Knoten die Städte und die Kanten die Kosten um von einer Stadt zur nächsten zu gelangen. Dabei sind die Kosten um von $A$ nach $B$ zu gelangen äquivalten zu den Kosten von $B$ nach $A$, es handelt sich also um einen ungerichteten Graphen.
+Das Problem des Handlungsreisenden wird für diese Arbeit (wie in vielen anderen Beispielen) als Graph modelliert. Dabei repräsentieren die Knoten die Städte und die Kanten die Kosten um von einer Stadt zur nächsten zu gelangen. Dabei sind die Kosten um von $A$ nach $B$ zu gelangen äquivalent zu den Kosten von $B$ nach $A$, es handelt sich also um einen ungerichteten Graphen.
 
-Da alle Möglichen Routen berücksichtigt werden müssen, wird ein Vollständiger Graph verwendet, d.h. jeder Knoten ist mit jedem Knoten verbunden.
+Da alle möglichen Routen berücksichtigt werden müssen, wird ein vollständiger Graph verwendet, d.h. jeder Knoten ist mit jedem Knoten verbunden.
 
 \subsection{Lösungsverfahren}
 Neben dem hier vorgestellten Algorithmus existieren viele weitere Lösungsverfahren. Zum Vergleich sollen einige dieser Verfahren kurz vorgestellt werden.
@@ -199,7 +201,7 @@ Neben dem hier vorgestellten Algorithmus existieren viele weitere Lösungsverfah
 \begin{flushleft}
 \textbf{Brute Force}
 
-Bei dieser Methode werden alle möglichen Kombinationen berechnet, bei jeder Berechnung wird verglichen, ob die Lösung besser ist, als die bisher berechneten Lösungen. Offensichtlich ist dieses Vorgehen äusserst ineffizient. Für 20 Städte müssen 2'432'902'008'176'640'000 (20!) Permutationen berechnete werden, dies entspricht $\approx$ $10^{18}$, also $\approx2.5$ Trillionen Möglichkeiten. Das Lösungsverfahren hat somit eine Laufzeit von $\mathcal O(n!)$.
+Bei dieser Methode werden alle möglichen Kombinationen berechnet, bei jeder Berechnung wird verglichen, ob die Lösung besser ist, als die bisher berechneten Lösungen. Offensichtlich ist dieses Vorgehen äusserst ineffizient. Für 20 Städte müssen 2'432'902'008'176'640'000 (20!) Permutationen berechnet werden. Dies entspricht $\approx$ $10^{18}$, also $\approx2.5$ Trillionen Möglichkeiten. Das Lösungsverfahren hat somit eine Laufzeit von $\mathcal O(n!)$.
 %TODO: Genauere Ausführung: symmetrisch, asymmetrisch
 
 \end{flushleft}
@@ -209,8 +211,8 @@ Bei dieser Methode werden alle möglichen Kombinationen berechnet, bei jeder Ber
 \begin{flushleft}
 \textbf{Branch-and-Cut}
 
-Die Branch-and-Cut Verfahren ist eine Kombination des Schnittebenenverfahrens mit dem Branch-and-Bound Verfahren. 
-Beim Schnittebenenverfahren wird das Problem als lineares Programm formuliert und anschliessend die Lösung der LP-Relaxierung durch hinzufügen weiterer Ungleichungen verbessert.
+Das Branch-and-Cut Verfahren ist eine Kombination des Schnittebenenverfahrens mit dem Branch-and-Bound Verfahren. 
+Beim Schnittebenenverfahren wird das Problem als lineares Programm formuliert und anschliessend die Lösung der LP-Relaxierung durch Hinzufügen weiterer Ungleichungen verbessert.
 Beim Brach-and-Bound Verfahren wird die Lösungsmenge in Teilmengen aufgeteilt, so dass nicht optimale Bereiche der Lösungsmenge nicht berücksichtigt werden. Dies hat den Vorteil, dass nicht alle möglichen Lösungen durchprobiert werden müssen.
 Die beiden Verfahren werden bei Brach-and-Cut kombiniert. Dabei wird erst das Schnittebenenverfahren angewandt und anschliessend das Branch-and-Bound Verfahren.\footnote{vgl. \cite{applegate06} Seite 117-124}
 
@@ -223,7 +225,7 @@ Das Branch-and-Cut Verfahren wird nicht nur beim Problem des Handlungsreisenden 
 \begin{flushleft}
 \textbf{Nearest-Neighbor-Heuristik}
 
-Die Nearest-Neighbor-Heuristik startet an einem beliebigen Knoten, im nächsten Schritt wird der Nachbarknoten mit den Geringsten Kosten (also der Kante mit dem kleinsten Gewicht) besucht. Von diesem Knoten aus wird wieder der Nachbar gesucht, der mittels der Kante  mit dem geringsten Gewicht verbunden ist. Der Startknoten wird mit der letzten verbleibenden Kante erreicht.\cite{gutin02}
+Die Nearest-Neighbor-Heuristik startet an einem beliebigen Knoten. Im nächsten Schritt wird der Nachbarknoten mit den geringsten Kosten (also der Kante mit dem kleinsten Gewicht) besucht. Von diesem Knoten aus wird wieder der Nachbar gesucht, der mittels der Kante  mit dem geringsten Gewicht verbunden ist. Der Startknoten wird mit der letzten verbleibenden Kante erreicht.\cite{gutin02}
 \end{flushleft}
 
 \medskip
@@ -235,7 +237,7 @@ Die erste Anwendung des Ameisenalgorithmus (Ant Colony Optimization) war das Tra
 
 ACO bedient sich der Beobachtung aus der Natur, dass Ameisen bei der Suche nach Futter eine Pheromonspur hinterlassen, mit deren Hilfe nachfolgende Ameisen den Weg zum Futter finden.
 
-Wenn beispielsweise zwei Wege zu einer Futterquelle führen, so werden zu Beginn beide Wege mit der selben Wahrscheinlichkeit gewählt. Auf dem kürzeren der beiden Wege ist die Pheromonspur nach einer Zeitspanne $t$ allerdings höher, da eine Ameise die diesen Weg wählt nach einem Zeitraum $t$ bereits zurückkehrt, während eine Meise auf dem längeren Weg noch nicht zurück ist.
+Wenn beispielsweise zwei Wege zu einer Futterquelle führen, so werden zu Beginn beide Wege mit derselben Wahrscheinlichkeit gewählt. Auf dem kürzeren der beiden Wege ist die Pheromonspur nach einer Zeitspanne $t$ allerdings höher, da eine Ameise, die diesen Weg wählt, nach einem Zeitraum $t$ bereits zurückkehrt. Die Ameise auf dem längeren Weg ist hingegen noch nicht zurück.
 
 Die Pheromonkonzentration erhöht nun die Wahrscheinlichkeit, dass ein Weg gewählt wird. Somit werden die kürzeren Wege bevorzugt. \cite{dorigo99}
 
@@ -261,10 +263,10 @@ Das Konzept der Win/Win Strategie für Näherungsalgorithmen wurde von H.J. Böc
 
 
 \subsection{Grundidee}
-Die Win/Win Strategie basiert darauf, dass für zwei verwandte Probleme Algorithmen $A_1$ und $A_2$ existieren und das eine Instanzen, für die $A_1$ eine schlechte Lösung liefert, $A_2$ eine gute Lösung liefert. Dass also die Worst-Case Instanzen der beiden Algorithmen disjunkt sind.
+Die Win/Win Strategie basiert darauf, dass für zwei verwandte Probleme Algorithmen $A_1$ und $A_2$ existieren und dass eine Instanzen, für die $A_1$ eine schlechte Lösung liefert, $A_2$ eine gute Lösung liefert. Die Worst Case Instanzen der beiden Algorithmen sind also disjunkt.
 
 \subsection{Anwendung für das Traveling Salesman Problem}
-Das Traveling Salesman Problem, welches im Abschnitt \ref{s:traveling_salesman_problem} bereits beschrieben wurde ist eng Verwandt mit dem Hamiltonpfadproblem. Beim Hamiltonpfadproblem wird nicht eine Rundreise gesucht, bei der Start und Ziel in der selben Stadt sind, sondern eine Reise durch $n$ Städte, bei der Start $s$ und Ziel $t$ in zwei verschiedenen Städten liegen. Wenn man beim HPP für $s$ und $t$ die selbe Stadt wählt, entspricht dies einem TSP.
+Das Traveling Salesman Problem, welches im Abschnitt \ref{s:traveling_salesman_problem} bereits beschrieben wurde, ist eng verwandt mit dem Hamiltonpfadproblem. Beim Hamiltonpfadproblem wird nicht eine Rundreise gesucht, bei der Start und Ziel in derselben Stadt sind, sondern eine Reise durch $n$ Städte, bei der Start $s$ und Ziel $t$ in zwei verschiedenen Städten liegen. Wenn man beim HPP für $s$ und $t$ die selbe Stadt wählt, entspricht dies einem TSP.
 
 Der Christofides Algorithmus ist die Heuristik mit der besten Gütegarantie für das Traveling Salesman Problem. Die Rundreise, die mittels Christofides Algorithmus berechnet wird, ist maximal 1/2\% länger, als die optimale Route. Diese obere Grenze konnte seit der Veröffentlichung vor über 30 Jahren nicht verbessert werden.
 
@@ -287,8 +289,8 @@ Die Berechnung basiert auf dem Paper "`Structural Properties of Hard Metric TSP 
     \label{alg:hp_hc}
 \textbf{Eingabe:} Ein vollständiger Graph $G = (V,E)$, eine metrische Kostenfunktion $c: E \rightarrow \mathbb{Q}^+$ und zwei Knoten $s$ und $t$.
     \begin{enumerate} \item Minimalen Spannbaum $T$ von $G$ berechnen.
-        \item Minimales Perfect Matching $M_C$ der ungeraden Knoten des minimalen Spannbaumes $T$ von $G$ berechnen.
-        \item Minimales Perfect Matching $M_P$ der ungeraden Knoten des Multigraphen $T$ + \{$s$, $t$\} von $G$ berechnen.
+        \item Minimales perfektes Matching $M_C$ der ungeraden Knoten des minimalen Spannbaumes $T$ von $G$ berechnen.
+        \item Minimales perfektes Matching $M_P$ der ungeraden Knoten des Multigraphen $T$ + \{$s$, $t$\} von $G$ berechnen.
         \item Die Eulertour Eul$_C$ des Multigraphen T $\cup$ $M_C$ und den Eulerpfad Eul$_P$ des Multigraphen T $\cup$ $M_P$ berechnen.
         \item Eul$_C$ zu einer Hamiltontour $H_C$ und Eul$_P$ zu einem Hamiltonpfad $H_P$ kürzen.
     \end{enumerate}
@@ -317,12 +319,12 @@ Um den minimalen Spannbaum zu finden werden folgende Schritte abgearbeitet\footn
     \begin{algorithmic}[1]
     \REQUIRE Ein vollständiger Graph $G$
         \STATE Wähle einen zufälligen Startknoten $v_0$ aus $G$
-        \STATE Suche die Kante $e_0$ mit dem minimalen Gewicht, die mit $v_0$ verbunden ist (falls mehrere mit $v_0$ verbindene Kanten das minimale Gewicht aufweisen, wähle zufällig eine aus)
+        \STATE Suche die Kante $e_0$ mit dem minimalen Gewicht, die mit $v_0$ verbunden ist (falls mehrere mit $v_0$ verbundene Kanten das minimale Gewicht aufweisen, wähle zufällig eine aus)
         \STATE Füge $e_0$ zum minimalen Spannbaum $M$ hinzu
         \STATE Entferne die Kante $e_0$ aus $G$
 
         \WHILE{$E(G) \ge 0$}
-            \STATE Suche die Kante $e_n$ mit dem minimalen Gewicht, die mit $M$ verbunden ist (falls mehrere mit $M$ verbindene Kanten das minimale Gewicht aufweisen, wähle zufällig eine aus)
+            \STATE Suche die Kante $e_n$ mit dem minimalen Gewicht, die mit $M$ verbunden ist (falls mehrere mit $M$ verbundene Kanten das minimale Gewicht aufweisen, wähle zufällig eine aus)
             \STATE Füge $e_n$ zum minimalen Spannbaum $M$ hinzu
             \STATE Entferne die Kante $e_n$ aus $G$
         \ENDWHILE
@@ -340,20 +342,20 @@ Um den minimalen Spannbaum zu finden werden folgende Schritte abgearbeitet\footn
 
 %TODO: Bilder einfügen, um die Vorgehensweise aufzuzeigen?
 
-\subsection{Minimales Perfektes Matching - Blossom V}
+\subsection{Minimales perfektes Matching - Blossom V}
 %TODO: Genauer beschreiben
-Das minimale Perfekt Matching wird mittels Blossom V Algorithmus berechnet. Der Blossom V Algortihmus ist eine Weiterentwicklung des bekannten Blossom Algorithmus, der 1965 von Edmonds vorgestellt wurde.
+Das minimale perfekte Matching wird mittels Blossom V Algorithmus berechnet. Der Blossom V Algortihmus ist eine Weiterentwicklung des bekannten Blossom Algorithmus, der 1965 von Edmonds vorgestellt wurde.
 Für diesen Algorithmus wird eine bestehende Implementation verwendet. 
 
 \begin{figure}[H]
         \centering
         \includegraphics[width=14cm]{gfx/eil51_pm}
-        \caption{Minimales Perfect Matching (rot) auf den ungeraden Knoten des MST (schwarz)}
+        \caption{Minimales perfektes Matching (rot) auf den ungeraden Knoten des MST (schwarz)}
         \label{img:eil51_pm}
 \end{figure}
 
 \subsection{Eulerkreis - Hierholzer}
-Die Berechnung des Eulerkreises wird mittels Algorithmus von Hierholzer zurück. Dieser wurde 1873 in der postum veröffentlichten Arbeit "`Über die Möglichkeit, einen Linienzug ohne Wiederholung und ohne Unterbrechung zu umfahren"'\cite{hierholzer73} beschrieben.
+Die Berechnung des Eulerkreises wird mittels Algorithmus von Hierholzer umgesetzt. Dieser wurde 1873 in der postum veröffentlichten Arbeit "`Über die Möglichkeit, einen Linienzug ohne Wiederholung und ohne Unterbrechung zu umfahren"'\cite{hierholzer73} beschrieben.
 
 Der Algorithmus basiert auf der Idee, dass, wenn man in einem eulerschen Graphen einen beliebigen Kreis findet, die verbleibenden Kanten wiederum einen Kreis enthalten. Somit werden die gefundenen Kreise zusammengefügt, bis schlussendlich alle Kanten im Kreis enhalten ist und somit der Eulerkreis gefunden wurde.\footnote{vgl. \cite{krumke05} Seiten 46-48}
 
@@ -389,7 +391,7 @@ Der Algorithmus basiert auf der Idee, dass, wenn man in einem eulerschen Graphen
 
 
 \subsection{Kürzung Eulerkreis/-pfad zu Hamiltonkreis/-pfad}
-Die kürzung des Eulerkreises bzw. des Eulerpfades werden in der Liste der besuchten Knoten alle doppelten Einträge gelöscht.
+Zur Kürzung des Eulerkreises bzw. des Eulerpfades werden in der Liste der besuchten Knoten alle doppelten Einträge gelöscht.
 
 \begin{algorithm}[H]
     \renewcommand{\algorithmicrequire}{\textbf{Eingabe:}}
@@ -423,7 +425,7 @@ Für die Knoten, Kanten und Graphen werden eigene Objekte erstellt, die nachfolg
 %TODO: Einleitung: Verwendete Programmiersprache, Unittesting, etc.
 \subsection{Datenstrukturen}
 \subsubsection{Knoten}
-Jeder Knoten hat eine eindeutige ID die vom System vergeben wird. Zudem erhält jeder Knoten eine Nummer und eine Liste von Koordinaten, diese Informationen werden aus dem TSP-File gelesen. Zusätzlich ist es möglich, ein Label anzugeben, um weitere Informationen zu speichern.
+Jeder Knoten hat eine eindeutige ID die vom System vergeben wird. Zudem erhält jeder Knoten eine Nummer und eine Liste von Koordinaten. Diese Informationen werden aus dem TSP-File gelesen. Zusätzlich ist es möglich, ein Label anzugeben, um weitere Informationen zu speichern.
 
 Die Koordinaten sind als Liste implementiert, um unabhängig von der Dimension der Instanz die benötigten Informationen speichern zu können.
 
@@ -436,12 +438,12 @@ Eine Kante setzt sich zusammen aus zwei Knoten und einer Gewichtung der Kante. D
 
 Um Kanten sortieren zu können, wird die Funktion \texttt{\textunderscore\textunderscore lt\textunderscore\textunderscore} implementiert. Diese vergleicht eine gegebene Kante $E1$ mit einer zweiten $E2$ und gibt \texttt{True} zurück, wenn $E1 < E2$.
 
-Die Funktion \texttt{\textunderscore\textunderscore eq\textunderscore\textunderscore} prüft, ob zwei Kanten identisch sind, in dem die IDs der Kanten verglichen werden.
+Die Funktion \texttt{\textunderscore\textunderscore eq\textunderscore\textunderscore} prüft, ob zwei Kanten identisch sind, indem die IDs der Kanten verglichen werden.
 
 \subsubsection{Graph}
 Die zentrale Datenstruktur für die Berechnungen ist der Graph. In Tabelle \ref{tab:impl_graph} werden die wichtigsten Funktionen beschrieben.
 
-Wichtige für eine effiziente Funktionsweise ist die Speicherung der Knoten und Kanten. Die Knoten werden in einem mehrdimensionalen \emph{dictionary} gespeichert. Die Knoten fungieren im ersten \emph{dictionary} als Keys. Dieser Key zeigt auf ein weiteres \emph{dictionary}, der Key dieses \emph{dictionary} ist wiederum ein Knoten der auf eine Liste von Kante zeigt, die die beiden Knoten verbinden.
+Wichtig für eine effiziente Funktionsweise ist die Speicherung der Knoten und Kanten. Die Knoten werden in einem mehrdimensionalen \emph{dictionary} gespeichert. Die Knoten fungieren im ersten \emph{dictionary} als Keys. Dieser Key zeigt auf ein weiteres \emph{dictionary}. Der Key dieses \emph{dictionary} ist wiederum ein Knoten, der auf eine Liste von Kanten zeigt, welche die beiden Knoten verbinden.
 
 Diese Implementation hat den Vorteil, dass direkt auf Knoten, Kanten und Nachbarknoten zugegriffen werden kann. Da zwei Knoten durch mehrere Kanten verbunden sein können, werden die Kanten in einer Liste gespeichert.
 
@@ -456,9 +458,9 @@ Diese Implementation hat den Vorteil, dass direkt auf Knoten, Kanten und Nachbar
                     \texttt{neighbour\textunderscore nodes}                     & Knoten $v_n$              & Liste von Knoten          & Gibt alle mit dem Knoten $v_0$ \newline verbundenen Knoten zurück\\ \hline
                     \texttt{neighbour\textunderscore edges}                     & Knoten $v_n$              & Liste von Kanten          & Gibt alle mit dem Knoten $v_0$ \newline verbundenen Kanten zurück\\ \hline
                     \texttt{contains\textunderscore node}                       & Knoten $v_n$              & \texttt{True/False}       & Gibt \texttt{True} zurück, wenn der Graph den Knoten enthält, sonst \texttt{False} \\ \hline
-                    \texttt{contains\textunderscore edge}                       & Knoten $v_n$ und $v_m$    & \texttt{True/False}       & Gibt \texttt{True} zurück, wenn der Graph die Kante enthält die $v_n$ und $v_m$ verbindet, sonst \texttt{False} \\ \hline
-                    \texttt{edge\textunderscore by\textunderscore nodes}        & Knoten $v_n$ und $v_m$    & Liste von Kanten          & Gibt die Kanten zurück, die die Knoten $v_n$ und $v_m$ verbindet \\ \hline
-                    \texttt{lookup\textunderscore distance}                     & Knoten $v_n$ und $v_m$    & Liste von Gewichtungen    & Gibt die Gewichtungen der Kanten zurück die  $v_n$ und $v_m$ verbindet \\ \hline
+                    \texttt{contains\textunderscore edge}                       & Knoten $v_n$ und $v_m$    & \texttt{True/False}       & Gibt \texttt{True} zurück, wenn der Graph die Kante enthält, die $v_n$ und $v_m$ verbindet, sonst \texttt{False} \\ \hline
+                    \texttt{edge\textunderscore by\textunderscore nodes}        & Knoten $v_n$ und $v_m$    & Liste von Kanten          & Gibt die Kanten zurück, welche die Knoten $v_n$ und $v_m$ verbindet \\ \hline
+                    \texttt{lookup\textunderscore distance}                     & Knoten $v_n$ und $v_m$    & Liste von Gewichtungen    & Gibt die Gewichtungen der Kanten zurück, die $v_n$ und $v_m$ verbindet \\ \hline
                 \end{tabular}
                 \caption{Wichtige Funktionen des Objektes Graph}
                 \label{tab:impl_graph}
@@ -473,7 +475,7 @@ Da die Algorithmen in Abschnitt \ref{s:algorithmen} bereits beschrieben wurden, 
 Zur Erstellung des minimale Spannbaums wird nach der Wahl eines Starknotens aus den erreichbaren Kanten jeweils diejenige mit dem kleinsten Gewicht gesucht. Um dies effizient zu ermöglichen, wird die bestehende Datenstruktur \emph{Priority Queue} genutzt:
 
 \begin{flushleft}
-    Initiales Befüllen der Queue, sortierung nach Gewicht:
+    Initiales Befüllen der Queue, Sortierung nach Gewicht:
 \end{flushleft}
 \begin{verbatim}
 for new_edge in graph.neighbour_edges(start_node):
@@ -488,7 +490,7 @@ next_edge = neighbour_edges.get_top_priority()
 \end{verbatim}
 
 \begin{flushleft}
-    Hinzufügen der neuen Kanten nach bei der Iteration:
+    Hinzufügen der neuen Kanten pro Iteration:
 \end{flushleft}
 
 \begin{verbatim}
@@ -499,13 +501,13 @@ for new_edge in next_edges:
 
 Die Iteration wird durchgeführt, bis alle Knoten im MST enthalten sind.
 
-\subsubsection{Perfecht Matching}
-Für das Perfect Matching wird eine bestehende Implementation verwendet. Um diese zu Nutzen wird eine File mit den ungeraden Knoten aufbereitet. Bei der Berechnung werden die Angaben aus dem File gelesen und das Ergebnis in ein Output-File geschrieben.
+\subsubsection{Perfektes Matching}
+Für das perfekte Matching wird eine bestehende Implementation verwendet. Um diese zu Nutzen, wird ein File mit den ungeraden Knoten aufbereitet. Bei der Berechnung werden die Angaben aus dem File gelesen und das Ergebnis in ein Output-File geschrieben.
 
 Die Kanten, die sich durch das Matching ergeben haben, werden aus dem Output-File gelesen, als Objekte erstellt und zum Graphen hinzugefügt.
 
 \begin{flushleft}
-    Liste der Ungeraden Knoten erstellen:
+    Liste der ungeraden Knoten erstellen:
 \end{flushleft}
 \begin{verbatim}
 for node in nodes:
@@ -515,7 +517,7 @@ for node in nodes:
 \end{verbatim}
 
 \begin{flushleft}
-    Lesen des Output-Files, erstellen der Kanten und hinzufügen zum Graphen:
+    Lesen des Output-Files, Erstellen der Kanten und Hinzufügen zum Graphen:
 \end{flushleft}
 \begin{verbatim}
         for line in f:
@@ -555,13 +557,13 @@ for node in euler_tmp:
 \end{verbatim}
 
 \begin{flushleft}
-   Im Falle eines Eulerpfades an stelle des Kreises ist das Vorgehen das selbe. Wenn der Kreis gefunden wurde, wird die Kante zwischen $s$ und $t$ entfernt.
+   Im Falle eines Eulerpfades anstelle des Kreises ist das Vorgehen dasselbe. Wenn der Kreis gefunden wurde, wird die Kante zwischen $s$ und $t$ entfernt.
 \end{flushleft}
 
 \subsubsection{Kürzung Eulerkreis/-pfad zu Hamiltonkreis/-pfad}
 Die Kürzung des Eulerkreises/-pfades zu einem Hamiltonkreis/-pfad funktioniert sehr einfach. Dazu wird wird eine neue Liste von Knoten erstellt, zu der ein Knoten hinzugefügt wird, wenn er noch nicht in der Liste vorhanden ist. Beim Hamiltonkreis wird zum Schluss der Startknoten nochmals hinzugefügt, um den Kreis zu schliessen. 
 
-Diese Implementation hat den Vorteil, dass die Kürzung nachvollziehbar ist. Eine Alternative wäre die Implementation mittels eine Datenstruktur, die keine doppelten Einträge zulässt.
+Diese Implementation hat den Vorteil, dass die Kürzung nachvollziehbar ist. Eine Alternative wäre die Implementation mittels einer Datenstruktur, die keine doppelten Einträge zulässt.
 
 \begin{verbatim}
 for node in nodes:
@@ -574,10 +576,10 @@ nodes_shortened.append(nodes_shortened[0])
 \subsection{Generierung von Instanzen}
 Für die Generierung der eigenen Instanzen wird ein TSP-File mit den entsprechenden Koordinaten geschrieben.
 
-Folgende Arten von Instanzen werden generiert:
+Die nachfolgend beschriebenen Arten von Instanzen werden generiert.
 
 \subsubsection{Zufällige Instanzen}
-Zur Generierung von Zufälligen Instanzen sind zwei Schleifen notwendig, einmal um die Anzahl Knoten zu generieren und einmal um die Anzahl Dimensionen im euklidischen Raum zu generieren. Bei den zufälligen Instanzen werden beliebige Punkte innerhalb der gegebenen minimalen und maximalen Grenzen erzeugt:
+Zur Generierung von zufälligen Instanzen sind zwei Schleifen notwendig. Einmal um die Anzahl Knoten zu generieren und einmal um die Anzahl Dimensionen im euklidischen Raum zu generieren. Bei den zufälligen Instanzen werden beliebige Punkte innerhalb der gegebenen minimalen und maximalen Grenzen erzeugt:
 
 \begin{verbatim}
 for i in range(0,cities):
@@ -590,7 +592,7 @@ for i in range(0,cities):
 \end{verbatim}
 
 \subsubsection{Band}
-Bei der Generierung von Instanzen mit einer länglichen Verteilung werden zwei verschiedene minimale und maximale Begrenzungen eingesetzt. Für eine Achse wird dazu die eine Begrenzung verwendet, für alle anderen die zweite:
+Bei der Generierung von Instanzen mit einer länglichen Verteilung werden zwei minimale und zwei maximale Begrenzungen eingesetzt. Für eine Achse wird dazu die erste Begrenzung verwendet, für alle anderen die zweite:
 
 \begin{verbatim}
 for i in range(0,cities):
@@ -614,7 +616,7 @@ for i in range(0,cities):
 \end{verbatim}
 
 \subsubsection{Gruppen}
-Um die Gruppen zu erzeugen, wird die Seitenlänge der Quadrate angegeben, innerhalb dieser Quadrate werden die Knoten platziert. Zusätzlich wird der Abstand zwischen den Quadraten definiert. Daraus werden die Koordinaten errechnet, hier das Beispiel, mit welchem zwei Gruppen generiert werden:
+Um die Gruppen zu erzeugen, wird die Seitenlänge der Quadrate angegeben, innerhalb dieser Quadrate werden die Knoten platziert. Zusätzlich wird der Abstand zwischen den Quadraten definiert. Daraus werden die Koordinaten errechnet. Untenstehend das Beispiel, mit welchem zwei Gruppen generiert werden:
 
 \begin{verbatim}
 for i in range(0,cities):
@@ -642,12 +644,12 @@ Bei Änderungen am Quellcode werden die Unittests genutzt, um zu prüfen, ob Sei
 \newpage
 
 \section{Applikation}
-In diesem Abschnitt wird die Anwendung des Programms zur Berechnung der Win/Win Strategie genauer Beschrieben.
+In diesem Abschnitt wird die Anwendung des Programms zur Berechnung der Win/Win Strategie genauer beschrieben.
 
 Zur Berechnung werden die benötigten Angaben aus einer Datei im TSPLIB Format gelesen. Mittels Parameter können dann verschiedene Optionen verwendet werden.
 
 \subsection{Input File Format}
-Der Graph, der zur Berechnung verwendet wird, wird in Form eines Textfiles vom Programm gelesen. Hierzu wurde die Spezifikation der TSPLIB übernommen, mit den Einschränkungen, dass nur euklidische Distanzen als Gewichtungen erlaubt sind, nur der Typ TSP unterstützt wird und die Position der Knoten durch ihre Koordinaten im Raum definiert werden.
+Der Graph, den man zur Berechnung verwendet, wird in Form eines Textfiles vom Programm gelesen. Hierzu wurde die Spezifikation der TSPLIB übernommen. Allerdings mit den Einschränkungen, dass nur euklidische Distanzen als Gewichtungen erlaubt sind, nur der Typ TSP unterstützt wird und die Position der Knoten durch ihre Koordinaten im Raum definiert werden.
 
 Das TSPLIB Format besteht aus Header-Informationen und den Koordinaten der Städte.
 
@@ -679,13 +681,13 @@ Freitext Kommentar (bspw. Name des Erstellers der Instanz)
 Die TSPLIB sieht verschiedene Typen von Problemstellungen vor, neben TSP bspw. das asymmetrische TSP (ATSP). Für den Win/Win Algorithmus wird nur der TYP TSP unterstützt.
 
 \subsubsection{DIMENSION}
-Anzahl der Städte. Diese Angabe wird genutzt, um zu prüfen ob die Anzahl der Städte im Header der tatsächlich angegebenen Anzahl der Städte entspricht.
+Anzahl der Städte. Diese Angabe wird genutzt, um zu prüfen, ob die Anzahl der Städte im Header der tatsächlich angegebenen Anzahl der Städte entspricht.
 
 \subsubsection{EDGE\_WEIGHT\_TYPE}
 Gibt an, wie die Distanzen im Dokument abgebildet werden. Es werden ausschliesslich euklidische Distanzen unterstützt (bspw. EUC\_2D, wobei 2 die Dimension des Raumes ist).
 Anhand der Dimension des Raumes wird geprüft, ob die Anzahl Spalten (die Koordinaten einer Stadt) korrekt ist.
 
-\emph{Hinweis: Gemäss Spezifikation der TSPLIB wird nur EUC\_2D und EUC\_3D unterstützt, diese Einschränkung besteht für die Win/Win Strategie nicht.}
+\emph{Hinweis: Gemäss Spezifikation der TSPLIB wird nur EUC\_2D und EUC\_3D unterstützt. Diese Einschränkung besteht für die Win/Win Strategie nicht.}
 
 \subsubsection{NODE\_COORD\_SECTION}
 Ab hier werden die Koordinaten der Städte angegeben. Die erste Spalte ist dabei die ID des Knotens und muss fortlaufend von 1 bis N nummeriert sein. Die darauffolgenden Spalten sind Koordinaten, eine Spalte pro Achse, bspw.
@@ -733,7 +735,7 @@ Für die Berechnung werden einerseits Instanzen aus der TSPLIB verwendet, andere
 Zuerst wird das Vorgehen für die Berechnung beschrieben, anschliessend werden die verwendeten Ressourcen vorgestellt. Zum Schluss werden Berechnungen auf verschiedenen Instanzen ausgewertet.
 
 \subsection{Vorgehen}
-Um die Lösung der Win/Win Strategie mit der exakten Lösung zu vergleichen wird wie folgt vorgegangen:
+Um die Lösung der Win/Win Strategie mit der exakten Lösung zu vergleichen, wird wie folgt vorgegangen:
 
 \begin{itemize}
     \item Berechnung der exakten Lösung mit Concorde für das TSP 
@@ -744,11 +746,11 @@ Um die Lösung der Win/Win Strategie mit der exakten Lösung zu vergleichen wird
     \item Vergleich der Win/Win Lösung mit der exakten Lösung
 \end{itemize}
 
-Die Implementierung des Graphes als "`dictionary"' hat zur Folge, dass die Knoten nicht sortiert sind. Dies bringt einerseits massive Geschwindigkeitsvorteile, andererseits führt es aber dazu, dass bei der Berechnung der selben Instanz leicht unterschiedliche Ergebnisse berechnet werden.
+Die Implementierung des Graphes als "`dictionary"' hat zur Folge, dass die Knoten nicht sortiert sind. Dies bringt einerseits massive Geschwindigkeitsvorteile. Andererseits führt es aber dazu, dass bei der Berechnung derselben Instanz leicht unterschiedliche Ergebnisse berechnet werden.
 
 Um eine möglichst repräsentative Lösung für den Vergleich zu erhalten, wird bei Instanzen, die nicht auf zufälligen Werten basieren (bspw. dantzig42, eil51, christofides, hoogeveen) der arithmetische Mittelwert aus 100 Berechnungen verwendet.
 
-Bei Instanzen die aus zufälligen Werten erzeugt werden (bspw. random, band), werden 100 verschiedene Instanzen erzeugt, pro erzeugter Instanz wird dann eine Berechnung durchgeführt.
+Bei Instanzen, die aus zufälligen Werten erzeugt werden (bspw. random, band), werden 100 verschiedene Instanzen erzeugt. Pro erzeugter Instanz wird dann eine Berechnung durchgeführt.
 
 Zu jeder Instanz werden die Ergebnisse in einer Tabelle dargestellt und interpretiert. Bei den eigenen Instanzen wird zur Illustration jeweils eine der hundert Graphen in 2D dargestellt. Am Ende werden die Abweichungen in einer Übersichtstabelle zusammengefasst.
 %TODO: Berechnung entsprechend durchführen
@@ -764,7 +766,7 @@ Neben dem Kommandozeilen-Programm für Linux ist auch ein GUI für Windows verf�
 \begin{figure}[H]
         \centering
         \includegraphics[width=14cm]{gfx/concorde_cities}
-        \caption{Concorde stellt eil51 aus der TSPLIB garfisch dar}
+        \caption{Concorde stellt eil51 aus der TSPLIB grafisch dar}
         \label{img:concorde_cities}
 \end{figure}
 
@@ -778,19 +780,19 @@ Neben dem Kommandozeilen-Programm für Linux ist auch ein GUI für Windows verf�
 \subsubsection{TSPLIB}
 Die TSPLIB ist eine Sammlung von TSP-Instanzen, die 1990 von Gerhard Reinelt erstellt wurde. Sie enthält Instanzen von 14 - 85'900 Städte TSPs und ist wohl die am häufigsten genutzte Sammlung für Berechnungen des Traveling Salesman Problems.\footnote{vgl. \cite{applegate06} Seite 500-505}
 
-Die Instanzen sind in Files abgelegt. Es werden verschiedene Formate unterstützt, unter anderem die Speicherung der Koordinaten im 2 und 3 dimensionalen euklidischen Raum und als Matrix, bei der die Elemente die Abstände zwischen den Knoten darstellt.
+Die Instanzen sind in Files abgelegt. Es werden verschiedene Formate unterstützt, unter anderem die Speicherung der Koordinaten im zwei- und dreidimensionalen euklidischen Raum und als Matrix, bei der die Elemente die Abstände zwischen den Knoten darstellt.
 
 \subsubsection{Eigene Instanzen}
 Eigene Instanzen werden verwendet, wenn bestimmte Szenarien berechnet werden sollen, die in der TSPLIB nicht verfügbar sind.
 
-Dazu werden bestimmte Probleme von Hand erstellt. So zum Beispiel die Instanz zur Darstellung des Worst-Case des Hamiltonpfadproblems.
+Dazu werden bestimmte Probleme von Hand erstellt. So zum Beispiel die Instanz zur Darstellung des Worst Case des Hamiltonpfadproblems.
 
-Neben den von Hand erstellen Problemen, wurden mittels eines einfachen Scripts Zufällige Instanzen erstellt. Diese sind entweder komplett zufällig, in dem Städte innerhalb definierten Schranken verteilt werden oder zufällig, aber mit vorgegebenen Mustern. Beispielsweise wurden Instanzen erstellt, bei denen die Städte auf der X-Ache in einem Bereich von 1-1500 liegen, auf der Y-Achse aber nur von 1-100. So werden die Städte auf einem schmalen Band verteilt.
+Neben den von Hand erstellen Problemen, wurden mittels eines einfachen Scripts zufällige Instanzen erstellt. Diese sind entweder komplett zufällig, indem Städte innerhalb definierten Schranken verteilt werden oder zufällig, aber mit vorgegebenen Mustern. Beispielsweise wurden Instanzen erstellt, bei denen die Städte auf der X-Ache in einem Bereich von 1-1500 liegen, auf der Y-Achse aber nur von 1-100. So werden die Städte auf einem schmalen Band verteilt.
 
 \subsection{Auswertung TSPLIB Instanzen}
 
 \subsubsection{dantzig42}
-Die TSP-Instanz dantzig42 wurde 1954 durch G. Dantzig, R. Fulkerson und S. Johnson gelöst. Eigentlich handelt sich sich um eine Instanz mit 49 Städten, da die Berechnung mit 49 Städten zu aufwändig war, wurden 7 Städte bei der Berechnung nicht berücksichtigt. Die optimale Route führte durch die 7 entfernten Städte und war somit auch für diese optimal.
+Die TSP-Instanz dantzig42 wurde 1954 durch G. Dantzig, R. Fulkerson und S. Johnson gelöst. Eigentlich handelt es sich um eine Instanz mit 49 Städten. Da die Berechnung mit 49 Städten zu aufwändig war, wurden 7 Städte bei der Berechnung nicht berücksichtigt. Die optimale Route führte durch die 7 entfernten Städte und war somit auch für diese optimal.
 
         \begin{table}[H]
                 \centering
@@ -810,7 +812,7 @@ Die TSP-Instanz dantzig42 wurde 1954 durch G. Dantzig, R. Fulkerson und S. Johns
                 \label{tab:dantzig42}
         \end{table}
 
-Für diese Instanz liefert der Christofides Algorithmus etwas bessere Ergebnisse als der Hoogeveen Algorithmus. Die Knoten sind auf der X-Achse zwischen 3 und 174 und auf der Y-Achse zwischen 13 und 106 verteilt. Da der Minimale Spannbaum bessere Voraussetzungen für die Rundreise als für den Pfad liefert, ist die Genauigkeit für das TSP besser.
+Für diese Instanz liefert der Christofides Algorithmus etwas bessere Ergebnisse als der Hoogeveen Algorithmus. Die Knoten sind auf der X-Achse zwischen 3 und 174 und auf der Y-Achse zwischen 13 und 106 verteilt. Da der minimale Spannbaum bessere Voraussetzungen für die Rundreise als für den Pfad liefert, ist die Genauigkeit für das TSP besser.
 
 \subsubsection{bier127}
 Eine Tour durch 127 Biergärten in Augsburg.
@@ -858,10 +860,10 @@ Bei eil51 und eil101 handelt es sich um TSPLIB Probleme mit 51 und 101 Städten.
         \label{tab:instanzen_eil}
 \end{table}
 
-Weder bei eil51, noch bei eil51 ist einer der beiden Algorithmen im Vorteil. Da die Knoten bei beiden Instanzen innerhalb eines Quadrates verteilt sind, eignet sich der resultierende Minimale Spannbaum weder für eine Rundreise, noch für einene Pfad besonders gut.
+Weder bei eil51, noch bei eil51 ist einer der beiden Algorithmen im Vorteil. Da die Knoten bei beiden Instanzen innerhalb eines Quadrates verteilt sind, eignet sich der resultierende minimale Spannbaum weder für eine Rundreise, noch für einene Pfad besonders gut.
 
 \subsubsection{rat195}
-195 Städte Instanz, bei der der Minimale Spannbaum einem Gitternetz ähnelt.
+195 Städte Instanz, bei der der minimale Spannbaum einem Gitternetz ähnelt.
 
         \begin{table}[H]
                 \centering
@@ -884,7 +886,7 @@ Weder bei eil51, noch bei eil51 ist einer der beiden Algorithmen im Vorteil. Da 
 Der Hoogeveen Algorithmus ist bei dieser Instanz leicht im Vorteil, da die Kürzung des Eulerpfades ein besseres Ergebnis liefert, als die Kürzung der Eulertour.
 
 \subsubsection{ts225}
-Bei der Instanz ts225 sind die Knoten auf den Seiten eines Quadrates platziert, dieses Quadrat ist wiederum durch 4 x 4 Quadrate unterteilt auf deren Ränder sich die Knoten befinden.
+Bei der Instanz ts225 sind die Knoten auf den Seiten eines Quadrates platziert. Dieses Quadrat ist wiederum durch 4 x 4 Quadrate unterteilt, auf deren Ränder sich die Knoten befinden.
 
         \begin{table}[H]
                 \centering
@@ -903,12 +905,12 @@ Bei der Instanz ts225 sind die Knoten auf den Seiten eines Quadrates platziert, 
                 \caption{Instanz ts225}
                 \label{tab:ts225}
         \end{table}
-Die Abweichung beider Algorithmen ist relativ gerin, da der Minimale Spannbaum nahe an der optimalen Lösung liegt. Da weder der Hamiltonpfad noch der Hamiltonkreis gross von diesen Quadraten abweichen, ist keiner der beiden Algorithmen im Vorteil.
+Die Abweichung beider Algorithmen ist relativ gering, da der minimale Spannbaum nahe an der optimalen Lösung liegt. Da weder der Hamiltonpfad noch der Hamiltonkreis gross von diesen Quadraten abweichen, ist keiner der beiden Algorithmen im Vorteil.
 
 \subsubsection{Zusammenfassung}
 Wie die in Tabelle \ref{tab:instanzen_tsplib} aufgelisteten Werte zeigen, sind bei Berechnungen auf Problemen der TSPLIB keine Auffälligkeiten festzustellen.
 
-Da keines der Berechneten Probleme spezielle Charakteristiken aufweist, die einen der beiden Algorithmen begünstigen (bspw. einen Minimalen Spannbaum, der für einen der beiden Algorithmus besser geeignet ist), ist dies nachvollziehbar.
+Da keines der berechneten Probleme spezielle Charakteristiken aufweist, die einen der beiden Algorithmen begünstigen (bspw. einen minimalen Spannbaum, der für einen der beiden Algorithmus besser geeignet ist), ist dies nachvollziehbar.
 
     \begin{table}[H]
                 \centering
@@ -935,7 +937,7 @@ Da keines der Berechneten Probleme spezielle Charakteristiken aufweist, die eine
 Im Folgenden werden selbst generierte Instanzen ausgewertet. 
 
 \begin{flushleft}
-\emph{Hinweis: Aus Platzgründen sind die Bilder teilweise verzerrt, die Achsen sind entsprechend beschriftet.}
+\emph{Hinweis: Aus Platzgründen sind die Bilder teilweise verzerrt. Die Achsen sind entsprechend beschriftet.}
 \end{flushleft}
 
 \subsubsection{Christofides}
@@ -959,7 +961,7 @@ Die folgende Instanz zeigt den Worst Case Fall für den Hamiltonkreis, während 
                 \label{tab:instanz_christofides}
         \end{table}
 
-Die Berechnung zeigt, dass die Win/Win Strategie für das Hamiltonpfadproblem die exakte Lösung liefert, wohingegeben die Lösung für das Traveling Salesman Problem äusserst schlecht ist. Mit 44.78\% ist die Abweichung 5.22 Prozentpunkten unterhalb der oberen Schranke. Dies ist darauf zurückzuführen, dass die Instanze leicht von der Worst Case Instanz abweicht, um für jede Berechnung eine schlechte Lösung zu garantieren.
+Die Berechnung zeigt, dass die Win/Win Strategie für das Hamiltonpfadproblem die exakte Lösung liefert. Wohingegen die Lösung für das Traveling Salesman Problem äusserst schlecht ist. Mit 44.78\% ist die Abweichung 5.22 Prozentpunkten unterhalb der oberen Schranke. Dies ist darauf zurückzuführen, dass die Instanze leicht von der Worst Case Instanz abweicht, um für jede Berechnung eine schlechte Lösung zu garantieren.
 
 \begin{figure}[H]
         \centering
@@ -990,7 +992,7 @@ In seinem Paper "`Analysis of Christofides' heuristic: some paths are more diffi
         \label{tab:instanz_hoogeveen}
 \end{table}
 
-Die Ergebnisse entsprechen den Erwartungen, mit eine Abweichung von 60.29\% liegt das Ergebnis des Hoogeveen Algorithmus nur 6.38 Prozentpunkte unterhalb der oberen Schranke. Auch hier wurde die Instanz leicht verändert, um die schlechten Lösungen zu garantieren.
+Die Ergebnisse entsprechen den Erwartungen. Mit einer Abweichung von 60.29\% liegt das Ergebnis des Hoogeveen Algorithmus nur 6.38 Prozentpunkte unterhalb der oberen Schranke. Auch hier wurde die Instanz leicht verändert, um die schlechten Lösungen zu garantieren.
 %TODO: Prozen oder Prozenpunkte => Formulierung prüfen
 
 \begin{figure}[H]
@@ -1002,7 +1004,7 @@ Die Ergebnisse entsprechen den Erwartungen, mit eine Abweichung von 60.29\% lieg
 \end{figure}
 
 \subsubsection{Random 2D-5D}
-Eine 50-Städte Instanz mit zufälliger Verteilung. Dazu wurden pro Stadt fünf zufällige Zahlen zwischen 1 und 1000 erzeugt (die Koordinaten der Stadt). Anschliessend wurde auf Grund dieser Koordinaten der Euklidische Abstand der Städte zueinander errechnet.
+Eine 50-Städte Instanz mit zufälliger Verteilung. Dazu wurden pro Stadt fünf zufällige Zahlen zwischen 1 und 1000 erzeugt (die Koordinaten der Stadt). Anschliessend wurde auf Grund dieser Koordinaten der euklidische Abstand der Städte zueinander errechnet.
 
 \begin{table}[H]
         \centering
@@ -1025,7 +1027,7 @@ Eine 50-Städte Instanz mit zufälliger Verteilung. Dazu wurden pro Stadt fünf 
         \label{tab:instanzen_random}
 \end{table}
 
-Bei einer zufälligen Verteilung von Knoten ist weder der Christofides, noch der Hoogeveen Algorithmus im Vorteil. Was jedoch auffällt ist, dass die Ergebnisse für beide Algorithmen für höhere Dimensionen genauer werden.
+Bei einer zufälligen Verteilung von Knoten ist weder der Christofides, noch der Hoogeveen Algorithmus im Vorteil. Was jedoch auffällt, ist, dass die Ergebnisse für beide Algorithmen für höhere Dimensionen genauer werden.
 
 Dies könnte darauf zurückzuführen sein, dass bei höheren Dimensionen die Distanz zwischen den Punkte immer ähnlicher wird. Dass also der Unterschied zwischen der kleinsten und der grössten Distanz im Vergleich zur kleinsten Distanz mit zunehmender Dimension gegen 0 konvergiert.\cite{beyer99}
 
@@ -1040,7 +1042,7 @@ Wenn nun die Distanzen zwischen den Punkten kaum voneinander abweichen, spielt d
 \end{figure}
 
 \subsubsection{Band 2D-5D}
-Bei dieser Instanz werden die Knoten auf einem länglichen Band verteilt. Dazu werden Städte zwischen zwischen 1 und 1500 auf einer Achse und zwischen 1 und 100 auf den verbleibenden Achsen platziert.
+Bei dieser Instanz werden die Knoten auf einem länglichen Band verteilt. Dazu werden Städte zwischen 1 und 1500 auf einer Achse und zwischen 1 und 100 auf den verbleibenden Achsen platziert.
 
 \begin{table}[H]
         \centering
@@ -1064,7 +1066,7 @@ Bei dieser Instanz werden die Knoten auf einem länglichen Band verteilt. Dazu w
         \label{tab:instanzen_belt}
 \end{table}
 
-Bei dieser länglichen Instanz ist der Hamiltonpfad etwas im Vorteil. Obwohl die Abweichung für den Hamiltonpfad mit zunehmenden Dimensionen zuerst zunimmt, wird das Ergebnis ab 5 Dimensionen wieder besser. Beim Hamiltonkreis zeigt sich das selbe Bild, wie bereits bei den zufälligen Instanzen. Mit zunehmenden Dimensionen wird das Ergebnis genauer.
+Bei dieser länglichen Instanz ist der Hamiltonpfad etwas im Vorteil. Obwohl die Abweichung für den Hamiltonpfad mit zunehmenden Dimensionen zuerst zunimmt, wird das Ergebnis ab 5 Dimensionen wieder besser. Beim Hamiltonkreis zeigt sich dasselbe Bild, wie bereits bei den zufälligen Instanzen. Mit zunehmenden Dimensionen wird das Ergebnis genauer.
 
 Um diesen Effekt besser aufzuzeigen, wurden 100 Instanzen mit 25 Dimensionen erzeugt und berechnet. Wie in Tabelle \ref{tab:instanzen_belt} sieht, nimmt die Abweichung weiter ab.
 
