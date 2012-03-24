@@ -78,14 +78,16 @@ Dozent: Dr. Hans-Joachim Böckenhauer}
 \newpage
 \section{Einleitung}
 \subsection{Ziel und Vorgehensweise}
-Ziel dieser Arbeit ist es, die Win/Win Strategie des Papers "`Structural properties of hard metric TSP inputs"'\cite{moemke11} zu Implementieren. Anschliessend wird die Implementation zur Berechnung verschiedener Problemstellungen verwendet. Das Ergebnis wird mit den theoretisch erwarteten Resultaten verglichen und ausgewertet.
+Ziel dieser Arbeit ist es, die Win/Win Strategie des Papers "`Structural properties of hard metric TSP inputs"'\cite{moemke11} zu implementieren. Anschliessend wird die Implementation zur Berechnung verschiedener Problemstellungen verwendet. Das Ergebnis wird mit den theoretisch erwarteten Resultaten verglichen und ausgewertet.
 
 Um ein Verständnis für die Implementation zu entwickeln, werden das Traveling Salesman Problem (TSP oder übersetzt: das Problem des Handlungsreisenden), die Grundlagen von Win/Win Strategien und die verwendeten Algorithmen vorgestellt. 
 
 Danach werden die wichtigsten Teile der Implementation erklärt, bevor dann die Ergebnisse ausgewertet werden. 
 
 \subsection{Abgrenzung}
-Diese Arbeit beschäftigt sich mit dem metrischen Traveling Salesman Problem. Die Dreiecksungleichung muss erfüllt sein: Eine Strecke von 1 nach 2 ist somit immer kürzer, als von 1 nach 3 nach 2.
+Diese Arbeit beschäftigt sich ausschliesslich mit dem metrischen Traveling Salesman Problem. Das heisst, die Dreiecksungleichung muss erfüllt sein: Eine Strecke von 1 nach 2 ist somit immer kürzer, als von 1 nach 3 nach 2.
+
+Es ist nicht Ziel dieser Arbeit, neue Algorithmen zu finden, sondern den bestehenden Algorithmus zu analysieren.
 
 \begin{figure}[H]
         \centering
@@ -730,6 +732,7 @@ Berechnung der Instanz dantzig42 mit dem Startknoten 14 und dem Zielknoten 41, d
 
 \section{Berechnungen}
 Für die Berechnung werden einerseits Instanzen aus der TSPLIB verwendet, andererseits selbst erstellte Instanzen.
+
 Zuerst wird das Vorgehen für die Berechnung beschrieben, anschliessend werden die verwendeten Ressourcen vorgestellt. Zum Schluss werden Berechnungen auf verschiedenen Instanzen ausgewertet.
 
 \subsection{Vorgehen}
@@ -1084,11 +1087,11 @@ Bei dieser Instanz werden die Städte innerhalb zwei definierter Quadrate, bzw. 
         \centering
         \begin{tabular}{| l | r | r | r | r | r |}
             \hline
-            Instanz                     & \textbf{crowds2\_2d}     
-                                        & \textbf{crowds2\_3d}     
-                                        & \textbf{crowds2\_4d}     
-                                        & \textbf{crowds2\_5d}     
-                                        & \textbf{crowds2\_25d}             \\ \hline
+            Instanz                     & \textbf{gr2\_2d}     
+                                        & \textbf{gr2\_3d}     
+                                        & \textbf{gr2\_4d}     
+                                        & \textbf{gr2\_5d}     
+                                        & \textbf{gr2\_25d}             \\ \hline
                 Anzahl Städte               & 50        & 50       & 50         & 50        & 50        \\ \hline
                 Dimensionen                 & 2         & 3        & 4          & 5         & 25        \\ \hline
                 Länge optimale Lösung TSP   & 4796.68   & 5370.32  & 5892.36    & 6372.35   & 11958.9   \\ \hline
@@ -1114,30 +1117,39 @@ Auch bei dieser Instanz nimmt die Abweichung mit zunehmenden Dimensionen ab. Im 
 \end{figure}
 
 \subsubsection{Drei Gruppen 2D-5D}
-Bei dieser Instanz werden die Städte innerhalb drei definierter Quadrate verteilt. Die Quadrate liegen 2000 Einheiten auseinander. Die Quadrate selbst haben eine Seitenlänge von 100 Einheiten.
+Bei dieser Instanz werden die Städte innerhalb drei definierter Quadrate/Würfel verteilt. Die Quadrate/Würfel liegen 2000 Einheiten auseinander. Die Quadrate/Würfel selbst haben eine Seitenlänge von 100 Einheiten.
 
 \begin{table}[H]
         \centering
-        \begin{tabular}{| l | r | r | r | r |}
+        \begin{tabular}{| l | r | r | r | r | r |}
             \hline
-            Instanz                     & \textbf{crowds3\_2d}     
-                                        & \textbf{crowds3\_3d}     
-                                        & \textbf{crowds3\_4d}     
-                                        & \textbf{crowds3\_5d}             \\ \hline
-                Anzahl Städte               & 50        & 50       & 50         & 50        \\ \hline
-                Dimensionen                 & 2         & 3        & 4          & 5         \\ \hline
-                Länge optimale Lösung TSP   &           &          &            &           \\ \hline
-                Länge Win/Win Lösung  TSP   &           &          &            &           \\ \hline
-                Abweichung TSP              &     \%    &      \%  &      \%    &      \%   \\ \hline
-                Länge optimale Lösung HPP   &           &          &            &           \\ \hline
-                Länge Win/Win Lösung  HPP   &           &          &            &           \\ \hline
-                Abweichung HPP              &     \%    &     \%   &     \%     &      \%   \\ \hline
+            Instanz                     & \textbf{gr3\_2d}     
+                                        & \textbf{gr3\_3d}     
+                                        & \textbf{gr3\_4d}     
+                                        & \textbf{gr3\_5d}     
+                                        & \textbf{gr3\_25d}             \\ \hline
+                Anzahl Städte               & 50        & 50       & 50         & 50        & 50            \\ \hline
+                Dimensionen                 & 2         & 3        & 4          & 5         & 25            \\ \hline
+                Länge optimale Lösung TSP   & 7270.64   & 7871.64  & 8418.13    & 8877.43   & 14358.85      \\ \hline
+                Länge Win/Win Lösung  TSP   & 7388.84   & 8043.13  & 8636.57    & 9118.78   & 14742.27      \\ \hline
+                Abweichung TSP              & 1.63\%    &  2.18\%  &  2.59\%    &  2.72\%   & 2.67\%        \\ \hline
+                Länge optimale Lösung HPP   & 5057.23   & 5655.68  & 6207.08    & 6662.68   & 12133.32      \\ \hline
+                Länge Win/Win Lösung  HPP   & 5213.61   & 5912.55  & 6527.30    & 6899.54   & 12573.64      \\ \hline
+                Abweichung HPP              & 3.09\%    &  4.54\%  &  5.16\%    &  3.56\%   & 3.63          \\ \hline
         \end{tabular}
         \caption{Instanzen drei Gruppen 2D-5D}
         \label{tab:instanzen_crowds3}
 \end{table}
 
+Die Berechnung mit drei Gruppierungen bringt kaum Veränderungen gegenüber der Berechnung mit zwei Gruppen. Auch hier ist die Abweichung beim TSP kleiner als beim HPP.
+
 \subsubsection{Zusammenfassung}
+Anhand der beiden Graphen Christofides und Hoogeveen wird gezeigt, dass bei der Berechnung die Worst Case Ergebnisse disjunkt sind.
+
+Wie die Berechnungen auf der band Instanz zeigen, ist der Hoogeveen Algorithmus bei länglichen Instanzen im Vorteil.
+
+Für die anderen Instanzen konnten keine grossen Unterschiede zwischen den beiden Algorithmen festgestellt werden. Da bei einer zufälligen Menge von Knoten jedoch kaum spezielle Charakteristiken auftreten, die den einen oder den anderen Algorithmus bevorzugt, entspricht dieses Resultat den Erwartungen.
+
     \begin{table}[H]
                 \centering
                 \begin{tabular}{| p{2.0cm} | p{2.0cm} | p{2.5cm} | p{2.5cm} | p{2.5cm} |}
@@ -1148,25 +1160,40 @@ Bei dieser Instanz werden die Städte innerhalb drei definierter Quadrate vertei
                     \small{\textbf{Abweichung TSP}} & 
                     \small{\textbf{Abweichung HPP}} \\ \hline
 
-                    christofides    & 39    & 2     & 44.78\%   & 0\%           \\ \hline
-                    hoogeveen       & 8     & 2     & 1.68\%    & 61.56\%       \\ \hline
-                    random\_2d      & 50    & 2     & 13.40\%   & 15.45\%       \\ \hline
-                    random\_3d      & 50    & 3     & 15.17\%   & 17.81\%       \\ \hline
-                    random\_4d      & 50    & 4     & 6.88\%    & 9.40\%        \\ \hline
-                    random\_5d      & 50    & 5     & 9.82\%    & 7.65\%        \\ \hline
-                    band\_2d        & 50    & 2     & 9.65\%    & 1.24\%        \\ \hline
-                    band\_3d        & 50    & 3     & 10.56\%   & 8.60\%        \\ \hline
-                    band\_4d        & 50    & 4     & 15.84\%   & 8.53\%        \\ \hline
-                    band\_5d        & 50    & 5     & 16.51\%   & 11.38\%       \\ \hline
+                    christofides    & 39    & 2     &  44.78\%  &      0\%           \\ \hline
+                    hoogeveen       & 8     & 2     &   1.40\%  &  60.29\%       \\ \hline
+                    random\_2d      & 50    & 2     &  10.40\%  &  12.24\%       \\ \hline
+                    random\_3d      & 50    & 3     &  10.44\%  &  11.83\%       \\ \hline
+                    random\_4d      & 50    & 4     &  10.08\%  &  10.92\%        \\ \hline
+                    random\_5d      & 50    & 5     &  9.72 \%  &  10.21\%        \\ \hline
+                    band\_2d        & 50    & 2     &   8.38\%  &   4.71\%        \\ \hline
+                    band\_3d        & 50    & 3     &   8.22\%  &   5.81\%        \\ \hline
+                    band\_4d        & 50    & 4     &   7.99\%  &   6.01\%        \\ \hline
+                    band\_5d        & 50    & 5     &   7.49\%  &   5.71\%       \\ \hline
+                    band\_25d       & 50    & 25    &   4.18\%  &   4.11\%       \\ \hline
+                    gr2\_2d         & 50    & 2     &   1.83\%  &   3.51\%        \\ \hline
+                    gr2\_3d         & 50    & 3     &   2.76\%  &   4.80\%        \\ \hline
+                    gr2\_4d         & 50    & 4     &   3.14\%  &   5.34\%        \\ \hline
+                    gr2\_5d         & 50    & 5     &   3.51\%  &   5.53\%       \\ \hline
+                    gr2\_25d        & 50    & 25    &   3.22\%  &   4.20\%       \\ \hline
+                    gr3\_2d         & 50    & 2     &   1.63\%  &   3.09\%        \\ \hline
+                    gr3\_3d         & 50    & 3     &   2.18\%  &   4.54\%        \\ \hline
+                    gr3\_4d         & 50    & 4     &   2.59\%  &   5.16\%        \\ \hline
+                    gr3\_5d         & 50    & 5     &   2.72\%  &   3.56\%       \\ \hline
+                    gr3\_25d        & 50    & 25    &   2.67\%  &   3.63\%       \\ \hline
                \end{tabular}
                 \caption{Auswertung der eigenen Instanzen}
                 \label{tab:instanz_eigene_instanzen}
         \end{table}
-
 \newpage
 
 \section{Fazit}
+Durch die Implementation der Win Win Strategie konnten die Aussagen des Papers "`Structural Properties of Hard Metric TSP Inputs"'\cite{moemke11} grundsätzlich bestätigt werden. 
+
+Für beliebige TSP Instanzen bringt die Berechnung allerdings wenig Vorteile.
+
 \subsection{Rückblick}
+
 \subsection{Weitere Möglichkeiten}
 
 \newpage
