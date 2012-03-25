@@ -41,17 +41,16 @@
 \pagestyle{fancy}
 \fancyhf{}
 
-\fancyhead[L]{Implementation einer Win/Win Strategie für das TSP}
-\fancyhead[R]{Semesterarbeit}
+\fancyhead[L]{Semesterarbeit - ZHAW}
+\fancyhead[R]{Andreas Brönnimann}
 
-\fancyfoot[L]{Andreas Brönnimann}
-\fancyfoot[C]{\thepage}
-\fancyfoot[R]{\today}
+\fancyfoot[L]{\today}
+\fancyfoot[R]{\thepage}
 \renewcommand{\footrulewidth}{0.5pt}
 
 % cover
-\title {Semesterarbeit\\
-Implementation einer Win/Win Strategie für das TSP\\}
+\title {Implementation einer Win/Win Strategie für das \\ 
+Traveling Salesman Problem\\}
 \author {Andreas Brönnimann\\
 Zürcher Hochschule für Angewandte Wissenschaften\\
 Dozent: Dr. Hans-Joachim Böckenhauer}
@@ -69,7 +68,13 @@ Dozent: Dr. Hans-Joachim Böckenhauer}
 \newpage
 
 \begin{abstract}
-    Zusammenfassung
+    Diese Arbeit behandelt die Implementierung einer Win/Win Strategie für das Traveling Salesman Problem. Grundlage für die Implementation ist der Algorithmus, welcher im Paper "`Structural Properties of Hard Metric TSP Inputs"'\cite{moemke11} vorgestellt wird. Auf Basis der Implementierung werden Berechnungen auf verschiedenen TSP Instanzen durchgeführt und ausgewertet.
+
+    Mittels Berechnungen auf den Worst Case Instanzen wird gezeigt, dass die Ergebnisse den theoretischen Erwartungen entsprechen. Ausserdem werden Berechnungen auf weiteren Instanzen durchgeführt und analysiert.
+
+Um die Implementation  besser zu verstehen, wird einleitend das Traveling Salesman Problem und die Idee der Win/Win Strategie vorgestellt. Anschliessend werden die verwendeten Algorithmen und deren Implementierung erläutert.
+
+Zum Schluss werden die auf den Instanzen durchgeführten Berechnungen interpretiert.
 \end{abstract}
 
 \newpage
@@ -132,7 +137,6 @@ Abschliessend ist somit nicht auszumachen, wann genau die Forschung auf dem Gebi
 Ein erster Meilenstein im Bezug auf die Lösung des Traveling Salesman Problems gelang George Dantzig, Ray Fulkerson und Selmer Johnson 1954, als sie ein 49 Städte TSP lösen konnten. Die gelöste Instanz beinhaltet Städte aus allen damaligen Bundesstaaten der USA, plus Washington D.C. Das Problem konnte gelöst werden, in dem die Städte Baltimore, Wilmington, Philadelphia, Newark, New York, Hartford und Providence entfernt wurden. Da die Route des neuen TSP durch die entfernten Städte führte, war die optimale Lösung gefunden.
 
 In den 1960er und 1970er beschäftigten sich immer mehr Wissenschaftler mit dem Problem. Richard M. Karp konnte 1972 die NP-Vollständigkeit des Hamiltonkreisproblems beweisen, was die NP-Vollständigkeit des Traveling Salesman Problems impliziert.
-%TODO: Quelle
 
 1977 wurde ein 120 Städte TSP von Martin Grötschel gelöst. Die Route beinhaltete Städte im damaligen Westdeutschland.
 
@@ -179,9 +183,6 @@ Sei $L$ eine Sprache (ein Problem) in $\mathcal{NP}$. Wir sagen $L$ ist NP-volls
     \item Für jede Sprache $L'$ in $\mathcal{NP}$ existiert eine polynomiale Reduktion von $L'$ auf $L$.
 \end{itemize}
 
-%TODO: Genauere Beschreibung, warum TSP NP-Vollständig
-%Oder anders ausgedrückt: Wenn wir von einem Problem $L$ wissen, dass es in $\mathcal{NP}$ ist und wir unser Problem $P$ mit polynomialen Zeitaufwand auf das Problem $L$ abbilden können, dann ist $P$ NP-vollständig.
-
 \subsection{Modellierung}
 Das Problem des Handlungsreisenden wird für diese Arbeit (wie in vielen anderen Beispielen) als Graph modelliert. Dabei repräsentieren die Knoten die Städte und die Kanten die Kosten um von einer Stadt zur nächsten zu gelangen. Dabei sind die Kosten um von $A$ nach $B$ zu gelangen äquivalent zu den Kosten von $B$ nach $A$, es handelt sich also um einen ungerichteten Graphen.
 
@@ -195,7 +196,6 @@ Neben dem hier vorgestellten Algorithmus existieren viele weitere Lösungsverfah
 \textbf{Brute Force}
 
 Bei dieser Methode werden alle möglichen Kombinationen berechnet, bei jeder Berechnung wird verglichen, ob die Lösung besser ist, als die bisher berechneten Lösungen. Offensichtlich ist dieses Vorgehen äusserst ineffizient. Für 20 Städte müssen 2'432'902'008'176'640'000 (20!) Permutationen berechnet werden. Dies entspricht $\approx$ $10^{18}$, also $\approx2.5$ Trillionen Möglichkeiten. Das Lösungsverfahren hat somit eine Laufzeit von $\mathcal O(n!)$.
-%TODO: Genauere Ausführung: symmetrisch, asymmetrisch
 
 \end{flushleft}
 
@@ -210,7 +210,6 @@ Beim Brach-and-Bound Verfahren wird die Lösungsmenge in Teilmengen aufgeteilt, 
 Die beiden Verfahren werden bei Brach-and-Cut kombiniert. Dabei wird erst das Schnittebenenverfahren angewandt und anschliessend das Branch-and-Bound Verfahren.\footnote{vgl. \cite{applegate06} Seite 117-124}
 
 Das Branch-and-Cut Verfahren wird nicht nur beim Problem des Handlungsreisenden angewandt, sondern findet allgemein Anwendung in LP-Solvern\footnote{Löser für lineare Programme}.
-%TODO: Beschreibung OK?
 
 \end{flushleft}
 
@@ -291,7 +290,7 @@ Die Berechnung basiert auf dem Paper "`Structural Properties of Hard Metric TSP 
 
 \end{algorithm}
 
-Nachfolgend werden die einzelnen Schritte des Algorithmus \ref{alg:hp_hc} genauer beschrieben. Dabei wird erläutert, welcher Algortihmus für den jeweiligen Schritt verwendet wird und wie dieser funktioniert.
+Nachfolgend werden die einzelnen Schritte des Algorithmus \ref{alg:hp_hc} genauer beschrieben. Dabei wird erläutert, welcher Algorithmus für den jeweiligen Schritt verwendet wird und wie dieser funktioniert.
 
 \subsection{Eingabe}
 Für die Berechnung wird ein vollständiger Graph erstellt, d.h. jeder Knoten des Graphen ist mit jedem anderen Knoten verbunden.
@@ -306,7 +305,6 @@ Auf dem als Eingabe erstellten vollständigen Graphen wird nun ein minimaler Spa
 
 Um den minimalen Spannbaum zu finden werden folgende Schritte abgearbeitet\footnote{vgl. \cite{cormen07} Seiten 574-577}:
 
-%TODO: Wie soll der Algorithmus beschrieben werden?
 \begin{algorithm}[H]
     \renewcommand{\algorithmicrequire}{\textbf{Eingabe:}}
     \renewcommand{\algorithmicensure}{\textbf{Ausgabe:}}
@@ -338,7 +336,7 @@ Um den minimalen Spannbaum zu finden werden folgende Schritte abgearbeitet\footn
 \newpage
 
 \subsection{Minimales perfektes Matching - Blossom V}
-Das minimale perfekte Matching wird mittels Blossom V Algorithmus berechnet. Der Blossom V Algortihmus ist eine Weiterentwicklung des bekannten Blossom Algorithmus, der 1965 von Edmonds vorgestellt wurde.
+Das minimale perfekte Matching wird mittels Blossom V Algorithmus berechnet. Der Blossom V Algorithmus ist eine Weiterentwicklung des bekannten Blossom Algorithmus, der 1965 von Edmonds vorgestellt wurde.
 Für diesen Algorithmus wird eine bestehende Implementation verwendet. 
 
 \begin{figure}[H]
@@ -353,9 +351,8 @@ Für diesen Algorithmus wird eine bestehende Implementation verwendet.
 \subsection{Eulerkreis - Hierholzer}
 Die Berechnung des Eulerkreises wird mittels Algorithmus von Hierholzer umgesetzt. Dieser wurde 1873 in der postum veröffentlichten Arbeit "`Über die Möglichkeit, einen Linienzug ohne Wiederholung und ohne Unterbrechung zu umfahren"'\cite{hierholzer73} beschrieben.
 
-Der Algorithmus basiert auf der Idee, dass, wenn man in einem eulerschen Graphen einen beliebigen Kreis findet, die verbleibenden Kanten wiederum einen Kreis enthalten. Somit werden die gefundenen Kreise zusammengefügt, bis schlussendlich alle Kanten im Kreis enhalten ist und somit der Eulerkreis gefunden wurde.\footnote{vgl. \cite{krumke05} Seiten 46-48}
+Der Algorithmus basiert auf der Idee, dass, wenn man in einem eulerschen Graphen einen beliebigen Kreis findet, die verbleibenden Kanten wiederum einen Kreis enthalten. Somit werden die gefundenen Kreise zusammengefügt, bis schlussendlich alle Kanten im Kreis enhalten ist und der Eulerkreis gefunden wurde.\footnote{vgl. \cite{krumke05} Seiten 46-48}
 
-%TODO: Ist die beschreibung verständnlich?
 \begin{algorithm}[H]
     \renewcommand{\algorithmicrequire}{\textbf{Eingabe:}}
     \renewcommand{\algorithmicensure}{\textbf{Ausgabe:}}
@@ -417,7 +414,6 @@ Der gesamte Algorithmus ist in Python 3 implementiert. Lediglich der Blossom V A
 
 Für die Knoten, Kanten und Graphen werden eigene Objekte erstellt, die nachfolgend genauer beschrieben werden. 
 
-%TODO: Einleitung: Verwendete Programmiersprache, Unittesting, etc.
 \subsection{Datenstrukturen}
 \subsubsection{Knoten}
 Jeder Knoten hat eine eindeutige ID die vom System vergeben wird. Zudem erhält jeder Knoten eine Nummer und eine Liste von Koordinaten. Diese Informationen werden aus dem TSP-File gelesen. Zusätzlich ist es möglich, ein Label anzugeben, um weitere Informationen zu speichern.
@@ -761,7 +757,6 @@ Um eine möglichst repräsentative Lösung für den Vergleich zu erhalten, wird 
 Bei Instanzen, die aus zufälligen Werten erzeugt werden (bspw. random, band), werden 100 verschiedene Instanzen erzeugt. Pro erzeugter Instanz wird dann eine Berechnung durchgeführt.
 
 Zu jeder Instanz werden die Ergebnisse in einer Tabelle dargestellt und interpretiert. Bei den eigenen Instanzen wird zur Illustration jeweils eine der hundert Graphen in 2D dargestellt. Am Ende werden die Abweichungen in einer Übersichtstabelle zusammengefasst.
-%TODO: Berechnung entsprechend durchführen
 
 \subsection{Genutzte Ressourcen}
 \subsubsection{Concorde}
@@ -1005,7 +1000,6 @@ In seinem Paper "`Analysis of Christofides' heuristic: some paths are more diffi
 \end{table}
 
 Die Ergebnisse entsprechen den Erwartungen. Mit einer Abweichung von 60.29\% liegt das Ergebnis des Hoogeveen Algorithmus nur 6.38 Prozentpunkte unterhalb der oberen Schranke. Auch hier wurde die Instanz leicht verändert, um die schlechten Lösungen zu garantieren.
-%TODO: Prozen oder Prozenpunkte => Formulierung prüfen
 
 \begin{figure}[H]
         \centering
@@ -1091,7 +1085,6 @@ Um diesen Effekt besser aufzuzeigen, wurden 100 Instanzen mit 25 Dimensionen erz
 \end{figure}
 
 \subsubsection{Zwei Gruppen 2D-5D}
-%TODO: Neu rechnen
 Bei dieser Instanz werden die Städte innerhalb zwei definierter Quadrate, bzw. Würfel verteilt. Die Quadrate/Würfel liegen 2000 Einheiten auseinander. Die Quadrate/Würfel selbst haben eine Seitenlänge von 100 Einheiten.
 
 \begin{table}[H]
@@ -1116,7 +1109,7 @@ Bei dieser Instanz werden die Städte innerhalb zwei definierter Quadrate, bzw. 
         \label{tab:instanzen_crowds2}
 \end{table}
 
-Der Hamiltonkreis liefert bei dieser Instanz leiht bessere Ergebnisse, als der Hamiltonpfad. Im 2 dimensionalen Raum hat der Abstand von 2000 Einheiten zwischen den Punkteansammlungen  grossen Anteil an der gesamten Länge der Route hat, dieser Anteil nimmt mit zunehmenden Dimensionen ab. Aus diesem Grund ist der Hamiltonkreis bei dieser Instanz leicht besser. Die Strecke von 2000 Einheiten wird sowohl von der exakten, wie auch von der Win Win Lösung zweimal genutzt. Somit fallen die Anteile der Abweichungen innerhalb der Punkteansammlungen kaum ins Gewicht.
+Der Hamiltonkreis liefert bei dieser Instanz leiht bessere Ergebnisse, als der Hamiltonpfad. Im 2 dimensionalen Raum hat der Abstand von 2000 Einheiten zwischen den Punkteansammlungen  grossen Anteil an der gesamten Länge der Route hat, dieser Anteil nimmt mit zunehmenden Dimensionen ab. Aus diesem Grund ist der Hamiltonkreis bei dieser Instanz leicht besser. Die Strecke von 2000 Einheiten wird sowohl von der exakten, wie auch von der Win/Win Lösung zweimal genutzt. Somit fallen die Anteile der Abweichungen innerhalb der Punkteansammlungen kaum ins Gewicht.
 Auch bei dieser Instanz nimmt die Abweichung mit zunehmenden Dimensionen ab. Im Vergleich zu den beiden bisherigen Instanzen dauert es hier jedoch länger.
 
 \begin{figure}[H]
@@ -1200,7 +1193,7 @@ Für die anderen Instanzen konnten keine grossen Unterschiede zwischen den beide
 
 \section{Fazit}
 \subsection{Ergebnisse}
-Durch die Implementation der Win Win Strategie konnten die Aussagen des Papers "`Structural Properties of Hard Metric TSP Inputs"'\cite{moemke11} grundsätzlich bestätigt werden. 
+Durch die Implementation der Win/Win Strategie konnten die Aussagen des Papers "`Structural Properties of Hard Metric TSP Inputs"'\cite{moemke11} grundsätzlich bestätigt werden. 
 
 Für beliebige TSP Instanzen bringt die Berechnung allerdings wenig Vorteile. Es gibt nur wenige Instanzen, die für einen der beidne Algorithmen einen Wors Case darstellt. Somit sind auch nur wenige Instanzen für einen der beiden Algorithmen sehr gut lösbar.
 
