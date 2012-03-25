@@ -1,0 +1,60 @@
+%        File: abstract.tex
+%     Created: Sun Mar 25 17:34 PM 2012 C
+% Last Change: Sun Mar 25 17:34 PM 2012 C
+%
+\documentclass[11pt,a4paper]{article}
+
+% german dictionary
+\usepackage[ngerman]{babel}
+
+% enconding
+\usepackage[utf8]{inputenc}
+
+% graphics
+\usepackage{graphicx}
+
+% handle positions
+\usepackage{float}
+
+% set borders
+\usepackage{a4wide}
+
+% use URLs
+\usepackage{url}
+
+% expand table formatting
+\usepackage{array}
+
+% header and footer
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+
+\fancyhead[L]{Semesterarbeit - ZHAW}
+\fancyhead[R]{Andreas Brönnimann}
+\fancyfoot[C]{\today}
+\renewcommand{\footrulewidth}{0.5pt}
+\begin{document}
+\section{Abstract}
+\subsection{Hintergrund}
+Das Traveling Salesman Problem (TSP) ist eines der meist erforschten Optimierungsprobleme. Beim Traveling Salesman Problem soll eine Rundreise durch eine Anzahl Städte gefunden werden und zwar so, dass der Handlungsreisende wieder an seinen Ausgangspunkt zurückkehrt. Für diese Rundreise soll die kürzeste Strecke gefunden werden. 
+
+Herr Tobias Mömke hat an der ETH Zürich in Zusammenarbeit mit Herrn Hans-Joachim Böckenhauer eine Win/Win Strategie entwickelt, die zur Lösung des metrischen TSP den Christofides und den Hoogeveen Algorithmus einander gegenüberstellt. Diese Arbeit beschäftigt sich mit der Implementierung dieser Win/Win Strategie und der Auswertung der berechneten Ergebnisse.
+
+\subsection{Win/Win Strategie}
+Die Win/Win Strategie basiert darauf, dass für zwei verwandte Probleme Algorithmen $A_1$ und $A_2$ existieren und dass eine Instanzen, für die $A_1$ eine schlechte Lösung liefert, $A_2$ eine gute Lösung liefert. Die Worst Case Instanzen der beiden Algorithmen sind also disjunkt.
+
+Für diese Arbeit werden der Christofides Algorithmus und der Hoogeveen Algorithmus verwendet. Der Christofides wird dabei zur Berechnung des TSP verwendet. Der Hoogeveen Algorithmus wird zur Berechnung der Hamiltonpfadproblems genutzt. Das Hamiltonpfadproblems unterscheidet sich vom Traveling Salesman Problem darin, dass der Start- und der Endpunkt nicht in der selben Stadt liegen.
+
+\subsubsection{Implementation}
+Die Win/Win Strategie ist in Python 3 implementiert. Lediglich für den Perfect Matching Algorithmus wird eine bestehende C++ Implementation verwendet.
+
+Damit Teile des Codes wieder verwendet werden können, ist die Implementation objektorientiert. 
+
+\subsection{Ergebnisse}
+Zur Berechnung werden einerseits TSP Instanzen aus der TSPLIB\footnote{Sammlung von TSP Instanzen} genutzt, andererseits selbst generierte Instanzen.
+
+Die Berechnungen zeigen, dass die Worst Case Instanzen für die beiden Algorithmen disjunkt sind. Für die Worst Case Instanz des Christofides Algorithmus konnte eine Abweichung von 44.78\% berechnet werden. Die mittels Win/Win Strategie berechnete Route ist also 44.78\% länger als die optimale Route. Für die Worst Case Instanz des Hoogeveen Algorithmus konnte eine Abweichung von 60.29\% berechnet werden.
+
+Berechnungen auf weiteren Instanzen zeigen, dass für Instanzen ohne spezielle Charakteristiken keiner der beiden Algorithmen speziell geeignet ist.
+\end{document}
