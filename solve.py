@@ -77,20 +77,21 @@ for i in range(0, run_counts):
 
     if generated_graph:
         # generate graph
-        generator.random('data/in/my_tsp.tsp', 'my tsp', 'random2d', 50, 2, \
-                1, 1000)
+        myfile = 'data/in/band_25d.tsp'
+        #generator.random(myfile, 'random_5d', '', 50, 5, \
+                #1, 1000)
 
-        #generator.belt('data/in/my_tsp.tsp', 'my tsp', 'My own graph (belt)', 50, 25, \
-                #1, 1500, 1, 100)
+        generator.belt(myfile, 'belt_25d', '', 50, 25, \
+                1, 1500, 1, 100)
 
-        #generator.crowds2('data/in/my_tsp.tsp', 'my tsp', 'My own graph (crowds2)', \
+        #generator.crowds2(myfile, 'gr2_25d', '', \
                         #50, 25, 100, 100, 2000)
 
-        #generator.crowds3('data/in/my_tsp.tsp', 'my tsp', 'My own graph (crowds3)', \
-                        #50, 2, 100, 100, 100, 2000, 2000)
+        #generator.crowds3(myfile, 'gr3_25d', '', \
+                        #50, 25, 100, 100, 100, 2000, 2000)
 
         # read generated graph
-        graph = reader.euclidean('data/in/my_tsp.tsp') # 
+        graph = reader.euclidean(myfile) # 
 
         # TODO: Debug, output distance
         distances = list()
@@ -162,8 +163,8 @@ for i in range(0, run_counts):
         t = last_line.split()[-1]
 
         # read graph again, with correct s and t
-        graph_tsp = reader.euclidean('data/in/my_tsp.tsp') # 
-        graph_hpp = reader.euclidean('data/in/my_tsp.tsp', s, t) # 
+        graph_tsp = reader.euclidean(myfile) # 
+        graph_hpp = reader.euclidean(myfile, s, t) # 
 
     if do_plot:
         # TODO: only to create graphics, not needed for the algorithm

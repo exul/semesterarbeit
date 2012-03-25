@@ -99,7 +99,7 @@ def calculate(args):
 
     error_tsp = cost_tsp - args.ot
     if args.ot > 0:
-        if error_tsp > 0:
+        if error_tsp >= 0:
             print('TSP: The tour is {0}% longer than the optimum'. \
                     format(round(100*error_tsp/args.ot, 2)))
         else:
@@ -121,7 +121,7 @@ def calculate(args):
 
     if args.oh > 0:
         error_hpp = cost_hpp - args.oh
-        if error_hpp > 0:
+        if error_hpp >= 0:
             print('HPP: The path is {0}% longer than the optimum'. \
                     format(round(100*error_hpp/args.oh, 2)))
         else:
