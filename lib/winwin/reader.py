@@ -33,7 +33,6 @@ class Reader:
         dimension = 0
         euc_dimension = 0
 
-        #TODO: Expection Handling needed?
         nodes = list()
         f = open(file_location, 'r')
 
@@ -43,8 +42,6 @@ class Reader:
 
             # skip header information
             if line_data[0].isdigit():
-                #TODO: Check if node_nr is an integer and the numbering is from 
-                #1 to n
                 # the first column is the node nr.
                 node_nr = line_data[0]
 

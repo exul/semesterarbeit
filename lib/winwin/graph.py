@@ -8,7 +8,6 @@ class Graph:
         """
         Initialize a graph.
         """
-        #TODO: create a separate object for distance_lookup?
         self._distance_lookup = distance_lookup # store distances between nodes
         self._graph_nodes = dict() # store the nodes
         self._edge_count = 0
@@ -25,8 +24,7 @@ class Graph:
         if not node in self._graph_nodes:
             self._graph_nodes[node] = dict() # add node to the neighbours
         else:
-            #TODO: Define AdditionError
-            raise AdditionError("This node is already in the graph")
+            raise NodeAdditionError(node.nr)
 
         if not node in self._distance_lookup:
             self._distance_lookup[node] = dict() # add node to lookup
@@ -44,14 +42,11 @@ class Graph:
 
         # add edge to the graph
         if node_1 in self._graph_nodes and node_2 in self._graph_nodes:
-            #TODO: Use a List of Edges, because we need to add more then one
-            #Edge between two nodes
             # add edge in one direction
             if node_2 in self._graph_nodes[node_1]:
                 edge_list = self._graph_nodes[node_1][node_2]
                 edge_list.append(edge)
             else:
-                # TODO: this could be done in one line
                 edge_list = list()
                 edge_list.append(edge)
                 self._graph_nodes[node_1][node_2] = edge_list
@@ -67,8 +62,7 @@ class Graph:
 
             self._edge_count += 2
         else:
-            #TODO: Define AdditionError
-            raise AdditionError("One or both nodes not in the graph")
+            raise EdgeAdditionError("One or both nodes not in the graph")
     
         # add weight to lookup dictionary, if it isn't already there
         # add weight in one direction
@@ -160,7 +154,6 @@ class Graph:
         """
         return node in  self._graph_nodes
 
-    #TODO: Does it work?
     def contains_edge(self, node_1, node_2):
         '''
         Checks, if a given edge (represented by node_1 and node_2 is 
@@ -202,14 +195,13 @@ class Graph:
         @rtype: list
         @return: List of distances beteeen two nodes.
         '''
-        #TODO: Define NodeNotFoundError
         if node_1 in self._distance_lookup:
             if node_2 in self._distance_lookup[node_1]:
                 return self._distance_lookup[node_1][node_2]
             else:
-                raise NodeNotFoundError('Node 2 has no connection to node 1')
+                raise NodeNotFoundError()
         else:
-            raise NodeNotFoundError('Node 1 is not in the graph')
+            raise NodeNotFoundError()
 
     @property
     def nodes(self):
@@ -241,7 +233,6 @@ class Graph:
 
         return graph_edges
 
-    #TODO: rename to node_count?
     @property
     def size(self):
         """ 
@@ -272,3 +263,23 @@ class Graph:
         @return: Dictionary that contains all distances of the graph.
         '''
         return self._distance_lookup
+
+class NodeNotFoundError(Exception):
+    ''' Exception if a node can't be found. '''
+    def __init__(self):
+        Exception.__init__(self)
+
+        print('Could not find the given node in this graph')
+
+class NodeAdditionError(Exception):
+    ''' Execption if a node can't be added '''
+    def __init__(self, node_nr):
+        Exception.__init__(self)
+
+        print('Node Nr. {0} is already in the graph'.format(node_nr))
+
+class EdgeAdditionError(Exception):
+    ''' Exception if a node can't be added '''
+    def __init__(self):
+        Exception.__init__(self)
+        print('Could not add Edge, one or both nodes are not in the graph')

@@ -77,17 +77,17 @@ for i in range(0, run_counts):
 
     if generated_graph:
         # generate graph
-        #generator.random('data/in/my_tsp.tsp', 'my tsp', 'My own graph', 50, 3, \
-                #1, 45)
+        generator.random('data/in/my_tsp.tsp', 'my tsp', 'random2d', 50, 2, \
+                1, 1000)
 
-        generator.belt('data/in/my_tsp.tsp', 'my tsp', 'My own graph (belt)', 50, 2, \
-                1, 100, 1, 1500)
+        #generator.belt('data/in/my_tsp.tsp', 'my tsp', 'My own graph (belt)', 50, 25, \
+                #1, 1500, 1, 100)
 
         #generator.crowds2('data/in/my_tsp.tsp', 'my tsp', 'My own graph (crowds2)', \
-                        #50, 3, 100, 100, 2000)
+                        #50, 25, 100, 100, 2000)
 
         #generator.crowds3('data/in/my_tsp.tsp', 'my tsp', 'My own graph (crowds3)', \
-                        #50, 3, 100, 100, 100, 2000, 2000)
+                        #50, 2, 100, 100, 100, 2000, 2000)
 
         # read generated graph
         graph = reader.euclidean('data/in/my_tsp.tsp') # 

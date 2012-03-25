@@ -13,7 +13,7 @@ class Test_Graph(unittest.TestCase):
     def test_add_node(self):
         graph = self.reader.euclidean('data/in/eil51.tsp')
         size_before = graph.size
-        positions = list = [999, 999]
+        positions = [999, 999]
         node = Node(size_before, positions, 'test_node')
         graph.add_node(node)
         size_after = graph.size
