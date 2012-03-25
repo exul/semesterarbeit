@@ -822,6 +822,8 @@ Die TSP-Instanz dantzig42 wurde 1954 durch G. Dantzig, R. Fulkerson und S. Johns
 
 Für diese Instanz liefert der Christofides Algorithmus etwas bessere Ergebnisse als der Hoogeveen Algorithmus. Die Knoten sind auf der X-Achse zwischen 3 und 174 und auf der Y-Achse zwischen 13 und 106 verteilt. Da der minimale Spannbaum bessere Voraussetzungen für die Rundreise als für den Pfad liefert, ist die Genauigkeit für das TSP besser.
 
+\newpage
+
 \subsubsection{bier127}
 Eine Tour durch 127 Biergärten in Augsburg.
 
@@ -869,6 +871,8 @@ Bei eil51 und eil101 handelt es sich um TSPLIB Probleme mit 51 und 101 Städten.
 \end{table}
 
 Weder bei eil51, noch bei eil51 ist einer der beiden Algorithmen im Vorteil. Da die Knoten bei beiden Instanzen innerhalb eines Quadrates verteilt sind, eignet sich der resultierende minimale Spannbaum weder für eine Rundreise, noch für einene Pfad besonders gut.
+
+\newpage
 
 \subsubsection{rat195}
 195 Städte Instanz, bei der der minimale Spannbaum einem Gitternetz ähnelt.
@@ -973,8 +977,8 @@ Die Berechnung zeigt, dass die Win/Win Strategie für das Hamiltonpfadproblem di
 
 \begin{figure}[H]
         \centering
-        \includegraphics[width=16cm]{gfx/christofides_hpp_comparison}
-        \includegraphics[width=16cm]{gfx/christofides_tsp_comparison}
+        \includegraphics[width=15cm]{gfx/christofides_hpp_comparison}
+        \includegraphics[width=15cm]{gfx/christofides_tsp_comparison}
         \caption{Christofides Instanz}
         \label{img:christofides_comparison}
 \end{figure}
@@ -1005,8 +1009,8 @@ Die Ergebnisse entsprechen den Erwartungen. Mit einer Abweichung von 60.29\% lie
 
 \begin{figure}[H]
         \centering
-        \includegraphics[width=16cm]{gfx/hoogeveen_hpp_comparison}
-        \includegraphics[width=16cm]{gfx/hoogeveen_tsp_comparison}
+        \includegraphics[width=15cm]{gfx/hoogeveen_hpp_comparison}
+        \includegraphics[width=15cm]{gfx/hoogeveen_tsp_comparison}
         \caption{Hoogeveen Instanz}
         \label{img:hoogeveen_comparison}
 \end{figure}
@@ -1043,8 +1047,8 @@ Wenn nun die Distanzen zwischen den Punkten kaum voneinander abweichen, spielt d
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=16cm]{gfx/random_hpp_comparison}
-    \includegraphics[width=16cm]{gfx/random_tsp_comparison}
+    \includegraphics[width=15cm]{gfx/random_hpp_comparison}
+    \includegraphics[width=15cm]{gfx/random_tsp_comparison}
     \caption{Random Instanz 2D}
     \label{img:random_comparison}
 \end{figure}
@@ -1080,8 +1084,8 @@ Um diesen Effekt besser aufzuzeigen, wurden 100 Instanzen mit 25 Dimensionen erz
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=16cm]{gfx/belt_hpp_comparison}
-    \includegraphics[width=16cm]{gfx/belt_tsp_comparison}
+    \includegraphics[width=15cm]{gfx/belt_hpp_comparison}
+    \includegraphics[width=15cm]{gfx/belt_tsp_comparison}
     \caption{Band Instanz 2D}
     \label{img:belt_comparison}
 \end{figure}
@@ -1117,8 +1121,8 @@ Auch bei dieser Instanz nimmt die Abweichung mit zunehmenden Dimensionen ab. Im 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=16cm]{gfx/crowds2_hpp_comparison}
-    \includegraphics[width=16cm]{gfx/crowds2_tsp_comparison}
+    \includegraphics[width=15cm]{gfx/crowds2_hpp_comparison}
+    \includegraphics[width=15cm]{gfx/crowds2_tsp_comparison}
     \caption{zwei Gruppen Instanz 2D}
     \label{img:crowds2_comparison}
 \end{figure}
