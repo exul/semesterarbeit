@@ -42,9 +42,9 @@ Das Traveling Salesman Problem (TSP) ist eines der meist erforschten Optimierung
 Herr Tobias Mömke hat an der ETH Zürich in Zusammenarbeit mit Herrn Hans-Joachim Böckenhauer eine Win/Win Strategie entwickelt, die zur Lösung des metrischen TSP den Christofides und den Hoogeveen Algorithmus einander gegenüberstellt. Diese Arbeit beschäftigt sich mit der Implementierung dieser Win/Win Strategie und der Auswertung der berechneten Ergebnisse.
 
 \subsection{Win/Win Strategie}
-Die Win/Win Strategie basiert darauf, dass für zwei verwandte Probleme Algorithmen $A_1$ und $A_2$ existieren und dass eine Instanzen, für die $A_1$ eine schlechte Lösung liefert, $A_2$ eine gute Lösung liefert. Die Worst Case Instanzen der beiden Algorithmen sind also disjunkt.
+Die Win/Win Strategie basiert darauf, dass für zwei verwandte Probleme Algorithmen $A_1$ und $A_2$ existieren und dass eine Instanz, für die $A_1$ eine schlechte Lösung liefert, $A_2$ eine gute Lösung liefert. Die Worst Case Instanzen der beiden Algorithmen sind also disjunkt.
 
-Für diese Arbeit werden der Christofides Algorithmus und der Hoogeveen Algorithmus verwendet. Der Christofides wird dabei zur Berechnung des TSP verwendet. Der Hoogeveen Algorithmus wird zur Berechnung der Hamiltonpfadproblems genutzt. Das Hamiltonpfadproblems unterscheidet sich vom Traveling Salesman Problem darin, dass der Start- und der Endpunkt nicht in der selben Stadt liegen.
+Für diese Arbeit werden der Christofides Algorithmus und der Hoogeveen Algorithmus verwendet. Der Christofides wird dabei zur Berechnung des TSP verwendet. Der Hoogeveen Algorithmus wird zur Berechnung der Hamiltonpfadproblems genutzt. Das Hamiltonpfadproblems unterscheidet sich vom Traveling Salesman Problem darin, dass der Start- und der Endpunkt nicht in derselben Stadt liegen.
 
 \subsubsection{Implementation}
 Die Win/Win Strategie ist in Python 3 implementiert. Lediglich für den Perfect Matching Algorithmus wird eine bestehende C++ Implementation verwendet.
