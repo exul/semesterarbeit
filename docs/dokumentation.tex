@@ -142,7 +142,7 @@ In den 1960er und 1970er beschäftigten sich immer mehr Wissenschaftler mit dem 
 
 Im Jahre 1987 wurden gleich drei bedeutende Instanzen gelöst: Ein 532 Städte TSP von Padberg und Rinaldi, ein 666 Städte TSP von Grötschel und Holland und das 2392 Städte TSP, wiederum von Padberg und Rinaldi.\footnote{vgl. \cite{applegate06} S. 50-51}
 
-Anfang der 1990er Jahre begannen David Applegate, Robert E. Bixby, Vašek Chvátal und William J. Cook mit der Entwicklung von Concorde. Seit 1992 wurden immer grössere Instanzen mit Hilfe von Concorde gelöst. Die grössten Erfolg von 1992-2006 sind in Tabelle \ref{tab:concorde_history} ersichtlich.\footnote{\cite{applegate06} Seite 53}
+Anfang der 1990er Jahre begannen David Applegate, Robert E. Bixby, Vašek Chvátal und William J. Cook mit der Entwicklung von Concorde. Seit 1992 wurden immer grössere Instanzen mit Hilfe von Concorde gelöst. Die grössten Erfolg von 1992-2006 sind in Tabelle \ref{tab:concorde_history} ersichtlich.\footnote{vgl. \cite{applegate06} Seite 53}
 
         \begin{table}[H]
                 \centering
@@ -163,8 +163,7 @@ Anfang der 1990er Jahre begannen David Applegate, Robert E. Bixby, Vašek Chvát
         \end{table}
 
 Das 2006 gelöst 85'900 Städte Problem ist das grösste bisher gelöste TSP. Zur Berechnung wurde ein Cluster von 64 2.4-GHz AMD Opteron Prozessoren und 192 Xeon Prozessoren benötigt.
-
-Die nächste Herausforderung ist das so genannte "`World TSP"', es beinhaltet 1'904'711 Städte. Die beste bekannte Lösung stammt von Keld Helsgaun. Mit Concorde konnte berechnet werden, dass die Lösung von Helsgaun maximal 0.058\% länger ist, als die optimale Lösung.
+Die nächste Herausforderung ist das so genannte "`World TSP"', es beinhaltet 1'904'711 Städte. Die beste bekannte Lösung stammt von Keld Helsgaun. Mit Concorde konnte berechnet werden, dass die Lösung von Helsgaun maximal 0.058\% länger ist, als die optimale Lösung.\footnote{vgl. \cite{applegate06} Seite 524-258}
 
 \newpage
 
@@ -260,7 +259,7 @@ Die Win/Win Strategie basiert darauf, dass für zwei verwandte Probleme Algorith
 \subsection{Anwendung für das Traveling Salesman Problem}
 Das Traveling Salesman Problem, welches im Abschnitt \ref{s:traveling_salesman_problem} bereits beschrieben wurde, ist eng verwandt mit dem Hamiltonpfadproblem. Beim Hamiltonpfadproblem wird nicht eine Rundreise gesucht, bei der Start und Ziel in derselben Stadt sind, sondern eine Reise durch $n$ Städte, bei der Start $s$ und Ziel $t$ in zwei verschiedenen Städten liegen. Wenn man beim HPP für $s$ und $t$ die selbe Stadt wählt, entspricht dies einem TSP.
 
-Der Christofides Algorithmus ist die Heuristik mit der besten Gütegarantie für das Traveling Salesman Problem. Die Rundreise, die mittels Christofides Algorithmus berechnet wird, ist maximal 1/2\% länger, als die optimale Route. Diese obere Grenze konnte seit der Veröffentlichung vor über 30 Jahren nicht verbessert werden.
+Der Christofides Algorithmus ist die Heuristik mit der besten Gütegarantie für das Traveling Salesman Problem. Die Rundreise, die mittels Christofides Algorithmus berechnet wird, ist maximal 1/2 länger, als die optimale Route. Diese obere Grenze konnte seit der Veröffentlichung vor über 30 Jahren nicht verbessert werden.
 
 Für das Hamiltonpfadproblem ist der Hoogeveen Algorithmus die beste bekannte Heuristik, der gefundene Pfad ist maximal 2/3 länger als der optimale Pfad. Seit über 20 Jahren konnte kein Algorithmus gefunden werden, der eine tiefere obere Grenze garantiert.\cite{moemke11}
 
@@ -342,7 +341,7 @@ Für diesen Algorithmus wird eine bestehende Implementation verwendet.
 \begin{figure}[H]
         \centering
         \includegraphics[width=12cm]{gfx/eil51_pm}
-        \caption{Minimales perfektes Matching (rot) auf den ungeraden Knoten des MST (schwarz)}
+        \caption{Minimales perfektes Matching (rot) auf den ungeraden Knoten des MST}
         \label{img:eil51_pm}
 \end{figure}
 
@@ -351,7 +350,7 @@ Für diesen Algorithmus wird eine bestehende Implementation verwendet.
 \subsection{Eulerkreis - Hierholzer}
 Die Berechnung des Eulerkreises wird mittels Algorithmus von Hierholzer umgesetzt. Dieser wurde 1873 in der postum veröffentlichten Arbeit "`Über die Möglichkeit, einen Linienzug ohne Wiederholung und ohne Unterbrechung zu umfahren"'\cite{hierholzer73} beschrieben.
 
-Der Algorithmus basiert auf der Idee, dass, wenn man in einem eulerschen Graphen einen beliebigen Kreis findet, die verbleibenden Kanten wiederum einen Kreis enthalten. Somit werden die gefundenen Kreise zusammengefügt, bis schlussendlich alle Kanten im Kreis enhalten ist und der Eulerkreis gefunden wurde.\footnote{vgl. \cite{krumke05} Seiten 46-48}
+Der Algorithmus basiert auf der Idee, dass, wenn man in einem eulerschen Graphen einen beliebigen Kreis findet, die verbleibenden Kanten wiederum einen Kreis enthalten. Somit werden die gefundenen Kreise zusammengefügt, bis schlussendlich alle Kanten im Kreis enhalten sind und der Eulerkreis gefunden wurde.\footnote{vgl. \cite{krumke05} Seiten 46-48}
 
 \begin{algorithm}[H]
     \renewcommand{\algorithmicrequire}{\textbf{Eingabe:}}
@@ -364,7 +363,7 @@ Der Algorithmus basiert auf der Idee, dass, wenn man in einem eulerschen Graphen
         \STATE Erstelle einen Kreis $K$ ausgehend von $v_0$
         \STATE Entferne alle Kanten von $K$ aus $G$
         \WHILE{$E(G) \ge 0$}
-            \STATE Suche Knoten $v_n$ dessen Grad $\ge 0$
+            \STATE Suche Knoten $v_n$ in $G$ dessen Grad $> 0$
             \STATE Erstelle einen Kreis $K_n$ ausgehend von $v_n$
             \STATE Füge $K_n$ zu $K$ hinzu: Alle Knoten von $K_n$ an Stelle des Startknotens von $K_n$ in der korrekten Reihenfolge in $K$ einfügen
             \STATE Entferne alle Kanten von $K_n$ aus $G$
@@ -383,7 +382,7 @@ Der Algorithmus basiert auf der Idee, dass, wenn man in einem eulerschen Graphen
 \newpage
 
 \subsection{Kürzung Eulerkreis/-pfad zu Hamiltonkreis/-pfad}
-Zur Kürzung des Eulerkreises bzw. des Eulerpfades werden in der Liste der besuchten Knoten alle doppelten Einträge gelöscht.
+Zur Kürzung des Eulerkreises bzw. des Eulerpfades werden alle Knoten aus einer Liste $L$ die noch nicht in der Liste $H$ enthalten sind zu $H$ hinzugefügt.
 
 \begin{algorithm}[H]
     \renewcommand{\algorithmicrequire}{\textbf{Eingabe:}}
@@ -552,7 +551,7 @@ for node in euler_tmp:
 \end{flushleft}
 
 \subsubsection{Kürzung Eulerkreis/-pfad zu Hamiltonkreis/-pfad}
-Die Kürzung des Eulerkreises/-pfades zu einem Hamiltonkreis/-pfad funktioniert sehr einfach. Dazu wird wird eine neue Liste von Knoten erstellt, zu der ein Knoten hinzugefügt wird, wenn er noch nicht in der Liste vorhanden ist. Beim Hamiltonkreis wird zum Schluss der Startknoten nochmals hinzugefügt, um den Kreis zu schliessen. 
+Die Kürzung des Eulerkreises/-pfades zu einem Hamiltonkreis/-pfad funktioniert sehr einfach. Dazu wird eine neue Liste von Knoten erstellt, zu der ein Knoten hinzugefügt wird, wenn er noch nicht in der Liste vorhanden ist. Beim Hamiltonkreis wird zum Schluss der Startknoten nochmals hinzugefügt, um den Kreis zu schliessen. 
 
 Diese Implementation hat den Vorteil, dass die Kürzung nachvollziehbar ist. Eine Alternative wäre die Implementation mittels einer Datenstruktur, die keine doppelten Einträge zulässt.
 
@@ -578,6 +577,7 @@ for i in range(0,cities):
         for j in range(0, dimension):
             print('{0}'.format(random.randrange(min_coord,max_coord)), \
                 end=" ", file=f)
+
     print('',file=f)
 \end{verbatim}
 
@@ -588,20 +588,14 @@ Bei der Generierung von Instanzen mit einer länglichen Verteilung werden zwei m
 for i in range(0,cities):
     print('{0}'.format(i+1), end=" ", file=f)
 
-    for j in range(0,dimension):
-        if i % 2 == 0 and j == 0:
-            # x coordinate first crowed
-            print('{0}'.format(random.randrange(1,width_c1)), end=" ", file=f)
-        elif i % 2 == 1 and j == 0:
-            # x coordinate second crowed
-            print('{0}'.format(random.randrange(width_c1+offset, \
-                width_c1+offset+width_c2)), end=" ", file=f) 
-        elif i % 2 == 0:
-            # all the axes first crowed
-            print('{0}'.format(random.randrange(1,width_c1)), end=" ", file=f)
-        elif i % 2 == 1:
-            # all the axes first crowed
-            print('{0}'.format(random.randrange(1,width_c2)), end=" ", file=f)
+    for j in range(0, dimension):
+        if j == 1:
+            print('{0}'.format(random.randrange(min_coord_height, \
+                max_coord_height)), end=" ", file=f)
+        else:
+            print('{0}'.format(random.randrange(min_coord_width, \
+                max_coord_with)), end=" ", file=f)
+
     print('',file=f)
 \end{verbatim}
 
@@ -612,19 +606,25 @@ Um die Gruppen zu erzeugen, wird die Seitenlänge der Quadrate angegeben, innerh
 for i in range(0,cities):
     print('{0}'.format(i+1), end=" ", file=f)
 
-    if i % 2 == 0:
-        # x coordinate first crowd
-        print('{0}'.format(random.randrange(1,width_c1)), end=" ", file=f)
-        # y coordinate first crowd
-        print('{0}'.format(random.randrange(1,width_c1)), end=" ", file=f)
-    else:
-        # x coordinate second crowd
-        print('{0}'.format(random.randrange(offset,offset+width_c2)), \
-            end=" ", file=f)
-        # y coordinate second crowd
-        print('{0}'.format(random.randrange(1,width_c2)), end=" ", file=f)
+    for j in range(0,dimension):
+        if i % 2 == 0 and j == 0:
+            # x axis first crowed
+            print('{0}'.format(random.randrange(1,width_c1)), end=" ", file=f)
+        elif i % 2 == 1 and j == 0:
+            # x axis second crowed
+            print('{0}'.format(random.randrange(width_c1+offset, \
+                width_c1+offset+width_c2)), end=" ", file=f)
+        elif i % 2 == 0:
+            # all other axes for the first crowed
+            print('{0}'.format(random.randrange(1,width_c1)), end=" ", file=f)
+        elif i % 2 == 1:
+            # all other axes for the second crowed
+            print('{0}'.format(random.randrange(1,width_c2)), end=" ", file=f)
+
     print('',file=f)
 \end{verbatim}
+
+\newpage
 
 \subsection{Unittests}
 Python unterstützt standardmässig Unittests. Diese werden verwendet, um die wichtigen Komponenten des Algorithmus zu testen.
@@ -713,8 +713,8 @@ Die Anwendung kann von der Kommandozeile aufgerufen werden. Dabei können folgen
             \texttt{-f (--file)}        & File, von welchem die Instanz gelesen wird                    &                       \\ \hline
             \texttt{-s (--start)}       & Startknoten des Hamiltonpfades                                &                       \\ \hline
             \texttt{-t (--end)}         & Zielknoten des Hamiltonpfades                                 &                       \\ \hline
-            \texttt{-ot (--opt-tsp)}    & Zielknoten des Hamiltonpfades                                 &                       \\ \hline
-            \texttt{-oh (--opt-hpp)}    & Zielknoten des Hamiltonpfades                                 &                       \\ \hline
+            \texttt{-ot (--opt-tsp)}    & Länge der optimalen Lösung für das TSP                        &                       \\ \hline
+            \texttt{-oh (--opt-hpp)}    & Länge der optimalen Lösung für das HPP                        &                       \\ \hline
             \texttt{-p (--print)}       & Gibt an, ob die Knoten der Lösung ausgegeben werden sollen    & \texttt{False}        \\ \hline
         \end{tabular}
         \caption{Liste der möglichen Parameter}
@@ -756,7 +756,7 @@ Um eine möglichst repräsentative Lösung für den Vergleich zu erhalten, wird 
 
 Bei Instanzen, die aus zufälligen Werten erzeugt werden (bspw. random, band), werden 100 verschiedene Instanzen erzeugt. Pro erzeugter Instanz wird dann eine Berechnung durchgeführt.
 
-Zu jeder Instanz werden die Ergebnisse in einer Tabelle dargestellt und interpretiert. Bei den eigenen Instanzen wird zur Illustration jeweils eine der hundert Graphen in 2D dargestellt. Am Ende werden die Abweichungen in einer Übersichtstabelle zusammengefasst.
+Zu jeder Instanz werden die Ergebnisse in einer Tabelle dargestellt und interpretiert. Bei den eigenen Instanzen wird zur Illustration jeweils einer der hundert Graphen in 2D dargestellt. Am Ende werden die Abweichungen in einer Übersichtstabelle zusammengefasst.
 
 \subsection{Genutzte Ressourcen}
 \subsubsection{Concorde}
@@ -786,7 +786,7 @@ Die TSPLIB ist eine Sammlung von TSP-Instanzen, die 1990 von Gerhard Reinelt ers
 Die Instanzen sind in Files abgelegt. Es werden verschiedene Formate unterstützt, unter anderem die Speicherung der Koordinaten im zwei- und dreidimensionalen euklidischen Raum und als Matrix, bei der die Elemente die Abstände zwischen den Knoten darstellt.
 
 \subsubsection{Eigene Instanzen}
-Eigene Instanzen werden verwendet, wenn bestimmte Szenarien berechnet werden sollen, die in der TSPLIB nicht verfügbar sind.
+Eigene Instanzen werden verwendet, wenn Szenarien berechnet werden sollen, die in der TSPLIB nicht verfügbar sind.
 
 Dazu werden bestimmte Probleme von Hand erstellt. So zum Beispiel die Instanz zur Darstellung des Worst Case des Hamiltonpfadproblems.
 
@@ -1010,7 +1010,7 @@ Die Ergebnisse entsprechen den Erwartungen. Mit einer Abweichung von 60.29\% lie
 \end{figure}
 
 \subsubsection{Random 2D-5D}
-Eine 50-Städte Instanz mit zufälliger Verteilung. Dazu wurden pro Stadt fünf zufällige Zahlen zwischen 1 und 1000 erzeugt (die Koordinaten der Stadt). Anschliessend wurde auf Grund dieser Koordinaten der euklidische Abstand der Städte zueinander errechnet.
+Eine 50-Städte Instanz mit zufälliger Verteilung. Dazu wurden pro Stadt zufällige Zahlen zwischen 1 und 1000 erzeugt (die Koordinaten der Stadt) generiert. Anschliessend wurde auf Grund dieser Koordinaten der euklidische Abstand der Städte zueinander errechnet.
 
 \begin{table}[H]
         \centering
@@ -1109,13 +1109,13 @@ Bei dieser Instanz werden die Städte innerhalb zwei definierter Quadrate, bzw. 
         \label{tab:instanzen_crowds2}
 \end{table}
 
-Der Hamiltonkreis liefert bei dieser Instanz leiht bessere Ergebnisse, als der Hamiltonpfad. Im 2 dimensionalen Raum hat der Abstand von 2000 Einheiten zwischen den Punkteansammlungen  grossen Anteil an der gesamten Länge der Route hat, dieser Anteil nimmt mit zunehmenden Dimensionen ab. Aus diesem Grund ist der Hamiltonkreis bei dieser Instanz leicht besser. Die Strecke von 2000 Einheiten wird sowohl von der exakten, wie auch von der Win/Win Lösung zweimal genutzt. Somit fallen die Anteile der Abweichungen innerhalb der Punkteansammlungen kaum ins Gewicht.
-Auch bei dieser Instanz nimmt die Abweichung mit zunehmenden Dimensionen ab. Im Vergleich zu den beiden bisherigen Instanzen dauert es hier jedoch länger.
+Der Hamiltonkreis liefert bei dieser Instanz leicht bessere Ergebnisse, als der Hamiltonpfad. Im 2 dimensionalen Raum hat der Abstand von 2000 Einheiten zwischen den Punkteansammlungen  grossen Anteil an der gesamten Länge der Route hat, dieser Anteil nimmt mit zunehmenden Dimensionen ab. Aus diesem Grund ist der Hamiltonkreis bei dieser Instanz leicht besser. Die Strecke von 2000 Einheiten wird sowohl von der exakten, wie auch von der Win/Win Lösung zweimal genutzt. Somit fallen die Anteile der Abweichungen innerhalb der Punkteansammlungen kaum ins Gewicht.
+Auch bei dieser Instanz nimmt die Abweichung mit zunehmenden Dimensionen ab. Im Vergleich zu den beiden bisherigen Instanzen werden jedoch mehr Dimensionen benötigt, bis die Abweichung signifikant abnimmt.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=15cm]{gfx/crowds2_hpp_comparison}
-    \includegraphics[width=15cm]{gfx/crowds2_tsp_comparison}
+    \includegraphics[width=11cm]{gfx/crowds2_hpp_comparison}
+    \includegraphics[width=11cm]{gfx/crowds2_tsp_comparison}
     \caption{zwei Gruppen Instanz 2D}
     \label{img:crowds2_comparison}
 \end{figure}
@@ -1195,12 +1195,12 @@ Für die anderen Instanzen konnten keine grossen Unterschiede zwischen den beide
 \subsection{Ergebnisse}
 Durch die Implementation der Win/Win Strategie konnten die Aussagen des Papers "`Structural Properties of Hard Metric TSP Inputs"'\cite{moemke11} grundsätzlich bestätigt werden. 
 
-Für beliebige TSP Instanzen bringt die Berechnung allerdings wenig Vorteile. Es gibt nur wenige Instanzen, die für einen der beidne Algorithmen einen Wors Case darstellt. Somit sind auch nur wenige Instanzen für einen der beiden Algorithmen sehr gut lösbar.
+Für beliebige TSP Instanzen bringt die Berechnung allerdings wenig Vorteile. Es gibt nur wenige Instanzen, die für einen der beiden Algorithmen einen Wors Case darstellt. Somit sind auch nur wenige Instanzen für einen der beiden Algorithmen sehr gut lösbar.
 
 Aufgrund der Berechnungen lässt sich vermuten, dass beide Algorithmen ihre obere Grenze nur selten Erreichen. Für die meisten Berechnungen wurde eine Abweichung von weniger als 15\% erreicht.
 
 \subsection{Weitere Möglichkeiten}
-Zusätzlich, zu den bereits ausgewerteten Intanzen könnten weitere Instanzen erzeugt und berechnet werden. Dabei wäre insbesondere Interessant, die bekanten Worst Case Instanzen zu nutzen, um grössere Problemstellungen zu erzeugen, die anschliessend berechnet werden könnten.
+Zusätzlich, zu den bereits ausgewerteten Instanzen könnten weitere Instanzen erzeugt und berechnet werden. Dabei wäre insbesondere interessant, die bekannten Worst Case Instanzen zu nutzen, um grössere Problemstellungen zu erzeugen, die anschliessend berechnet werden könnten.
 
 Zur Steigerung der Berechnungsgeschwindigkeit könnten die Algorithmen in C oder C++ implementiert werden. Auch bei den Datenstrukturen besteht die Möglichkeit, weitere Optimierungen vorzunehmen.
 
