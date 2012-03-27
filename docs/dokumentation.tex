@@ -709,7 +709,7 @@ Die Anwendung kann von der Kommandozeile aufgerufen werden. Dabei können folgen
 
 \begin{table}[H]
         \centering
-        \begin{tabular}{| l | l | l |}
+        \begin{tabular}{| p{3.5cm} | p{8.0cm} | p{2.5cm}|}
             \hline
             \textbf{Parameter}          & \textbf{Beschreibung}                                         & \textbf{default}      \\ \hline
             \texttt{-f (--file)}        & File, von welchem die Instanz gelesen wird                    &                       \\ \hline
@@ -718,6 +718,8 @@ Die Anwendung kann von der Kommandozeile aufgerufen werden. Dabei können folgen
             \texttt{-ot (--opt-tsp)}    & Länge der optimalen Lösung für das TSP                        &                       \\ \hline
             \texttt{-oh (--opt-hpp)}    & Länge der optimalen Lösung für das HPP                        &                       \\ \hline
             \texttt{-p (--print)}       & Gibt an, ob die Knoten der Lösung ausgegeben werden sollen    & \texttt{False}        \\ \hline
+            \texttt{-bp (--blossom5)}    & Pfad zur blossom5 binary                                      & \texttt{bin/blossom5} \\ \hline
+            \texttt{--tmp}              & Pfad des Temp Verzeichnis ändern                              & \texttt{/tmp/}        \\ \hline
         \end{tabular}
         \caption{Liste der möglichen Parameter}
         \label{tab:parameter}
