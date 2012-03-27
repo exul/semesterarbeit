@@ -21,6 +21,10 @@ def parse():
             optimal HPP-Solution', action='store',required=False, type=int, default=0)
     parser.add_argument("-p", "--print", action="store_true", default=False, \
         dest="p", help="Print solution?")
+    parser.add_argument("-bp","--blossom5", action="store", default="bin/blossom5", \
+        dest="bp", help="Path to blossom5 binary")
+    parser.add_argument("--tmp", action="store", default="/tmp/", \
+        dest="tmp", help="temp directory")
 
     args = parser.parse_args()
 
@@ -56,7 +60,7 @@ def calculate(args):
     matcher = Matcher()
 
     # do a minimum perfect matching on the MST
-    graph_tsp = matcher.calculate(graph_tsp)
+    graph_tsp = matcher.calculate(graph_tsp, args.tmp, args.bp)
 
     # add {s, t} to the MST
     node_s = graph_hpp.node_s
@@ -68,7 +72,7 @@ def calculate(args):
         graph_hpp.add_edge(edge_st)
 
     # do a minimum perfect matching on the MST + {s, t}
-    graph_hpp = matcher.calculate(graph_hpp)
+    graph_hpp = matcher.calculate(graph_hpp, args.tmp, args.bp)
 
     print('Perfect matching calculated')
     euler = Euler()

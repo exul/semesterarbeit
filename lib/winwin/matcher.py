@@ -1,4 +1,5 @@
 import os
+import subprocess
 from collections import OrderedDict
 
 from winwin.edge import Edge
@@ -80,8 +81,11 @@ class Matcher:
         f.close()
 
         # caculate the perfect matching, use the external program blossom5
-        os.system('{0} -e {1} -w {2} >> /dev/null'.format(blossom_path, pm_to_solve, \
-            pm_result))
+        retcode = subprocess.call('{0} -e {1} -w {2} >> /dev/null'. \
+                format(blossom_path, pm_to_solve, pm_result), shell=True)
+
+        if retcode != 0:
+            raise Blossom5Error()
 
         # read matched nodes and add the edges to graph
         f = open(pm_result, 'r')
@@ -99,3 +103,10 @@ class Matcher:
             graph.add_edge(edge)
 
         return graph
+
+class Blossom5Error(Exception):
+    ''' Exception if blossom5 could not be executed '''
+    def __init__(self):
+        Exception.__init__(self)
+
+        print('Could not execute blossom5 (perfect matching)')
