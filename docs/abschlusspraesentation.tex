@@ -3,7 +3,7 @@
 \usepackage{lmodern}
 \usepackage{german}
 \usetheme{Berkeley}
-\title[Semesterarbeit]{Implementation einer Win/Win Strategie fur das Traveling Salesman Problem}
+\title[Semesterarbeit]{Implementation einer Win/Win Strategie für das Traveling Salesman Problem}
 \author{Andreas Brönnimann}
 \institute{ZHAW - Zürcher Hochschule für Angewandte Wissenschaften}
 \date{11.04.2012}
@@ -27,45 +27,58 @@
     \begin{frame}
         \frametitle{Aufgabenstellung}
 	    \begin{itemize}
-                \item Aufgabenstellung
+                \item Vorstellung Traveling Salesman Problem (TSP) 
+                \item Vorstellung Win/Win Strategie
+                \item Implementation Algorithmus
+                \item Berechnung von Benchmark-Graphen
+                \item Berechnung von generierten Graphen
             \end{itemize}
     \end{frame}
     \section{Traveling Salesman Problem}
     \begin{frame}
         \frametitle{Traveling Salesman Problem}
 	    \begin{itemize}
-                \item Einleitung zum TSP
+                \item Problem des Handlungsreisenden
+                \item kürzeste Rundreise durch n Städte
             \end{itemize}
-    \end{frame}
-    \begin{frame}
-        \frametitle{Traveling Salesman Problem - Definition}
-	    \begin{itemize}
-                \item Definition
-            \end{itemize}
+
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=4cm]{gfx/simple_tsp}
+            \end{figure}
     \end{frame}
     \begin{frame}
         \frametitle{Traveling Salesman Problem - Geschichte}
 	    \begin{itemize}
-                \item Geschichte
-            \end{itemize}
-    \end{frame}
-    \begin{frame}
-        \frametitle{Traveling Salesman Problem - Lösungsverfahren}
-	    \begin{itemize}
-                \item Lösungsverfahren
+                \item 1757: Knights Tour - Leonard Euler
+                \item 1930er Jahre: Forschung an der Princeton Universität
+                \item 1954: 49 Städte TSP gelöst 
+                \item 1977: 120 Städte TSP gelöst 
+                \item 1987: 2'392 Städte TSP gelöst 
+                \item 1990er Jahre: Entwicklung von Concorde
+                \item 2001: 15'112 Städte TSP 
+                \item 2006: 85'900 Städte TSP 
             \end{itemize}
     \end{frame}
     \section{Win/Win Strategie}
     \begin{frame}
         \frametitle{Win/Win Strategie - Grundidee}
 	    \begin{itemize}
-                \item Win/Win Strategie
+                \item zwei verwandte Probleme
+                \item zwei Algorithmen
+                \item Worst Case Instanzen disjunkt
             \end{itemize}
     \end{frame}
     \begin{frame}
         \frametitle{Win/Win Strategie - Anwendung TSP}
 	    \begin{itemize}
-                \item Win/Win Strategie
+                \item Traveling Salesman Problem
+                \item Christofides Algorithmus
+                \item Tour max. 1/2 länger als das Optimum
+                    \medskip
+                \item Hamiltonpfadproblem
+                \item Hoogeveen Algorithmus 
+                \item Tour max. 2/3 länger als das Optimum
             \end{itemize}
     \end{frame}
     \section{Algorithmus}
@@ -90,6 +103,18 @@
         \frametitle{Berechnungen}
 	    \begin{itemize}
                 \item Berechnungen
+            \end{itemize}
+    \end{frame}
+    \begin{frame}
+        \frametitle{Berechnungen - TSPLIB}
+	    \begin{itemize}
+                \item Berechnungen TSPLIB
+            \end{itemize}
+    \end{frame}
+    \begin{frame}
+        \frametitle{Berechnungen - eigene Instanzen}
+	    \begin{itemize}
+                \item Berechnungen - eigene Instanzen
             \end{itemize}
     \end{frame}
 
