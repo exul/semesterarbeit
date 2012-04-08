@@ -1,0 +1,104 @@
+\documentclass[12pt]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{german}
+\usetheme{Berkeley}
+\title[Semesterarbeit]{Implementation einer Win/Win Strategie fur das Traveling Salesman Problem}
+\author{Andreas Brönnimann}
+\institute{ZHAW - Zürcher Hochschule für Angewandte Wissenschaften}
+\date{11.04.2012}
+
+\setbeamerfont{footnote}{size=\tiny}
+\setbeamertemplate{footline}[frame number]
+\setbeamertemplate{navigation symbols}{}
+
+\begin{document}
+
+    \begin{frame}
+        \titlepage
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Ablauf}
+        \tableofcontents
+    \end{frame}
+
+    \section{Aufgabenstellung}
+    \begin{frame}
+        \frametitle{Aufgabenstellung}
+	    \begin{itemize}
+                \item Aufgabenstellung
+            \end{itemize}
+    \end{frame}
+    \section{Traveling Salesman Problem}
+    \begin{frame}
+        \frametitle{Traveling Salesman Problem}
+	    \begin{itemize}
+                \item Einleitung zum TSP
+            \end{itemize}
+    \end{frame}
+    \begin{frame}
+        \frametitle{Traveling Salesman Problem - Definition}
+	    \begin{itemize}
+                \item Definition
+            \end{itemize}
+    \end{frame}
+    \begin{frame}
+        \frametitle{Traveling Salesman Problem - Geschichte}
+	    \begin{itemize}
+                \item Geschichte
+            \end{itemize}
+    \end{frame}
+    \begin{frame}
+        \frametitle{Traveling Salesman Problem - Lösungsverfahren}
+	    \begin{itemize}
+                \item Lösungsverfahren
+            \end{itemize}
+    \end{frame}
+    \section{Win/Win Strategie}
+    \begin{frame}
+        \frametitle{Win/Win Strategie - Grundidee}
+	    \begin{itemize}
+                \item Win/Win Strategie
+            \end{itemize}
+    \end{frame}
+    \begin{frame}
+        \frametitle{Win/Win Strategie - Anwendung TSP}
+	    \begin{itemize}
+                \item Win/Win Strategie
+            \end{itemize}
+    \end{frame}
+    \section{Algorithmus}
+    \begin{frame}
+    \frametitle{Algorithmus}
+        \begin{scriptsize}
+        \textbf{Eingabe:} Ein kompletter Graph $G = (V,E)$, eine metrische Kostenfunktion $c: E \rightarrow \mathbb{Q}^+$ und zwei Knoten $s$ und $t$.
+
+        \begin{itemize}
+            \item[1.] Minimalen Spannbaum $T$ von $G$ berechnen.
+            \item[2.] Minimales Perfect Matching\footnote{für das Perfect Matching wird eine bestehende Implementation verwendet} $M_C$ der ungeraden Knoten des minimalen Spannbaumes $T$ von $G$ berechnen.
+            \item[3.] Minimales Perfect Matching $M_P$ der ungeraden Knoten des Multigraphen $T$ + \{$s$, $t$\} von $G$ berechnen.
+            \item[4.] Die Eulertour Eul$_C$ des Multigraphen T $\cup$ $M_C$ und den Eulerpfad Eul$_P$ des Multigraphen T $\cup$ $M_P$ berechnen.
+            \item[6.] Eul$_C$ zu einer Hamiltontour $H_C$ und Eul$_P$ zu einem Hamiltonpfad $H_P$ kürzen.
+        \end{itemize}
+        \textbf{Ausgabe:} $H_C$ and $H_P$.
+        \end{scriptsize}
+    \end{frame}
+
+    \section{Berechnungen}
+    \begin{frame}
+        \frametitle{Berechnungen}
+	    \begin{itemize}
+                \item Berechnungen
+            \end{itemize}
+    \end{frame}
+
+    \section{Fragen}
+    \begin{frame}
+    \frametitle{Fragen}
+        \begin{figure}[H]
+	    \centering
+	        \includegraphics[width=6cm]{gfx/questionmark}
+        \end{figure}
+    \end{frame}
+\end{document}
