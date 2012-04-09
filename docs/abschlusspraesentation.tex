@@ -56,8 +56,8 @@
                 \item 1977: 120 Städte TSP gelöst 
                 \item 1987: 2'392 Städte TSP gelöst 
                 \item 1990er Jahre: Entwicklung von Concorde
-                \item 2001: 15'112 Städte TSP 
-                \item 2006: 85'900 Städte TSP 
+                \item 2001: 15'112 Städte TSP gelöst
+                \item 2006: 85'900 Städte TSP gelöst
             \end{itemize}
     \end{frame}
     \section{Win/Win Strategie}
@@ -75,7 +75,7 @@
                 \item Traveling Salesman Problem
                 \item Christofides Algorithmus
                 \item Tour max. 1/2 länger als das Optimum
-                    \medskip
+                    \bigskip
                 \item Hamiltonpfadproblem
                 \item Hoogeveen Algorithmus 
                 \item Tour max. 2/3 länger als das Optimum
@@ -168,6 +168,44 @@
     \end{frame}
     \begin{frame}
         \frametitle{Berechnungen - eigene Instanzen}
+           \begin{table}[H]
+                \centering
+                \tiny \begin{tabular}{| p{1.0cm} | p{1.0cm} | p{1.5cm} | p{1.5cm} | p{1.5cm} |}
+                    \hline
+                    \tiny{\textbf{Name}} &
+                    \tiny{\textbf{Anzahl Städte}}  & 
+                    \tiny{\textbf{Dimensionen}} & 
+                    \tiny{\textbf{Abweichung TSP}} & 
+                    \tiny{\textbf{Abweichung HPP}} \\ \hline
+
+                    christofides    & 39    & 2     &  44.78\%  &      0\%           \\ \hline
+                    hoogeveen       & 8     & 2     &   1.40\%  &  60.29\%       \\ \hline
+                    random\_2d      & 50    & 2     &  10.40\%  &  12.24\%       \\ \hline
+                    random\_3d      & 50    & 3     &  10.44\%  &  11.83\%       \\ \hline
+                    random\_4d      & 50    & 4     &  10.08\%  &  10.92\%        \\ \hline
+                    random\_5d      & 50    & 5     &  9.72 \%  &  10.21\%        \\ \hline
+                    band\_2d        & 50    & 2     &   8.38\%  &   4.71\%        \\ \hline
+                    band\_3d        & 50    & 3     &   8.22\%  &   5.81\%        \\ \hline
+                    band\_4d        & 50    & 4     &   7.99\%  &   6.01\%        \\ \hline
+                    band\_5d        & 50    & 5     &   7.49\%  &   5.71\%       \\ \hline
+                    band\_25d       & 50    & 25    &   4.18\%  &   4.11\%       \\ \hline
+                    gr2\_2d         & 50    & 2     &   1.83\%  &   3.51\%        \\ \hline
+                    gr2\_3d         & 50    & 3     &   2.76\%  &   4.80\%        \\ \hline
+                    gr2\_4d         & 50    & 4     &   3.14\%  &   5.34\%        \\ \hline
+                    gr2\_5d         & 50    & 5     &   3.51\%  &   5.53\%       \\ \hline
+                    gr2\_25d        & 50    & 25    &   3.22\%  &   4.20\%       \\ \hline
+                    gr3\_2d         & 50    & 2     &   1.63\%  &   3.09\%        \\ \hline
+                    gr3\_3d         & 50    & 3     &   2.18\%  &   4.54\%        \\ \hline
+                    gr3\_4d         & 50    & 4     &   2.59\%  &   5.16\%        \\ \hline
+                    gr3\_5d         & 50    & 5     &   2.72\%  &   3.56\%       \\ \hline
+                    gr3\_25d        & 50    & 25    &   2.67\%  &   3.63\%       \\ \hline
+               \end{tabular}
+                \caption{Auswertung der eigenen Instanzen}
+                \label{tab:instanz_eigene_instanzen}
+        \end{table} 
+    \end{frame}
+    \begin{frame}
+        \frametitle{Berechnungen - eigene Instanzen}
         \begin{figure}[H]
             \centering
             \includegraphics[width=8cm]{gfx/hoogeveen_hpp_mst}
@@ -196,7 +234,7 @@
         \frametitle{Fazit}
 	    \begin{itemize}
                 \item Worst Case Instanzen konnten berechnet werden
-                \item Allgemein keine Vorteile
+                \item allgemein keine Vorteile
                 \item obere Grenze wird nur sehr selten erreicht
                 \item Abweichung meistens weniger als 15\%
             \end{itemize}
