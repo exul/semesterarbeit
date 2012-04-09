@@ -101,20 +101,104 @@
     \section{Berechnungen}
     \begin{frame}
         \frametitle{Berechnungen}
-	    \begin{itemize}
-                \item Berechnungen
+            \begin{itemize}
+                \item Berechnung exakte Lösung mit Concorde für TSP
+                \item Einfügen einer Dummy-Stadt (Distanz 0 zu allen Städten)
+                \item Berechnung exakte Lösung mit Concorde für HPP
+                \item Beginn und Ende der Route werden als s und t verwendet
+                \item Berechnung der Lösung mittels eigener Implementation
             \end{itemize}
     \end{frame}
     \begin{frame}
         \frametitle{Berechnungen - TSPLIB}
 	    \begin{itemize}
-                \item Berechnungen TSPLIB
+                \item keiner der Algorithmen im Vorteil
+                \item keine speziellen Charakteristiken
+                \item Ergebnisse entsprechen den Erwartungen
             \end{itemize}
+
+    \begin{table}[H]
+                \centering
+                \begin{tabular}{| p{2.0cm} | p{2.0cm} | p{2.5cm} | p{2.5cm} | p{2.5cm} |}
+                    \hline
+                    \small{\textbf{Name}} &
+                    \small{\textbf{Abweichung TSP}} & 
+                    \small{\textbf{Abweichung HPP}} \\ \hline
+
+                    dantzig42   & 10.31\%   & 15.87\%   \\ \hline
+                    bier127     & 13.06\%   & 13.36\%   \\ \hline
+                    eil51       & 14.61\%   & 14.76\%   \\ \hline
+                    eil101      & 13.20\%   & 14.45\%   \\ \hline
+                    rat195      & 12.27\%   & 9.53\%    \\ \hline
+                    ts225       &  6.19\%   & 7.78\%    \\ \hline
+               \end{tabular}
+        \end{table}
+    \end{frame}
+    \begin{frame}
+        \frametitle{Berechnungen - TSPLIB}
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=8cm]{gfx/eil51_mst}
+            \caption{minimaler Spannbaum}
+        \end{figure}
+    \end{frame}
+    \begin{frame}
+        \frametitle{Berechnungen - TSPLIB}
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=8cm]{gfx/eil51_tour}
+            \caption{Win/Win Tour}
+        \end{figure}
+    \end{frame}
+    \begin{frame}
+        \frametitle{Berechnungen - TSPLIB}
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=8cm]{gfx/eil51_opt}
+            \caption{optimale Lösung}
+        \end{figure}
     \end{frame}
     \begin{frame}
         \frametitle{Berechnungen - eigene Instanzen}
 	    \begin{itemize}
-                \item Berechnungen - eigene Instanzen
+                \item Worst Case Christofides und Hoogeveen disjunkt
+                \item Hoogeveen bei länglichen Instanzen etwas im Vorteil
+                \item keine Unterschiede für zufällige Instanzen
+            \end{itemize}
+    \end{frame}
+    \begin{frame}
+        \frametitle{Berechnungen - eigene Instanzen}
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=8cm]{gfx/hoogeveen_hpp_mst}
+            \caption{minimaler Spannbaum}
+        \end{figure}
+    \end{frame}
+    \begin{frame}
+        \frametitle{Berechnungen - eigene Instanzen}
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=8cm]{gfx/hoogeveen_hpp_tour}
+            \caption{Win/Win Tour}
+        \end{figure}
+    \end{frame}
+    \begin{frame}
+        \frametitle{Berechnungen - eigene Instanzen}
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=8cm]{gfx/hoogeveen_hpp_optimal}
+            \caption{optimale Lösung}
+        \end{figure}
+    \end{frame}
+
+    \section{Fazit}
+    \begin{frame}
+        \frametitle{Fazit}
+	    \begin{itemize}
+                \item Worst Case Instanzen konnten berechnet werden
+                \item Allgemein keine Vorteile
+                \item obere Grenze wird nur sehr selten erreicht
+                \item Abweichung meistens weniger als 15\%
             \end{itemize}
     \end{frame}
 
