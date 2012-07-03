@@ -29,21 +29,24 @@ Zur Berechnung des perfekten Matchings wird der Blossom V Algorithmus benötigt.
 
 	$ tar xzf blossom5-v2.03.src.tar.gz
 
-	$ cd blossom5-v2.03.src.tar.gz
+	$ cd blossom5-v2.03.src
 
 	$ make
 
-	$ cp blossom5 $WINWIN/src/bin
+	$ cp blossom5 $WINWIN/bin
 
 Wobei $WINWIN dem Wurzelverzeichnis der Win/Win Strategie entspricht.
 
 ## Ausführen des Programms
 Das Programm kann auf der Kommandozeile ausgeführt werden. Dazu in den Ordner src wechseln und beispielsweise folgenden Befehl eingeben:
 
-./bin/winwin -f data/in/christofides.tsp -s 1 -t 39 -ot 7798 -oh 7490
+./bin/winwin -f data/sample.tsp -s 1 -t 39 -ot 7798 -oh 7490
 
 -f: Input File
 -s: Startknoten für HPP 
 -t: Zielknoten für HPP 
 -ot: Länger der optimalen TSP Lösung
 -oh: Länge der optimalen HPP Lösung
+
+## Exakte Lösung
+Die exakte Lösung kann mittels Concorde (http://www.tsp.gatech.edu/concorde.html) berechnet werden. Ausserdem besteht die Möglichkeit, TSPLIB-Dateien (http://www.iwr.uni-heidelberg.de/groups/comopt/software/TSPLIB95/) zu nutzen.
