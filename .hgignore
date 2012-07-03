@@ -5,9 +5,15 @@
 .log
 .nav
 .out
+.orig
 .pdf
+.pyc
 .snm
 .swp
 .toc
+__pycache__
 admin
+data
 docs/notes
+mpm
+tsplib

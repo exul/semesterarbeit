@@ -1,0 +1,143 @@
+#!/usr/bin/env python3
+
+
+import argparse
+import os
+import sys
+
+def parse():
+    """ Parse input from command line """
+    # create parser
+    parser = argparse.ArgumentParser(add_help=False)
+    parser.add_argument('-f', '--file',dest='file',help='File to read TSP from',
+        action='store',required=True)
+    parser.add_argument('-s','--start', dest='s',help='Start node to calculate \
+        hamilton path', action='store', type=int, required=True)
+    parser.add_argument('-t','--end', dest='t',help='End node of to calculate \
+        hamilton path', action='store', type=int, required=True)
+    parser.add_argument('-ot','--opt-tsp', dest='ot',help='Length of the \
+            optimal TSP-Solution', action='store',required=False, type=int, default=0)
+    parser.add_argument('-oh','--opt-hpp', dest='oh',help='Length of the \
+            optimal HPP-Solution', action='store',required=False, type=int, default=0)
+    parser.add_argument("-p", "--print", action="store_true", default=False, \
+        dest="p", help="Print solution?")
+    parser.add_argument("-bp","--blossom5", action="store", default="bin/blossom5", \
+        dest="bp", help="Path to blossom5 binary")
+    parser.add_argument("--tmp", action="store", default="/tmp/", \
+        dest="tmp", help="temp directory")
+
+    args = parser.parse_args()
+
+    calculate(args)
+
+def calculate(args):
+    from winwin.edge import Edge
+    from winwin.reader import Reader
+    from winwin.writer import Writer
+    from winwin.mst import Minimum_Spanning_Tree
+    from winwin.matcher import Matcher
+    from winwin.euler import Euler
+
+    # begin calculation
+    reader = Reader()
+    writer = Writer()
+
+    # read graph data/in from file
+    graph_tsp = reader.euclidean(args.file)
+    graph_hpp = reader.euclidean(args.file, args.s, args.t)
+
+    print('Graph created')
+
+    # calculate the minimum spanning tree
+    mst = Minimum_Spanning_Tree()
+    graph_tsp = mst.calculate(graph_tsp)
+    graph_hpp = mst.calculate(graph_hpp)
+
+    print('Minimum spanning tree calculated')
+
+    # do a minimum perfect matching on the odd nodes of the graph
+    # and add the new edges to the graph
+    matcher = Matcher()
+
+    # do a minimum perfect matching on the MST
+    graph_tsp = matcher.calculate(graph_tsp, args.tmp, args.bp)
+
+    # add {s, t} to the MST
+    node_s = graph_hpp.node_s
+    node_t = graph_hpp.node_t
+    weight = graph_hpp.lookup_distance(node_s, node_t)[0]
+
+    if not graph_hpp.contains_edge(node_s, node_t):
+        edge_st = Edge(node_s, node_t, weight)
+        graph_hpp.add_edge(edge_st)
+
+    # do a minimum perfect matching on the MST + {s, t}
+    graph_hpp = matcher.calculate(graph_hpp, args.tmp, args.bp)
+
+    print('Perfect matching calculated')
+    euler = Euler()
+
+    # calculate euler tour/path
+    euler_nodes_tsp = euler.calculate(graph_tsp)
+    euler_nodes_hpp = euler.calculate(graph_hpp, False)
+
+    print('Eulerian tour calculated')
+    nodes_tsp = euler.shorten_tour(euler_nodes_tsp)
+    nodes_hpp = euler.shorten_path(euler_nodes_hpp)
+
+    print('Eulerian tour shortened')
+
+    # calculate TSP costs
+    cost_tsp = 0
+    if args.p:
+        print('\nTSP:')
+
+    for i in range(len(nodes_tsp)):
+        if args.p:
+            print(nodes_tsp[i].nr, end=" ")
+
+        if i > 0:
+            cost_tsp += graph_tsp.lookup_distance(nodes_tsp[i-1], nodes_tsp[i])[0]
+
+    print('\nTSP: This tour costs {0}, we visited {1} nodes.'.format(cost_tsp, i))
+
+    error_tsp = cost_tsp - args.ot
+    if args.ot > 0:
+        if error_tsp >= 0:
+            print('TSP: The tour is {0}% longer than the optimum'. \
+                    format(round(100*error_tsp/args.ot, 2)))
+        else:
+            print('You found a shorter solution than the optimum, really?')
+
+    # calculate HPP costs
+    cost_hpp = 0
+    if args.p:
+        print('\nHPP:')
+
+    for i in range(len(nodes_hpp)):
+        if args.p:
+            print(nodes_hpp[i].nr, end=" ")
+
+        if i > 0:
+            cost_hpp += graph_hpp.lookup_distance(nodes_hpp[i-1], nodes_hpp[i])[0]
+
+    print('\nHPP: This path costs {0}, we visited {1} nodes.'.format(cost_hpp, i+1))
+
+    if args.oh > 0:
+        error_hpp = cost_hpp - args.oh
+        if error_hpp >= 0:
+            print('HPP: The path is {0}% longer than the optimum'. \
+                    format(round(100*error_hpp/args.oh, 2)))
+        else:
+            print('You found a shorter path than the optimum, really?')
+
+if __name__ == "__main__":
+    try:
+        sys.path.insert(0, os.path.abspath(
+            os.path.join(os.path.dirname(os.path.realpath(__file__)), '../lib')))
+
+        parse()
+    except KeyboardInterrupt:
+        sys.exit(0)
+
+    sys.exit(0)
